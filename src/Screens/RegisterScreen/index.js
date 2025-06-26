@@ -56,7 +56,7 @@ const RegisterScreen = ({ navigation }) => {
     socialLoginFun,
   } = useRegister(navigation);
   return (
-    <ImageBackground source={signupBg} style={styles.ImgBg}>
+    <ImageBackground source={LoginBg} style={styles.ImgBg}>
       <Image source={logoImg} resizeMode="contain" style={styles.logoImage} />
       <KeyBoardWrapper
         styles={styles.logInMain}

@@ -16,6 +16,9 @@ export { default as onboardOne } from './Images/onboardOne.png';
 export { default as onboardTwo } from './Images/onboardTwo.png';
 export { default as onboardThree } from './Images/onboardThree.png';
 
+export { default as LoginBg } from './Images/LoginBg.png';
+export { default as HomeBg } from './Images/HomeBg.png';
+
 //  Icons
 
 export { default as eye } from './Icons/eye.png';
@@ -74,6 +77,15 @@ export { default as unfilledCalender } from './Icons/unfilledCalender.png';
 export { default as groupBlack } from './Icons/groupBlack.png';
 export { default as circleCalFilled } from './Icons/circleCalFilled.png';
 export { default as logoImg } from './Icons/logoImg.png';
+export { default as wallet } from './Icons/wallet.png';
+export { default as plusWhite } from './Icons/plusWhite.png';
+export { default as cardSend } from './Icons/cardSend.png';
+export { default as cardReceive } from './Icons/cardReceive.png';
+export { default as arrowRight } from './Icons/arrowRight.png';
+
+export { default as basket } from './Icons/basket.png';
+export { default as building } from './Icons/building.png';
+export { default as station } from './Icons/station.png';
 
 export { default as username } from './Icons/username.png';
 export { default as user } from './Icons/user.png';

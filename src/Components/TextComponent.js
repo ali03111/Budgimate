@@ -13,6 +13,9 @@ export const TextComponent = ({
   isThemeColor,
   isLightThemeColor,
   isDarkTheme,
+  isGreen,
+  size,
+  isDarkFade,
 }) => {
   return (
     <Text
@@ -31,8 +34,12 @@ export const TextComponent = ({
           ? Colors.primaryColor
           : isDarkTheme
           ? Colors.backgroundTheme
+          : isGreen
+          ? Colors.secondryColor
+          : isDarkFade
+          ? 'gray'
           : Colors.black,
-        fontSize: hp('2'),
+        fontSize: hp(size ?? '2'),
         ...styles,
       }}
     >
