@@ -29,7 +29,7 @@ export const TextComponent = ({
           : isWhite
           ? Colors.white
           : isThemeColor
-          ? Colors.yellowTextColor
+          ? Colors.primaryColor
           : isLightThemeColor
           ? Colors.primaryColor
           : isDarkTheme

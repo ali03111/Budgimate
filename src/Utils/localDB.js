@@ -293,6 +293,14 @@ export const contactArry = [
     phone: '2484456387438',
   },
 ];
+export const subscriptionPoints = [
+  '* Share your account with a partner',
+  '* Both users can track, add, and manage income and expenses',
+  '* Custom monthly, bi-weekly, weekly budgets',
+  '* Reminders and goal-related notifications',
+  '* Partner account invite and collaboration (Family Plan)',
+  '* Subscription Store (customize your own plan in-app)',
+];
 
 export const contactData = [
   {

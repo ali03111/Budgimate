@@ -12,6 +12,7 @@ export const MultiView = ({
   titleStyles,
   leftStyles,
   rightStyles,
+  isDivider,
 }) => {
   const renderItem = ({ item }) => {
     return (
@@ -52,9 +53,11 @@ export const MultiView = ({
         renderItem={renderItem}
         data={data ?? []}
         ItemSeparatorComponent={
-          <DividerLine
-            DividerLineStyle={{ ...styles.divider, ...dividerStyles }}
-          />
+          isDivider && (
+            <DividerLine
+              DividerLineStyle={{ ...styles.divider, ...dividerStyles }}
+            />
+          )
         }
       />
       {/* {data?.map((res, i) => {

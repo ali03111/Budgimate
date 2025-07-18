@@ -30,6 +30,22 @@ function MainNavigator() {
             component={Screens.OnBoardScreen}
           />
         )}
+        <Stack.Screen
+          name="ReviewSubscriptionScreen"
+          component={Screens.ReviewSubscriptionScreen}
+        />
+        <Stack.Screen
+          name="SubscriptionScreen"
+          component={Screens.SubscriptionScreen}
+        />
+        <Stack.Screen
+          name="AddIncomeScreen"
+          component={Screens.AddIncomeScreen}
+        />
+        <Stack.Screen
+          name="AddExpenseScreen"
+          component={Screens.AddExpenseScreen}
+        />
         <Stack.Screen name="LoginScreen" component={Screens.LoginScreen} />
         <Stack.Screen
           name="RegisterScreen"

@@ -2,3 +2,7 @@ export { default as HomeScreen } from './HomeScreen';
 export { default as OnBoardScreen } from './OnBoardScreen';
 export { default as LoginScreen } from './LoginScreen';
 export { default as RegisterScreen } from './RegisterScreen';
+export { default as AddExpenseScreen } from './AddExpenseScreen';
+export { default as AddIncomeScreen } from './AddIncomeScreen';
+export { default as SubscriptionScreen } from './SubscriptionScreen';
+export { default as ReviewSubscriptionScreen } from './ReviewSubscriptionScreen';

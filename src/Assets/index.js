@@ -83,6 +83,16 @@ export { default as cardSend } from './Icons/cardSend.png';
 export { default as cardReceive } from './Icons/cardReceive.png';
 export { default as arrowRight } from './Icons/arrowRight.png';
 
+export { default as greenLock } from './Icons/greenLock.png';
+
+export { default as grayCircleEmpty } from './Icons/grayCircleEmpty.png';
+
+export { default as family } from './Icons/family.png';
+export { default as individaul } from './Icons/individaul.png';
+
+export { default as takePhoto } from './Icons/takePhoto.png';
+export { default as uploadPhoto } from './Icons/uploadPhoto.png';
+
 export { default as basket } from './Icons/basket.png';
 export { default as building } from './Icons/building.png';
 export { default as station } from './Icons/station.png';
