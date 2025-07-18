@@ -6,3 +6,6 @@ export { default as AddExpenseScreen } from './AddExpenseScreen';
 export { default as AddIncomeScreen } from './AddIncomeScreen';
 export { default as SubscriptionScreen } from './SubscriptionScreen';
 export { default as ReviewSubscriptionScreen } from './ReviewSubscriptionScreen';
+export { default as AddOnScreen } from './AddOnScreen';
+export { default as ExpenseCategory } from './ExpenseCategory';
+export { default as SettingScreen } from './SettingScreen';

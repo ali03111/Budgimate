@@ -30,6 +30,14 @@ function MainNavigator() {
             component={Screens.OnBoardScreen}
           />
         )}
+        <Stack.Screen name="SettingScreen" component={Screens.SettingScreen} />
+        <Stack.Screen
+          name="ExpenseCategory"
+          component={Screens.ExpenseCategory}
+        />
+        <Stack.Screen name="LoginScreen" component={Screens.LoginScreen} />
+
+        <Stack.Screen name="AddOnScreen" component={Screens.AddOnScreen} />
         <Stack.Screen
           name="ReviewSubscriptionScreen"
           component={Screens.ReviewSubscriptionScreen}
@@ -46,7 +54,6 @@ function MainNavigator() {
           name="AddExpenseScreen"
           component={Screens.AddExpenseScreen}
         />
-        <Stack.Screen name="LoginScreen" component={Screens.LoginScreen} />
         <Stack.Screen
           name="RegisterScreen"
           component={Screens.RegisterScreen}

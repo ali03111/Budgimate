@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, Image, StyleSheet } from 'react-native';
+import { Text, Image, StyleSheet, View } from 'react-native';
 import { Colors, FontFamily, FontSize } from '../Theme/Variables';
 import { Touchable } from './Touchable';
 import { hp, isIos, wp } from '../Hooks/useResponsive';
@@ -19,6 +19,7 @@ const IconBtnView = ({
   rightIconColor,
   leftIconColor,
   rightChilderView,
+  subView,
 }) => {
   return (
     <Touchable
@@ -30,10 +31,14 @@ const IconBtnView = ({
         <Image
           source={leftIcon}
           style={{ ...styles.iconStyle, ...leftStyle }}
-          tintColor={leftIconColor ?? Colors.primaryColor}
+          resizeMode="contain"
+          // tintColor={leftIconColor ?? 'transparent'}
         />
       ) : null}
-      <TextComponent text={title} styles={{ ...styles.text, ...textStyle }} />
+      <View style={{ marginLeft: wp('3') }}>
+        <TextComponent text={title} styles={{ ...styles.text, ...textStyle }} />
+        {subView && <TextComponent text={subView} size={'1.5'} fade />}
+      </View>
       {rightChilderView ??
         (rightText ? (
           <TextComponent
@@ -65,12 +70,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     overflow: 'hidden',
     alignSelf: 'center',
+    width: wp('100'),
   },
   text: {
     fontSize: FontSize.scale16,
     textAlign: 'left',
-    marginLeft: wp('3'),
-    flex: 1,
+    // marginLeft: wp('3'),
+    // flex: 1,
   },
   linearGradient: {
     borderRadius: 10,

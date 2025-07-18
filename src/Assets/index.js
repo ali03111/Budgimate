@@ -83,6 +83,16 @@ export { default as cardSend } from './Icons/cardSend.png';
 export { default as cardReceive } from './Icons/cardReceive.png';
 export { default as arrowRight } from './Icons/arrowRight.png';
 
+export { default as linkAccount } from './Icons/linkAccount.png';
+export { default as profileSetting } from './Icons/profileSetting.png';
+export { default as subscriptionSetting } from './Icons/subscriptionSetting.png';
+
+export { default as goalsMode } from './Icons/goalsMode.png';
+export { default as traces } from './Icons/traces.png';
+export { default as travelMode } from './Icons/travelMode.png';
+
+export { default as checkmark } from './Icons/checkmark.png';
+
 export { default as greenLock } from './Icons/greenLock.png';
 
 export { default as grayCircleEmpty } from './Icons/grayCircleEmpty.png';

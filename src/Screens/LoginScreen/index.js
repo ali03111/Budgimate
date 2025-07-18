@@ -104,7 +104,8 @@ const LoginScreen = ({ navigation }) => {
 
           <View style={styles.buttonRow}>
             <ThemeButton
-              onPress={handleSubmit(loginUser)}
+              onPress={() => navigation.navigate('SubscriptionScreen')}
+              // onPress={handleSubmit(loginUser)}
               title={'Log In'}
               isTheme
               style={styles.buttonStyle}

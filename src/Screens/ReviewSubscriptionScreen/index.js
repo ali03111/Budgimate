@@ -6,8 +6,9 @@ import { TextComponent } from '../../Components/TextComponent';
 import { subscriptionPoints } from '../../Utils/localDB';
 import { hp, wp } from '../../Hooks/useResponsive';
 import ThemeButton from '../../Components/ThemeButton';
+import PremiumSuccessModal from '../../Components/PremiumSuccessModal';
 
-const ReviewSubscriptionScreen = () => {
+const ReviewSubscriptionScreen = ({ navigation }) => {
   return (
     <ImageBackground source={HomeBg} style={styles.bg}>
       <ScrollView
@@ -70,6 +71,7 @@ const ReviewSubscriptionScreen = () => {
           title="Proceed to Payment"
           isTheme
           style={styles.continueBtn}
+          onPress={() => navigation.navigate('AddOnScreen')}
         />
         <TextComponent
           text="Payments renew monthly. Cancel anytime from settings."
@@ -78,6 +80,7 @@ const ReviewSubscriptionScreen = () => {
           styles={styles.footerNote}
         />
       </ScrollView>
+      <PremiumSuccessModal visible={false} />
     </ImageBackground>
   );
 };

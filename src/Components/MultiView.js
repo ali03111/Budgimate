@@ -13,6 +13,7 @@ export const MultiView = ({
   leftStyles,
   rightStyles,
   isDivider,
+  itemViewStyle,
 }) => {
   const renderItem = ({ item }) => {
     return (
@@ -28,13 +29,14 @@ export const MultiView = ({
           rightIcon={item?.rightIcon}
           rightIconColor={item?.rightIconColor}
           rightText={item?.rightText}
-          viewStyle={styles.innerView}
+          viewStyle={{ ...styles.innerView, ...itemViewStyle }}
           onPress={item?.onPress}
           rightTextStyles={item?.rightTextStyles ?? rightTextStyles}
           rightChilderView={item?.rightChilderView}
           textStyle={titleStyles}
           leftStyle={leftStyles}
           rightStyle={rightStyles}
+          subView={item?.subView}
         />
       </Touchable>
     );

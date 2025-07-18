@@ -16,7 +16,7 @@ import { Touchable } from '../../Components/Touchable';
 import ThemeButton from '../../Components/ThemeButton';
 import { styles } from './styles';
 
-const SubscriptionScreen = () => {
+const SubscriptionScreen = ({ navigation }) => {
   return (
     <ImageBackground source={HomeBg} style={styles.bg}>
       <ScrollView
@@ -89,7 +89,12 @@ const SubscriptionScreen = () => {
           />
         </Touchable>
 
-        <ThemeButton title="Continue" isTheme style={styles.continueBtn} />
+        <ThemeButton
+          title="Continue"
+          isTheme
+          style={styles.continueBtn}
+          onPress={() => navigation.navigate('ReviewSubscriptionScreen')}
+        />
         <TextComponent
           text="Payments renew monthly. Cancel anytime from settings."
           fade
