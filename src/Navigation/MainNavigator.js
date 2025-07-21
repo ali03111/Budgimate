@@ -30,11 +30,19 @@ function MainNavigator() {
             component={Screens.OnBoardScreen}
           />
         )}
-        <Stack.Screen name="SettingScreen" component={Screens.SettingScreen} />
+        <Stack.Screen
+          name="EditPersonalInformationScreen"
+          component={Screens.EditPersonalInformationScreen}
+        />
+        <Stack.Screen
+          name="IncomeVsExpenseScreen"
+          component={Screens.IncomeVsExpenseScreen}
+        />
         <Stack.Screen
           name="ExpenseCategory"
           component={Screens.ExpenseCategory}
         />
+        <Stack.Screen name="SettingScreen" component={Screens.SettingScreen} />
         <Stack.Screen name="LoginScreen" component={Screens.LoginScreen} />
 
         <Stack.Screen name="AddOnScreen" component={Screens.AddOnScreen} />

@@ -69,7 +69,7 @@ export default ThemeButton;
 
 const styles = StyleSheet.create({
   button: {
-    height: hp('6.5'),
+    height: hp('5'),
     // width: wp('40'),
     width: '100%',
     borderRadius: 10,
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     // fontSize: heightPercentageToDP('2'),
     color: Colors.white,
     textAlign: 'center',
-    fontSize: hp('2'),
+    fontSize: hp('1.8'),
     // marginRight: wp('3'),
     // fontFamily: FontFamily.regular,
   },

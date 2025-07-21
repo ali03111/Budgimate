@@ -83,6 +83,20 @@ export { default as cardSend } from './Icons/cardSend.png';
 export { default as cardReceive } from './Icons/cardReceive.png';
 export { default as arrowRight } from './Icons/arrowRight.png';
 
+export { default as editWhiteIcon } from './Icons/editWhiteIcon.png';
+
+export { default as plusCircle } from './Icons/plusCircle.png';
+
+export { default as aboutBlue } from './Icons/aboutBlue.png';
+export { default as contactUs } from './Icons/contactUs.png';
+export { default as faceID } from './Icons/faceID.png';
+export { default as helpCenter } from './Icons/helpCenter.png';
+export { default as notificationBlue } from './Icons/notificationBlue.png';
+export { default as passwordBlue } from './Icons/passwordBlue.png';
+export { default as privacyBlue } from './Icons/privacyBlue.png';
+export { default as termsBlue } from './Icons/termsBlue.png';
+export { default as twoFactor } from './Icons/twoFactor.png';
+
 export { default as linkAccount } from './Icons/linkAccount.png';
 export { default as profileSetting } from './Icons/profileSetting.png';
 export { default as subscriptionSetting } from './Icons/subscriptionSetting.png';

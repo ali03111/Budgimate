@@ -33,6 +33,8 @@ export const InputComponent = ({
   selectionColor,
   errorStyle,
   rightIconColor,
+  headingStyles,
+  heading,
 }) => {
   const [show, setShow] = useState(!isSecure);
   const handleClick = () => setShow(!show);
@@ -43,6 +45,19 @@ export const InputComponent = ({
     : 'default';
   return (
     <>
+      {heading && (
+        <TextComponent
+          text={heading}
+          styles={{
+            color: 'rgba(0, 0, 0, 0.6)',
+            marginBottom: hp('-1'),
+            fontSize: hp('1.8'),
+            marginTop: hp('2'),
+            marginBottom: hp('0.5'),
+            ...headingStyles,
+          }}
+        />
+      )}
       <Controller
         render={({ field: { onChange, value } }) => (
           <View style={{ ...styles.textfield, ...viewStyle }}>
@@ -69,7 +84,13 @@ export const InputComponent = ({
                 selectionColor: selectionColor ?? Colors.gray,
                 placeholder,
                 keyboardType,
-                style: { ...styles.input(isSecure), ...textStyle },
+                style: {
+                  ...styles.input(isSecure),
+                  ...(isImage
+                    ? { paddingHorizontal: wp('2'), paddingLeft: wp('3') }
+                    : {}),
+                  ...textStyle,
+                },
                 secureTextEntry: !show,
                 onChangeText: onChange,
                 placeholderTextColor: placeholderTextColor ?? Colors.gray,
@@ -142,8 +163,8 @@ const styles = StyleSheet.create({
   input: isSecure => ({
     height: '100%',
     width: isSecure ? '85%' : '90%',
-    paddingHorizontal: wp('2'),
-    paddingLeft: wp('3'),
+    // paddingHorizontal: wp('2'),
+    // paddingLeft: wp('3'),
     fontWeight: '400',
   }),
   eyeContainer: {

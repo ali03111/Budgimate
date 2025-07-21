@@ -9,3 +9,5 @@ export { default as ReviewSubscriptionScreen } from './ReviewSubscriptionScreen'
 export { default as AddOnScreen } from './AddOnScreen';
 export { default as ExpenseCategory } from './ExpenseCategory';
 export { default as SettingScreen } from './SettingScreen';
+export { default as IncomeVsExpenseScreen } from './IncomeVsExpenseScreen';
+export { default as EditPersonalInformationScreen } from './EditPersonalInformationScreen';

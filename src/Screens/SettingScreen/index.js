@@ -1,10 +1,19 @@
 import { View, Text, ImageBackground, ScrollView } from 'react-native';
 import React, { memo } from 'react';
 import {
+  aboutBlue,
+  contactUs,
+  faceID,
+  helpCenter,
   linkAccount,
   LoginBg,
+  notificationBlue,
+  passwordBlue,
+  privacyBlue,
   profileSetting,
   subscriptionSetting,
+  termsBlue,
+  twoFactor,
 } from '../../Assets';
 import { MultiView } from '../../Components/MultiView';
 import { hp, wp } from '../../Hooks/useResponsive';
@@ -37,19 +46,19 @@ const SettingScreen = () => {
     title: 'Security & Privacy',
     arryView: [
       {
-        title: `Personal Information`,
-        leftIcon: profileSetting,
-        subView: 'Manage your personal information',
+        title: `Password`,
+        leftIcon: passwordBlue,
+        subView: 'Manage your password',
       },
       {
-        title: 'Subscription',
-        leftIcon: subscriptionSetting,
-        subView: 'Manage your subscription',
+        title: 'Two-Factor Authentication',
+        leftIcon: twoFactor,
+        subView: 'Manage your two-factor authentication',
       },
       {
-        title: 'Linked accounts',
-        leftIcon: linkAccount,
-        subView: 'Invite your partner and link their account',
+        title: 'Face ID / Touch ID',
+        leftIcon: faceID,
+        subView: 'Manage your face ID / touch ID',
       },
     ],
   };
@@ -57,19 +66,9 @@ const SettingScreen = () => {
     title: 'Notifications',
     arryView: [
       {
-        title: `Personal Information`,
-        leftIcon: profileSetting,
-        subView: 'Manage your personal information',
-      },
-      {
-        title: 'Subscription',
-        leftIcon: subscriptionSetting,
-        subView: 'Manage your subscription',
-      },
-      {
-        title: 'Linked accounts',
-        leftIcon: linkAccount,
-        subView: 'Invite your partner and link their account',
+        title: `Notification Preferences`,
+        leftIcon: notificationBlue,
+        subView: 'Manage your notification preferences',
       },
     ],
   };
@@ -77,19 +76,14 @@ const SettingScreen = () => {
     title: 'Support',
     arryView: [
       {
-        title: `Personal Information`,
-        leftIcon: profileSetting,
-        subView: 'Manage your personal information',
+        title: `Help Center`,
+        leftIcon: helpCenter,
+        subView: 'Send feedback or report bugs.',
       },
       {
-        title: 'Subscription',
-        leftIcon: subscriptionSetting,
-        subView: 'Manage your subscription',
-      },
-      {
-        title: 'Linked accounts',
-        leftIcon: linkAccount,
-        subView: 'Invite your partner and link their account',
+        title: 'Contact Us',
+        leftIcon: contactUs,
+        subView: 'Direct access to support channels.',
       },
     ],
   };
@@ -97,19 +91,19 @@ const SettingScreen = () => {
     title: 'Terms & Conditions',
     arryView: [
       {
-        title: `Personal Information`,
-        leftIcon: profileSetting,
-        subView: 'Manage your personal information',
+        title: `About Budgimate`,
+        leftIcon: aboutBlue,
+        subView: 'Get help with the app',
       },
       {
-        title: 'Subscription',
-        leftIcon: subscriptionSetting,
-        subView: 'Manage your subscription',
+        title: 'Privacy Policy',
+        leftIcon: privacyBlue,
+        subView: 'Contact us for support',
       },
       {
-        title: 'Linked accounts',
-        leftIcon: linkAccount,
-        subView: 'Invite your partner and link their account',
+        title: 'Terms and Conditions',
+        leftIcon: termsBlue,
+        subView: 'Contact us for support',
       },
     ],
   };
