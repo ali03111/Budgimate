@@ -15,6 +15,7 @@ export const MultiSelectButton = ({
   textStyle,
   mainViewStyle,
   selectedBgColor,
+  isPrimaryColorStyle,
 }) => {
   const [dummy, setDummy] = useState(0);
 
@@ -39,6 +40,16 @@ export const MultiSelectButton = ({
           selectedBgColor,
         ),
         ...btnStyle,
+        ...(isPrimaryColorStyle
+          ? styles.priceMultiView(
+              isMultipule
+                ? Boolean(selectedAlter?.find(res => res?.id == item.id))
+                : Boolean(
+                    (selectedAlter?.alternates?.id ?? selectedAlter?.id) ==
+                      item?.id,
+                  ),
+            )
+          : {}),
       }}
       textStyle={{
         ...styles.btnText(
@@ -49,6 +60,16 @@ export const MultiSelectButton = ({
                   item?.id,
               ),
         ),
+        ...(isPrimaryColorStyle
+          ? styles.primaryColorStye(
+              isMultipule
+                ? Boolean(selectedAlter?.find(res => res?.id == item.id))
+                : Boolean(
+                    (selectedAlter?.alternates?.id ?? selectedAlter?.id) ==
+                      item?.id,
+                  ),
+            )
+          : {}),
         ...textStyle,
       }}
       isDisable={isDisable}
@@ -72,5 +93,18 @@ export const styles = StyleSheet.create({
   btnText: isSelected => ({
     color: isSelected ? 'white' : '#525252',
     fontSize: hp('1.5'),
+  }),
+  priceMultiView: isSelected => ({
+    paddingHorizontal: wp('3'),
+    backgroundColor: isSelected ? Colors.primaryColor : Colors.lightBlueBgColor,
+    overflow: 'hidden',
+    height: 'auto',
+    paddingVertical: hp('1'),
+    borderWidth: 1,
+    borderColor: Colors.primaryColor,
+  }),
+  primaryColorStye: isSelected => ({
+    fontSize: hp('1.2'),
+    color: isSelected ? 'white' : Colors.primaryColor,
   }),
 });

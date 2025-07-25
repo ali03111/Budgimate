@@ -11,3 +11,7 @@ export { default as ExpenseCategory } from './ExpenseCategory';
 export { default as SettingScreen } from './SettingScreen';
 export { default as IncomeVsExpenseScreen } from './IncomeVsExpenseScreen';
 export { default as EditPersonalInformationScreen } from './EditPersonalInformationScreen';
+export { default as AddGoalScreen } from './AddGoalScreen';
+export { default as SetAGoalScreen } from './SetAGoalScreen';
+export { default as MyGoalsScreen } from './MyGoalsScreen';
+export { default as GoalDetailScreen } from './GoalDetailScreen';

@@ -4,8 +4,8 @@ import Auth_Saga from './AuthSaga';
 // import questionSaga from './QuestionSaga';
 
 function* rootSaga() {
-  yield all([]);
-  // yield all([Auth_Saga(), questionSaga()]);
+  // yield all([]);
+  // yield all([Auth_Saga()]);
 }
 
 export default rootSaga;

@@ -1,5 +1,5 @@
 import React, { memo, useState } from 'react';
-import { View, Image, ImageBackground } from 'react-native';
+import { View, Image, ImageBackground, Platform } from 'react-native';
 import { TextComponent } from '../../Components/TextComponent';
 import { styles } from './styles';
 import ThemeButton from '../../Components/ThemeButton';
@@ -52,7 +52,12 @@ const LoginScreen = ({ navigation }) => {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.loginBottom}>
-          <View style={styles.loginTop}>
+          <View
+            style={{
+              ...styles.loginTop,
+              marginTop: Platform.OS == 'ios' ? hp('-5') : 0,
+            }}
+          >
             <TextComponent
               text={'Log in to continue'}
               styles={styles.signInText}
@@ -104,8 +109,8 @@ const LoginScreen = ({ navigation }) => {
 
           <View style={styles.buttonRow}>
             <ThemeButton
-              onPress={() => navigation.navigate('SubscriptionScreen')}
-              // onPress={handleSubmit(loginUser)}
+              // onPress={() => navigation.navigate('SubscriptionScreen')}
+              onPress={handleSubmit(loginUser)}
               title={'Log In'}
               isTheme
               style={styles.buttonStyle}

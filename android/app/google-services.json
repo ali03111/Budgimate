@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "570827920614",
+    "project_id": "budgimate",
+    "storage_bucket": "budgimate.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:570827920614:android:e62d61dc22f181828dd727",
+        "android_client_info": {
+          "package_name": "com.budgimate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "570827920614-9u4r3dksnamgfem5u4grno27s2i66o7f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6taNdzdcwbodv3sxX8Kv42A2J6lqNyRs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "570827920614-9u4r3dksnamgfem5u4grno27s2i66o7f.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "570827920614-n5vf20ksknpq82dvvhg007tttgf425me.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.budgimate.codment"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

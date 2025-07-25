@@ -1,10 +1,10 @@
-import {useState} from 'react';
-import {loginUser} from '../../Redux/Action/AuthAction';
+import { useState } from 'react';
+import { loginUser } from '../../Redux/Action/AuthAction';
 import useReduxStore from '../../Hooks/UseReduxStore';
-import {errorMessage} from '../../Config/NotificationMessage';
+import { loginThunk } from '../../Redux/Sagas/AuthSaga';
 
-const {default: useFormHook} = require('../../Hooks/UseFormHooks');
-const {default: Schemas} = require('../../Utils/Validation');
+const { default: useFormHook } = require('../../Hooks/UseFormHooks');
+const { default: Schemas } = require('../../Utils/Validation');
 
 /**
  * The function `useRegister` handles form submission, user registration, navigation, and policy
@@ -12,21 +12,22 @@ const {default: Schemas} = require('../../Utils/Validation');
  * @returns The `useRegister` function is returning an object with the following properties and
  * methods:
  */
-const useRegister = ({navigate, goBack}) => {
-  const {handleSubmit, errors, reset, control, getValues} = useFormHook(
+const useRegister = ({ navigate, goBack }) => {
+  const { handleSubmit, errors, reset, control, getValues } = useFormHook(
     Schemas.signUp,
   );
-  const {dispatch} = useReduxStore();
+  const { dispatch } = useReduxStore();
   const [remember, setRemember] = useState(false);
   const rememberValue = () => {
     setRemember(!remember);
   };
 
-  const signUpButton = ({first_name, last_name, email, password}) => {
+  const signUpButton = ({ first_name, email, password, last_name }) => {
+    console.log('sjdbvlkbsdklvbklsdbvlksdbklvbsd', first_name);
     dispatch(
-      loginUser({
+      loginThunk({
         type: 'email',
-        datas: {first_name, email, password, last_name},
+        datas: { first_name, email, password, last_name },
       }),
     );
   };
@@ -38,7 +39,7 @@ const useRegister = ({navigate, goBack}) => {
   };
 
   const socialLoginFun = type => {
-    dispatch(loginUser({type, datas: {}}));
+    dispatch(loginUser({ type, datas: {} }));
   };
 
   return {

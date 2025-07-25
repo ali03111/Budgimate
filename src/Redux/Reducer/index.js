@@ -1,44 +1,48 @@
+// src/Redux/Reducer.js
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { persistStore, persistReducer } from 'redux-persist';
-import mySaga from '../Sagas/index';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { persistStore, persistReducer } from 'redux-persist';
+import * as thunk from 'redux-thunk';
+
+console.log('Redux Thunk:', thunk); // 👈 should log: function thunk(...)
+
 import onboardingReducer from './onboardingReducer';
-
-// import createSagaMiddleware from 'redux-saga'; // ✅ This is correct — only if you're using the default export
-
-// const sagaMiddleware = createSagaMiddleware();
+import AuthReducer from './AuthReducer';
+import loadingReducer from './loadingReducer';
 
 const onBoardPersistConfig = {
   key: 'onboarding',
   storage: AsyncStorage,
-  whitelist: 'onboarding',
+  whitelist: ['onboarding'],
 };
 
-// const AuthPersistConfig = {
-//   key: 'Auth',
-//   storage: AsyncStorage,
-//   whitelist: ['userData', 'token', 'isLogin'],
-// };
+const AuthPersistConfig = {
+  key: 'Auth',
+  storage: AsyncStorage,
+  whitelist: ['userData', 'token', 'isLogin'],
+};
 
-const reducers = {
+const rootReducer = combineReducers({
   onboarding: persistReducer(onBoardPersistConfig, onboardingReducer),
-  //   Auth: persistReducer(AuthPersistConfig, AuthReducer),
-  //   isVideo: persistReducer(VideoPersistConfig, videoReducer),
-  //   isContact: persistReducer(ContactPerConfig, IsContactAllow),
-  //   isNotification: persistReducer(NotificationConfig, NotificationReducer),
-  //   isChatNotify: persistReducer(ChatNotifyConfig, ChatNotifyReducer),
-  //   isloading: loadingReducer,
-  //   isAlert: AlertReucer,
-  //   getCategory: getTrainingCatReducer,
-  //   contacts: ContactsReducer,
-  //   modalState: ImagePrevReducer,
-};
+  Auth: persistReducer(AuthPersistConfig, AuthReducer),
+  isloading: loadingReducer,
+});
 
-export const store = createStore(
-  combineReducers(reducers),
-  //   applyMiddleware(sagaMiddleware),
+const persistedReducer = persistReducer(
+  {
+    key: 'root',
+    storage: AsyncStorage,
+    blacklist: [],
+  },
+  rootReducer,
 );
 
+const dummyReducer = (state = {}, action) => state;
+
+// export const store = createStore(dummyReducer, applyMiddleware(thunk.thunk));
+export const store = createStore(
+  persistedReducer,
+  applyMiddleware(thunk.thunk),
+);
 export const persistor = persistStore(store);
-// then run the saga
-// sagaMiddleware.run(mySaga);

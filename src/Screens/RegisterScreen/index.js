@@ -69,7 +69,22 @@ const RegisterScreen = ({ navigation }) => {
 
           <InputComponent
             {...{
-              name: 'name',
+              name: 'first_name',
+              handleSubmit,
+              errors,
+              reset,
+              control,
+              getValues,
+              placeholder: 'Last Name',
+              defaultValue: __DEV__ ? 'first' : '',
+              isImage: user,
+              viewStyle: { height: hp('5') },
+              inputIconStyle: { flex: 0.5 },
+            }}
+          />
+          <InputComponent
+            {...{
+              name: 'last_name',
               handleSubmit,
               errors,
               reset,
@@ -93,7 +108,7 @@ const RegisterScreen = ({ navigation }) => {
               getValues,
               placeholder: 'Email Address',
               isImage: sms,
-              defaultValue: '',
+              defaultValue: __DEV__ ? 'dd@gmail.com' : '',
               viewStyle: { height: hp('5') },
               inputIconStyle: { flex: 0.5 },
             }}
@@ -147,8 +162,8 @@ const RegisterScreen = ({ navigation }) => {
           <View style={{ paddingTop: hp('1') }}>
             <ThemeButton
               title={'Register'}
-              onPress={() => navigation.navigate('HomeScreen')}
-              // onPress={handleSubmit(signUpButton)}
+              // onPress={() => navigation.navigate('HomeScreen')}
+              onPress={handleSubmit(signUpButton)}
               style={styles.buttonStyle}
               isTheme
               textStyle={{ fontSize: hp('1.5') }}

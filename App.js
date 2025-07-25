@@ -3,9 +3,15 @@ import { StyleSheet, ImageBackground, LogBox } from 'react-native';
 import MainNavigator from './src/Navigation/MainNavigator';
 import { splash2 } from './src/Assets';
 import { hp, wp } from './src/Hooks/useResponsive';
+import useReduxStore from './src/Hooks/UseReduxStore';
+import Overlay from './src/Components/Overlay';
 
 const App = () => {
   const [isVisible, setIsVisible] = useState(true);
+
+  const { getState, dispatch } = useReduxStore();
+  const { isloading } = getState('isloading');
+
   const Hide_Splash_Screen = () => {
     setIsVisible(false);
   };
@@ -50,12 +56,13 @@ const App = () => {
   return (
     <>
       {isVisible === true ? Splash_Screen : <MainNavigator />}
+      {isloading && <Overlay />}
       {/* {modalType && <ImagePreviewComp visible={modalType} images={image} />}
       {isloading &&
         Boolean(getNameFunc?.getCurrentRoute()?.name != 'AllEventsScreen') &&
         Boolean(getNameFunc?.getCurrentRoute()?.name != 'HomeScreen') && (
           <Overlay />
-        )} */}
+        )} 
       {/* <StackNavigatior />; */}
     </>
   );

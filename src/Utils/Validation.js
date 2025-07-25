@@ -1,4 +1,4 @@
-import {yupResolver} from '@hookform/resolvers/yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 const passwordSchema = {
@@ -38,9 +38,6 @@ const signUpschema = yup.object().shape({
     .matches(/^[A-Za-z ]*$/, 'Please enter valid name.')
     .min(2, 'Name must be atleast 2 characters.')
     .max(50, 'Name must be of 50 characters.'),
-  last_name: yup
-    .string()
-    .matches(/^[A-Za-z ]*$/, 'Please enter valid last name.'),
   ...passwordSchema,
 });
 const logInUpschema = yup.object().shape({
@@ -91,6 +88,44 @@ const resetPasswordScheme = yup.object().shape({
 
 const addUsernameScheme = yup.object().shape({
   username: yup.string().required('Please enter name.'),
+});
+const addIncomeSchema = yup.object().shape({
+  incomePrice: yup.string().required('Please income.'),
+  incomeType: yup
+    .string()
+    .oneOf(
+      [
+        { title: 'One-time', id: 'One-time' },
+        { title: 'Daily', id: 'Daily' },
+        { title: 'Weekly', id: 'Weekly' },
+        { title: 'Monthly', id: 'Monthly' },
+      ],
+      'Please select a valid type.',
+    )
+    .required('Please select income type.'),
+  incomeSource: yup.string().required('Please income source.'),
+  startingPeriod: yup.string().required('Please select starting period.'),
+  endingPeriod: yup.string().required('Please select ending period.'),
+});
+const addGoalSchema = yup.object().shape({
+  goalPrice: yup.string().required('Please enter goal price.'),
+  note: yup.string(),
+  goalType: yup
+    .string()
+    .oneOf(
+      [
+        { title: 'Income', id: 'Income' },
+        { title: 'Savings', id: 'Savings' },
+        { title: 'leftover', id: 'leftover' },
+      ],
+      'Please select a valid type.',
+    )
+    .required('Please select goal type.'),
+  goalName: yup.string().required('Please goal name.'),
+  targetCompleteDate: yup
+    .string()
+    .required('Please select target complete period.'),
+  gaolImg: yup.mixed().required('Goal image is required'),
 });
 
 const editProfileScheme = yup.object().shape({
@@ -175,7 +210,7 @@ const eventCreateSchema = yup.object().shape({
       'is-after-start',
       'End date must be after start date',
       function (value) {
-        const {eventStartDate} = this.parent;
+        const { eventStartDate } = this.parent;
         return !eventStartDate || !value || value >= eventStartDate;
       },
     )
@@ -187,7 +222,7 @@ const eventCreateSchema = yup.object().shape({
       'is-after-start-time',
       'End time must be after start time',
       function (value) {
-        const {eventStartTime, eventStartDate, eventEndDate} = this.parent;
+        const { eventStartTime, eventStartDate, eventEndDate } = this.parent;
 
         if (
           eventStartDate &&
@@ -257,6 +292,8 @@ const eventCreateSchema = yup.object().shape({
 const Schemas = {
   signUp: yupResolver(signUpschema),
   logIn: yupResolver(logInUpschema),
+  addIncome: yupResolver(addIncomeSchema),
+  addGoal: yupResolver(addGoalSchema),
   forgot: yupResolver(forgotSchema),
   newPassword: yupResolver(resetPasswordScheme),
   verification: yupResolver(verificationSchema),

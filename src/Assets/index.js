@@ -83,6 +83,20 @@ export { default as cardSend } from './Icons/cardSend.png';
 export { default as cardReceive } from './Icons/cardReceive.png';
 export { default as arrowRight } from './Icons/arrowRight.png';
 
+export { default as payOfDebtBlue } from './Icons/payOfDebtBlue.png';
+export { default as vacationBlue } from './Icons/vacationBlue.png';
+export { default as homeBlue } from './Icons/homeBlue.png';
+export { default as plusBlue } from './Icons/plusBlue.png';
+
+export { default as cardBlueBg } from './Icons/cardBlueBg.png';
+export { default as homeBlueBg } from './Icons/homeBlueBg.png';
+export { default as planBlueBg } from './Icons/planBlueBg.png';
+
+export { default as emergencyImg } from './Icons/emergencyImg.png';
+export { default as houseImg } from './Icons/houseImg.png';
+export { default as repaymentImg } from './Icons/repaymentImg.png';
+export { default as travelImg } from './Icons/travelImg.png';
+
 export { default as editWhiteIcon } from './Icons/editWhiteIcon.png';
 
 export { default as plusCircle } from './Icons/plusCircle.png';

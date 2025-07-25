@@ -22,28 +22,30 @@ import { Touchable } from '../../Components/Touchable';
 import ThemeButton from '../../Components/ThemeButton';
 import KeyBoardWrapper from '../../Components/KeyBoardWrapper';
 import useAddIncomeScreen from './useAddIncomeScreen';
+import {
+  formatDateToLong,
+  getCustom12HourTime,
+} from '../../Services/GlobalFunctions';
+import DatePicker from 'react-native-date-picker';
 
 const AddIncomeScreen = () => {
-  const { control, handleSubmit, errors, onSubmit, inputWidth, setInputWidth } =
-    useAddIncomeScreen();
+  const {
+    control,
+    handleSubmit,
+    errors,
+    onSubmit,
+    inputWidth,
+    setInputWidth,
+    currentDate,
+    toggleDate,
+    datePicker,
+  } = useAddIncomeScreen();
 
   const arryView = [
-    {
-      id: 1,
-      title: `One-time`,
-    },
-    {
-      id: 1,
-      title: `Daily`,
-    },
-    {
-      id: 1,
-      title: `Weekly`,
-    },
-    {
-      id: 1,
-      title: `Monthly`,
-    },
+    { title: 'One-time', id: 'One-time' },
+    { title: 'Daily', id: 'Daily' },
+    { title: 'Weekly', id: 'Weekly' },
+    { title: 'Monthly', id: 'Monthly' },
   ];
 
   const bottomView = [
@@ -146,19 +148,24 @@ const AddIncomeScreen = () => {
         <View style={styles.priceMainView}>
           <View style={styles.priceInnerView}>
             <TextComponent text={'$'} size={'2.5'} />
-
-            <TextInput
-              placeholder="0"
-              onChangeText={text => {
-                setInputWidth(Math.max(20, text.length * 14)); // increase width based on content
-              }}
-              style={{
-                fontSize: hp('2.5'),
-                color: 'black',
-                width: inputWidth,
-              }}
-              placeholderTextColor={'gray'}
-              keyboardType="numeric"
+            <Controller
+              control={control}
+              name="incomePrice"
+              render={({ field: { onChange, value } }) => (
+                <TextInput
+                  placeholder="0"
+                  onChangeText={text => {
+                    setInputWidth(Math.max(20, text.length * 14)); // increase width based on content
+                  }}
+                  style={{
+                    fontSize: hp('2.5'),
+                    color: 'black',
+                    width: inputWidth,
+                  }}
+                  placeholderTextColor={'gray'}
+                  keyboardType="numeric"
+                />
+              )}
             />
           </View>
           <TextComponent
@@ -167,26 +174,32 @@ const AddIncomeScreen = () => {
             size={'1.5'}
             styles={styles.addIncomeText}
           />
-          <View style={styles.priceTimeView}>
-            <MultiSelectButton
-              isDisable={true}
-              items={arryView}
-              btnStyle={styles.priceMultiView}
-              textStyle={{
-                fontSize: hp('1.2'),
-                color: 'black',
-                color: Colors.primaryColor,
-              }}
-            />
-          </View>
+          <Controller
+            control={control}
+            name="incomeType"
+            render={({ field: { onChange, value } }) => (
+              <View style={styles.priceTimeView}>
+                <MultiSelectButton
+                  items={arryView}
+                  selectedAlter={value} // currently selected
+                  onSelectVal={(i, val) => onChange(val)} // update form field
+                  btnStyle={styles.priceMultiView}
+                  textStyle={{
+                    fontSize: hp('1.2'),
+                    color: Colors.primaryColor,
+                  }}
+                />
+              </View>
+            )}
+          />
         </View>
         <TitleInputView
           title={'Income source'}
-          //   errorName={errors['eventTitle']}
+          errorName={errors['incomeSource']}
           innerLeftView={
             <Controller
               control={control}
-              name="eventTitle"
+              name="incomeSource"
               render={({ field: { onChange, value } }) => (
                 <TextInput
                   style={styles.inputStyle}
@@ -202,22 +215,19 @@ const AddIncomeScreen = () => {
         />
         <TitleInputView
           title={'Starting period'}
-          //   errorName={errors['eventTitle']}
+          errorName={errors['startingPeriod']}
           centerInnerView={
             <Controller
               control={control}
-              name="eventStartDate"
+              name="startingPeriod"
               render={({ field: { onChange, value } }) => (
                 <Touchable
                   style={styles.textTouchBtn}
-                  onPress={
-                    () => {}
-                    // toggleDate('eventStartDate', 'date', null, onChange)
-                  }
+                  onPress={() => toggleDate('startingPeriod')}
                 >
                   <TextComponent
-                    text={'DD / MM / YYYY'}
-                    // text={formatDateToLong(value ?? currentDate)}
+                    // text={'DD / MM / YYYY'}
+                    text={formatDateToLong(value) ?? 'DD / MM / YYYY'}
                     styles={styles.textStyle}
                     size={'1.2'}
                   />
@@ -233,21 +243,18 @@ const AddIncomeScreen = () => {
         />
         <TitleInputView
           title={'Ending period'}
-          //   errorName={errors['eventTitle']}
+          errorName={errors['endingPeriod']}
           centerInnerView={
             <Controller
               control={control}
-              name="eventStartDate"
+              name="endingPeriod"
               render={({ field: { onChange, value } }) => (
                 <Touchable
                   style={styles.textTouchBtn}
-                  onPress={
-                    () => {}
-                    // toggleDate('eventStartDate', 'date', null, onChange)
-                  }
+                  onPress={() => toggleDate('endingPeriod')}
                 >
                   <TextComponent
-                    text={'DD / MM / YYYY'}
+                    text={formatDateToLong(value) ?? 'DD / MM / YYYY'}
                     // text={formatDateToLong(value ?? currentDate)}
                     styles={styles.textStyle}
                     size={'1.2'}
@@ -269,6 +276,30 @@ const AddIncomeScreen = () => {
           textStyle={{ fontSize: hp('1.5') }}
         />
       </KeyBoardWrapper>
+      {datePicker.alertVal && (
+        <Controller
+          control={control}
+          name={datePicker.stateName}
+          render={({ field: { onChange, value } }) => {
+            return (
+              <DatePicker
+                mode={'date'}
+                open={datePicker?.alertVal ? datePicker.alertVal : false}
+                date={value ?? currentDate}
+                is24hourSource="locale"
+                locale="en"
+                onCancel={() => toggleDate(null)}
+                modal
+                onConfirm={e => {
+                  const timeFormatted = getCustom12HourTime(e); // 'HH:mm'
+                  onChange(e);
+                  toggleDate(null);
+                }}
+              />
+            );
+          }}
+        />
+      )}
     </ImageBackground>
   );
 };

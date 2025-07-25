@@ -10,6 +10,7 @@ const Stack = createNativeStackNavigator();
 function MainNavigator() {
   const { getState } = useReduxStore();
   const { onboarding } = getState('onboarding');
+  const { isLogin, userData } = getState('Auth');
   return (
     <NavigationContainer
       ref={ref => {
@@ -24,12 +25,50 @@ function MainNavigator() {
           headerShown: false,
         }}
       >
-        {!onboarding && (
-          <Stack.Screen
-            name="OnBoardScreen"
-            component={Screens.OnBoardScreen}
-          />
+        {!isLogin && (
+          <>
+            {!onboarding && (
+              <Stack.Screen
+                name="OnBoardScreen"
+                component={Screens.OnBoardScreen}
+              />
+            )}
+            {/* <Stack.Screen
+              name="EventsDetailScreen"
+              component={Screens.EventsDetailScreen}
+            /> */}
+            <Stack.Screen name="LoginScreen" component={Screens.LoginScreen} />
+            <Stack.Screen
+              name="RegisterScreen"
+              component={Screens.RegisterScreen}
+            />
+            {/* <Stack.Screen
+              name="OnStepScreen"
+              component={Screens.OnStepScreen}
+            /> */}
+
+            {/* <Stack.Screen
+              name="ForgotPasswordScreen"
+              component={Screens.ForgotPasswordScreen}
+            /> */}
+          </>
         )}
+        <Stack.Screen
+          name="GoalDetailScreen"
+          component={Screens.GoalDetailScreen}
+        />
+        <Stack.Screen name="MyGoalsScreen" component={Screens.MyGoalsScreen} />
+        <Stack.Screen
+          name="SetAGoalScreen"
+          component={Screens.SetAGoalScreen}
+        />
+        <Stack.Screen name="AddGoalScreen" component={Screens.AddGoalScreen} />
+        <Stack.Screen
+          name="AddIncomeScreen"
+          component={Screens.AddIncomeScreen}
+        />
+        <Stack.Screen name="HomeScreen" component={Screens.HomeScreen} />
+
         <Stack.Screen
           name="EditPersonalInformationScreen"
           component={Screens.EditPersonalInformationScreen}
@@ -43,7 +82,7 @@ function MainNavigator() {
           component={Screens.ExpenseCategory}
         />
         <Stack.Screen name="SettingScreen" component={Screens.SettingScreen} />
-        <Stack.Screen name="LoginScreen" component={Screens.LoginScreen} />
+        {/* <Stack.Screen name="LoginScreen" component={Screens.LoginScreen} /> */}
 
         <Stack.Screen name="AddOnScreen" component={Screens.AddOnScreen} />
         <Stack.Screen
@@ -54,19 +93,15 @@ function MainNavigator() {
           name="SubscriptionScreen"
           component={Screens.SubscriptionScreen}
         />
-        <Stack.Screen
-          name="AddIncomeScreen"
-          component={Screens.AddIncomeScreen}
-        />
+
         <Stack.Screen
           name="AddExpenseScreen"
           component={Screens.AddExpenseScreen}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name="RegisterScreen"
           component={Screens.RegisterScreen}
-        />
-        <Stack.Screen name="HomeScreen" component={Screens.HomeScreen} />
+        /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );
