@@ -53,11 +53,11 @@ function MainNavigator() {
             /> */}
           </>
         )}
+        <Stack.Screen name="MyGoalsScreen" component={Screens.MyGoalsScreen} />
         <Stack.Screen
           name="GoalDetailScreen"
           component={Screens.GoalDetailScreen}
         />
-        <Stack.Screen name="MyGoalsScreen" component={Screens.MyGoalsScreen} />
         <Stack.Screen
           name="SetAGoalScreen"
           component={Screens.SetAGoalScreen}

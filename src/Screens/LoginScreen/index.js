@@ -74,7 +74,7 @@ const LoginScreen = ({ navigation }) => {
               getValues,
               placeholder: 'Email',
               isImage: sms,
-              defaultValue: __DEV__ ? 'iphonexr@gmail.com' : '',
+              defaultValue: __DEV__ ? 'iphone15@gmail.com' : '',
               viewStyle: { height: hp('5') },
               inputIconStyle: { flex: 0.4 },
             }}

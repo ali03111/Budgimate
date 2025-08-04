@@ -73,6 +73,7 @@ export const loginThunk =
 export const registerThunk =
   ({ datas }) =>
   async dispatch => {
+    console.log('skldbvlksdbvklsdbklvsd', datas);
     dispatch(loadingTrue());
     try {
       const result = await emailLogin(datas);

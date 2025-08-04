@@ -20,6 +20,7 @@ const GoalCardComp = ({ item }) => {
               marginTop: hp(0.5),
               width: wp('50'),
             }}
+            family={'500'}
             fade
           />
         </View>
@@ -35,7 +36,6 @@ const GoalCardComp = ({ item }) => {
         <TextComponent
           text={`$${remaining.toLocaleString()} left of $${item.goal.toLocaleString()}`}
           size={'1.8'}
-          color={Colors.grey}
         />
       </View>
 
