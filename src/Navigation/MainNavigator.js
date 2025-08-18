@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import NavigationService from '../Services/NavigationService';
 import * as Screens from '../Screens/index';
 import useReduxStore from '../Hooks/UseReduxStore';
+import MybottomTabs from './BottomNavigation';
 
 const Stack = createNativeStackNavigator();
 
@@ -53,7 +54,16 @@ function MainNavigator() {
             /> */}
           </>
         )}
+        <Stack.Screen name="MybottomTabs" component={MybottomTabs} />
         <Stack.Screen name="MyGoalsScreen" component={Screens.MyGoalsScreen} />
+        <Stack.Screen
+          name="CreateNewTraceScreen"
+          component={Screens.CreateNewTraceScreen}
+        />
+        <Stack.Screen
+          name="AllTraceScreen"
+          component={Screens.AllTraceScreen}
+        />
         <Stack.Screen
           name="GoalDetailScreen"
           component={Screens.GoalDetailScreen}
@@ -64,8 +74,16 @@ function MainNavigator() {
         />
         <Stack.Screen name="AddGoalScreen" component={Screens.AddGoalScreen} />
         <Stack.Screen
+          name="AddExpenseToCategoryScreen"
+          component={Screens.AddExpenseToCategoryScreen}
+        />
+        <Stack.Screen
           name="AddIncomeScreen"
           component={Screens.AddIncomeScreen}
+        />
+        <Stack.Screen
+          name="AddCategoryScreen"
+          component={Screens.AddCategoryScreen}
         />
         <Stack.Screen name="HomeScreen" component={Screens.HomeScreen} />
 

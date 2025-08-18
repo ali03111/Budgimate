@@ -97,6 +97,11 @@ export { default as houseImg } from './Icons/houseImg.png';
 export { default as repaymentImg } from './Icons/repaymentImg.png';
 export { default as travelImg } from './Icons/travelImg.png';
 
+export { default as bluePlus } from './Icons/bluePlus.png';
+export { default as bottomBarBudgimate } from './Icons/bottomBarBudgimate.png';
+export { default as note } from './Icons/note.png';
+export { default as target } from './Icons/target.png';
+
 export { default as editWhiteIcon } from './Icons/editWhiteIcon.png';
 
 export { default as plusCircle } from './Icons/plusCircle.png';
@@ -118,6 +123,11 @@ export { default as subscriptionSetting } from './Icons/subscriptionSetting.png'
 export { default as goalsMode } from './Icons/goalsMode.png';
 export { default as traces } from './Icons/traces.png';
 export { default as travelMode } from './Icons/travelMode.png';
+export { default as incomeBlue } from './Icons/incomeBlue.png';
+
+export { default as noteCircle } from './Icons/noteCircle.png';
+export { default as targetCircle } from './Icons/targetCircle.png';
+export { default as incomeCircle } from './Icons/incomeCircle.png';
 
 export { default as checkmark } from './Icons/checkmark.png';
 

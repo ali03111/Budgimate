@@ -1709,6 +1709,34 @@ PODS:
     - Yoga
   - react-native-geolocation-service (5.3.1):
     - React
+  - react-native-pager-view (6.9.1):
+    - boost
+    - DoubleConversion
+    - fast_float
+    - fmt
+    - glog
+    - RCT-Folly
+    - RCT-Folly/Fabric
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-jsc
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - SocketRocket
+    - Yoga
   - react-native-safe-area-context (5.5.0):
     - boost
     - DoubleConversion
@@ -2622,6 +2650,7 @@ DEPENDENCIES:
   - react-native-blurhash (from `../node_modules/react-native-blurhash`)
   - react-native-date-picker (from `../node_modules/react-native-date-picker`)
   - react-native-geolocation-service (from `../node_modules/react-native-geolocation-service`)
+  - react-native-pager-view (from `../node_modules/react-native-pager-view`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
   - React-oscompat (from `../node_modules/react-native/ReactCommon/oscompat`)
@@ -2776,6 +2805,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-date-picker"
   react-native-geolocation-service:
     :path: "../node_modules/react-native-geolocation-service"
+  react-native-pager-view:
+    :path: "../node_modules/react-native-pager-view"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   React-NativeModulesApple:
@@ -2923,6 +2954,7 @@ SPEC CHECKSUMS:
   react-native-blurhash: b0e040e6932ccada47a5e830ddb354e3feedac45
   react-native-date-picker: 139a28e3b97b098b3a3a2e42906f72da27f7171d
   react-native-geolocation-service: 32b2c2a3b91e70ce2a8d0c684801aaeb0a07e0ec
+  react-native-pager-view: 5e670e8ca960e88500bd32320a2fde783ed92998
   react-native-safe-area-context: c7e27b528a8b51a446e14034c03bc3f156d441b6
   React-NativeModulesApple: 75a0b85e1c8b73bf5b1bddf9b2f818fadeb64f3a
   React-oscompat: 7c0a341cc31e350da71ddf2e46de0a845d1d1626

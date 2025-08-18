@@ -1,33 +1,20 @@
-import {
-  View,
-  TextInput,
-  Image,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import React, { memo, useCallback } from 'react';
-import { HeaderComponent } from '../../Components/HeaderComp';
+import ExpenseProgressCard from '../../Components/ExpenseProgressCard';
 import {
   calender,
   editWhiteIcon,
   plusBlue,
   plusCircle,
-  plusWhite,
-  searchIcon,
   trashWhite,
 } from '../../Assets';
-import { hp, wp } from '../../Hooks/useResponsive';
-import { Colors } from '../../Theme/Variables';
-import ExpenseProgressCard from '../../Components/ExpenseProgressCard';
 import { styles } from './styles';
-import DateRangeModalComp from '../../Components/DateRangeModalComp';
-import { FloatingAction } from 'react-native-floating-action';
-import { SwipeListView } from 'react-native-swipe-list-view';
-import { TextComponent } from '../../Components/TextComponent';
+import { HeaderComponent } from '../../Components/HeaderComp';
 import ThemeButton from '../../Components/ThemeButton';
+import { TextComponent } from '../../Components/TextComponent';
+import { hp, wp } from '../../Hooks/useResponsive';
 
-const ExpenseCategory = ({ navigation }) => {
+const AllTraceScreen = ({ navigation }) => {
   const actions = [
     {
       text: 'Create Expense',
@@ -63,17 +50,20 @@ const ExpenseCategory = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <HeaderComponent
-        headerTitle="Expenses categories"
+        headerTitle="Traces"
         isBack
         rightIconImg={listArry.length > 0 ? calender : plusBlue}
       />
 
       {listArry.length > 0 ? null : (
         <View style={styles.emptyContainer}>
-          <TextComponent text={'Categories not found!'} family={'bold'} />
+          <TextComponent
+            text={'Time to create your first trace!'}
+            family={'bold'}
+          />
           <TextComponent
             text={
-              'Create categories and expenses by tapping the “plus” button to manage your budget with budgimate.'
+              "It looks like you haven't created a trace yet. A trace is a great way to monitor your activities and see your journey unfold. Let's create one now."
             }
             family={'300'}
             fade
@@ -81,18 +71,18 @@ const ExpenseCategory = ({ navigation }) => {
             styles={styles.emptyText}
           />
           <ThemeButton
-            title={'Create category'}
+            title={'Create new trace '}
             isTheme
             style={{ width: wp('50') }}
             textStyle={{ fontSize: hp('1.5') }}
-            onPress={() => navigation.navigate('AddCategoryScreen')}
+            onPress={() => navigation.navigate('CreateNewTraceScreen')}
           />
         </View>
       )}
 
       {/* <View style={styles.searchContainer}>
         <Image
-          source={searchIcon}
+          source={searchIcon} 
           resizeMode="contain"
           style={styles.searchIcon}
           tintColor={Colors.black}
@@ -132,4 +122,4 @@ const ExpenseCategory = ({ navigation }) => {
   );
 };
 
-export default memo(ExpenseCategory);
+export default memo(AllTraceScreen);

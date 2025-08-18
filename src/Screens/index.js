@@ -15,3 +15,8 @@ export { default as AddGoalScreen } from './AddGoalScreen';
 export { default as SetAGoalScreen } from './SetAGoalScreen';
 export { default as MyGoalsScreen } from './MyGoalsScreen';
 export { default as GoalDetailScreen } from './GoalDetailScreen';
+export { default as AddNewScreen } from './AddNewScreen';
+export { default as AddCategoryScreen } from './AddCategoryScreen';
+export { default as AddExpenseToCategoryScreen } from './AddExpenseToCategoryScreen';
+export { default as AllTraceScreen } from './AllTraceScreen';
+export { default as CreateNewTraceScreen } from './CreateNewTraceScreen';
