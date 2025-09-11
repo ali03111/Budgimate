@@ -5,8 +5,12 @@ import { CircleImage } from './CircleImage';
 import { TextComponent } from './TextComponent';
 import { notificationWhite } from '../Assets';
 import { Touchable } from './Touchable';
+import useReduxStore from '../Hooks/UseReduxStore';
 
 const HomeHeaderComp = () => {
+  const { getState } = useReduxStore();
+
+  const { userData } = getState('Auth');
   return (
     <View style={styles.container}>
       <CircleImage
@@ -18,7 +22,11 @@ const HomeHeaderComp = () => {
       />
       <View style={styles.textContainer}>
         <TextComponent text={'Hello,'} isWhite styles={styles.greeting} />
-        <TextComponent text={'John Mayer'} isWhite styles={styles.name} />
+        <TextComponent
+          text={`${userData?.first_name} ${userData?.last_name}`}
+          isWhite
+          styles={styles.name}
+        />
       </View>
       <Touchable>
         <Image

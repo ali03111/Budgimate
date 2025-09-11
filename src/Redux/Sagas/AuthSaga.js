@@ -19,6 +19,7 @@ import {
 } from '../../Services/AuthServices';
 import { errorMessage, successMessage } from '../../Config/NotificationMessage';
 import NavigationService from '../../Services/NavigationService';
+import { store } from '../Reducer';
 
 const loginObject = {
   Google: () => googleLogin(),
@@ -85,7 +86,7 @@ export const registerThunk =
 
         if (jwtToken) {
           const { data, ok } = await loginService({ token: jwtToken });
-
+          console.log('Login Data:', data?.token?.plainTextToken);
           if (ok) {
             dispatch(updateAuth(data));
           } else {

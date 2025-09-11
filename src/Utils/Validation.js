@@ -93,15 +93,15 @@ const addIncomeSchema = yup.object().shape({
   incomePrice: yup.string().required('Please income.'),
   incomeType: yup
     .string()
-    .oneOf(
-      [
-        { title: 'One-time', id: 'One-time' },
-        { title: 'Daily', id: 'Daily' },
-        { title: 'Weekly', id: 'Weekly' },
-        { title: 'Monthly', id: 'Monthly' },
-      ],
-      'Please select a valid type.',
-    )
+    // .requiredoneOf(
+    //   [
+    //     { title: 'One-time', id: 'One-time' },
+    //     { title: 'Daily', id: 'Daily' },
+    //     { title: 'Weekly', id: 'Weekly' },
+    //     { title: 'Monthly', id: 'Monthly' },
+    //   ],
+    //   'Please select a valid type.',
+    // )
     .required('Please select income type.'),
   incomeSource: yup.string().required('Please income source.'),
   startingPeriod: yup.string().required('Please select starting period.'),

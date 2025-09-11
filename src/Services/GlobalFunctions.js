@@ -528,7 +528,7 @@ const getIdsFromArry = (arry, key) => {
 //GET IMAGE From Mobile
 const uploadFromGalary = async isMulti => {
   const imageData = await ImageCropPicker.openPicker({
-    cropping: true,
+    cropping: false,
     width: 300, // set desired resolution
     height: 300,
     // compressImageQuality: 0.8,
@@ -574,7 +574,7 @@ const uploadFromGalary = async isMulti => {
 //GET IMAGE From Mobile
 const uploadFromCamera = async isMulti => {
   const imageData = await ImageCropPicker.openCamera({
-    cropping: true,
+    cropping: false,
     multiple: isMulti ?? false,
   });
 
@@ -1038,6 +1038,15 @@ function getCustom12HourTime(dateStr) {
   // output: "12.21 .AM"
 }
 
+// function formatDate(dateString) {
+//   const date = new Date(dateString);
+//   const year = date.getFullYear();
+//   const month = String(date.getMonth() + 1).padStart(2, '0'); // months are 0-based
+//   return `${year}-${month}-01`; // always set day to 01
+// }
+
+const currentDate = new Date();
+
 export {
   getSingleCharacter,
   getProperLocation,
@@ -1091,4 +1100,5 @@ export {
   formatDateToLong,
   getFormattedTime,
   getCustom12HourTime,
+  currentDate,
 };

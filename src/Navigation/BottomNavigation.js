@@ -73,7 +73,7 @@ const Tab = createBottomTabNavigator();
 function MybottomTabs() {
   const { getState, dispatch } = useReduxStore();
 
-  fetchGetWithToken(VerifyUserUrl);
+  // fetchGetWithToken(VerifyUserUrl);
 
   return (
     <Tab.Navigator
@@ -116,9 +116,9 @@ function MybottomTabs() {
         component={Screens.HomeScreen}
       />
       <Tab.Screen
-        name="HomeScreen1"
+        name="AllBottomTraceScreen"
         options={tabarComponent(note, note)}
-        component={Screens.HomeScreen}
+        component={Screens.AllTraceScreen}
       />
       <Tab.Screen
         name="MyEventScreen"
@@ -131,14 +131,14 @@ function MybottomTabs() {
         component={Screens.AddNewScreen}
       />
       <Tab.Screen
-        name="ChatUsersScreen"
+        name="AllBottomGoalScreen"
         options={tabarComponent(target, target, {}, true)}
-        component={Screens.HomeScreen}
+        component={Screens.AllGoalScreen}
       />
       <Tab.Screen
-        name="MyProfileScreen"
+        name="SettingScreen"
         options={tabarComponent(setting, setting)}
-        component={Screens.HomeScreen}
+        component={Screens.SettingScreen}
       />
       {/* <Tab.Screen
         name="FavourateScreen"

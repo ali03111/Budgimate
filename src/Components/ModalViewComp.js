@@ -16,6 +16,7 @@ const ModalViewComp = ({
   onBackPress,
   firstHit,
   childrenComp,
+  btnTitle,
 }) => {
   return (
     <View style={styles.modalView}>
@@ -77,7 +78,7 @@ const ModalViewComp = ({
               {childrenComp}
               {onPress && (
                 <ThemeButton
-                  title={'Save expense'}
+                  title={btnTitle ?? 'Save expense'}
                   style={styles.modalBtn}
                   onPress={() => {
                     onPress();

@@ -26,8 +26,12 @@ import { FloatingAction } from 'react-native-floating-action';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { TextComponent } from '../../Components/TextComponent';
 import ThemeButton from '../../Components/ThemeButton';
+import { Touchable } from '../../Components/Touchable';
+import useExpenseCategory from './useExpenseCategory';
 
 const ExpenseCategory = ({ navigation }) => {
+  const { dateRangeModal, setDateRangeModal } = useExpenseCategory();
+
   const actions = [
     {
       text: 'Create Expense',
@@ -58,17 +62,68 @@ const ExpenseCategory = ({ navigation }) => {
     </View>
   );
 
-  const listArry = [];
+  const listArry = [1, 2, 3];
 
   return (
     <View style={styles.container}>
       <HeaderComponent
         headerTitle="Expenses categories"
         isBack
-        rightIconImg={listArry.length > 0 ? calender : plusBlue}
+        rightIconImg={plusBlue}
+        onRightPress={() => navigation.navigate('AddCategoryScreen')}
       />
 
-      {listArry.length > 0 ? null : (
+      {listArry.length > 0 ? (
+        <>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginBottom: hp('1'),
+            }}
+          >
+            <View style={styles.searchContainer}>
+              <Image
+                source={searchIcon}
+                resizeMode="contain"
+                style={styles.searchIcon}
+                tintColor={Colors.black}
+              />
+              <TextInput
+                style={styles.searchInput}
+                placeholder="Search categories"
+                placeholderTextColor={Colors.grayFaded}
+              />
+            </View>
+            <Touchable onPress={() => setDateRangeModal(true)}>
+              <Image
+                source={calender}
+                resizeMode="contain"
+                style={{ width: wp('6'), height: hp('3') }}
+              />
+            </Touchable>
+          </View>
+
+          <SwipeListView
+            showsVerticalScrollIndicator={false}
+            style={styles.upComingFlatlistView}
+            useFlatList
+            data={listArry}
+            // data={[]}
+            // sections={bottomData}
+            renderItem={renderItem}
+            renderHiddenItem={renderHiddenItem}
+            leftOpenValue={75}
+            rightOpenValue={-75}
+            previewRowKey={'0'}
+            // previewOpenValue={-40}
+            previewOpenDelay={3000}
+            // previewOpenValue={-40}
+            closeOnRowPress
+            refreshing={false}
+          />
+        </>
+      ) : (
         <View style={styles.emptyContainer}>
           <TextComponent text={'Categories not found!'} family={'bold'} />
           <TextComponent
@@ -90,44 +145,17 @@ const ExpenseCategory = ({ navigation }) => {
         </View>
       )}
 
-      {/* <View style={styles.searchContainer}>
-        <Image
-          source={searchIcon}
-          resizeMode="contain"
-          style={styles.searchIcon}
-          tintColor={Colors.black}
-        />
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search categories"
-          placeholderTextColor={Colors.grayFaded}
-        />
-      </View>
-
-      <SwipeListView
-        showsVerticalScrollIndicator={false}
-        style={styles.upComingFlatlistView}
-        useFlatList
-        // data={[1, 23, 4]}
-        data={[]}
-        // sections={bottomData}
-        renderItem={renderItem}
-        renderHiddenItem={renderHiddenItem}
-        leftOpenValue={75}
-        rightOpenValue={-75}
-        previewRowKey={'0'}
-        // previewOpenValue={-40}
-        previewOpenDelay={3000}
-        // previewOpenValue={-40}
-        closeOnRowPress
-        refreshing={false}
-      /> */}
-
       {/* {Array.from({ length: 6 }).map((_, index) => (
         <ExpenseProgressCard key={index} />
       ))} */}
 
-      {/* <DateRangeModalComp /> */}
+      {dateRangeModal && (
+        <DateRangeModalComp
+          visible={dateRangeModal}
+          onClose={() => setDateRangeModal(false)}
+          onSelectRange={() => setDateRangeModal(false)}
+        />
+      )}
     </View>
   );
 };

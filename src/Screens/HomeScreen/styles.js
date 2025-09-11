@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { hp, wp } from '../../Hooks/useResponsive';
+import { Colors } from '../../Theme/Variables';
 
 export const styles = StyleSheet.create({
   ImgBg: {
@@ -21,11 +22,26 @@ export const styles = StyleSheet.create({
     width: wp('95'),
     alignSelf: 'center',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
+    marginTop: hp('2'),
   },
   budgetAmount: {
     fontSize: hp('2.5'),
     fontWeight: 'bold',
+  },
+  progressBackground: {
+    marginTop: hp('1'),
+    height: hp('0.8'),
+    backgroundColor: Colors.secondryColor,
+    borderRadius: hp('1'),
+    overflow: 'hidden',
+    width: wp('95'),
+    alignSelf: 'center',
+  },
+  progressFill: {
+    height: '100%',
+    backgroundColor: Colors.themeRed,
+    borderRadius: hp('1'),
   },
   addNewButton: {
     flexDirection: 'row',

@@ -28,7 +28,7 @@ import {
 } from '../../Services/GlobalFunctions';
 import DatePicker from 'react-native-date-picker';
 
-const AddIncomeScreen = () => {
+const AddIncomeScreen = ({ navigation, route }) => {
   const {
     control,
     handleSubmit,
@@ -39,48 +39,13 @@ const AddIncomeScreen = () => {
     currentDate,
     toggleDate,
     datePicker,
-  } = useAddIncomeScreen();
+  } = useAddIncomeScreen(navigation, route);
 
   const arryView = [
-    { title: 'One-time', id: 'One-time' },
-    { title: 'Daily', id: 'Daily' },
-    { title: 'Weekly', id: 'Weekly' },
-    { title: 'Monthly', id: 'Monthly' },
-  ];
-
-  const bottomView = [
-    {
-      title: '75% of budget exceeded',
-      rightChilderView: (
-        <Switch
-          trackColor={{
-            false: Colors.grayFaded,
-            true: 'transparent',
-          }}
-          // thumbColor={userData?.privacy == 1 ? Colors.primaryColor : '#EAF6ED'}
-          ios_backgroundColor="#EAF6ED"
-          // onValueChange={privateTheProfile}
-          // value={Boolean(userData?.privacy == 1)}
-          style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }} // Adjust the scale as needed
-        />
-      ),
-    },
-    {
-      title: 'Budget over spend',
-      rightChilderView: (
-        <Switch
-          trackColor={{
-            false: Colors.grayFaded,
-            true: 'transparent',
-          }}
-          // thumbColor={userData?.privacy == 1 ? Colors.primaryColor : '#EAF6ED'}
-          ios_backgroundColor="#EAF6ED"
-          // onValueChange={privateTheProfile}
-          // value={Boolean(userData?.privacy == 1)}
-          style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }} // Adjust the scale as needed
-        />
-      ),
-    },
+    { title: 'One-time', id: 'One_time' },
+    { title: 'Daily', id: 'daily' },
+    { title: 'Weekly', id: 'weekly' },
+    { title: 'Monthly', id: 'monthly' },
   ];
 
   const TitleInputView = ({
@@ -140,7 +105,6 @@ const AddIncomeScreen = () => {
       </View>
     );
   };
-
   return (
     <ImageBackground source={LoginBg} style={styles.ImgBg}>
       <HeaderComponent isBack headerTitle={'Add Income'} />
@@ -155,13 +119,14 @@ const AddIncomeScreen = () => {
                 <TextInput
                   placeholder="0"
                   onChangeText={text => {
-                    setInputWidth(Math.max(20, text.length * 14)); // increase width based on content
+                    onChange(Math.max(20, text.length * 14)); // increase width based on content
                   }}
                   style={{
                     fontSize: hp('2.5'),
                     color: 'black',
-                    width: inputWidth,
+                    width: value,
                   }}
+                  value={value}
                   placeholderTextColor={'gray'}
                   keyboardType="numeric"
                 />
@@ -181,13 +146,14 @@ const AddIncomeScreen = () => {
               <View style={styles.priceTimeView}>
                 <MultiSelectButton
                   items={arryView}
-                  selectedAlter={value} // currently selected
-                  onSelectVal={(i, val) => onChange(val)} // update form field
-                  btnStyle={styles.priceMultiView}
-                  textStyle={{
-                    fontSize: hp('1.2'),
-                    color: Colors.primaryColor,
-                  }}
+                  selectedAlter={{ id: value }} // currently selected
+                  onSelectVal={(i, val) => onChange(val?.id)} // update form field
+                  // btnStyle={styles.priceMultiView}
+                  isPrimaryColorStyle
+                  // textStyle={{
+                  //   fontSize: hp('1.2'),
+                  //   color: Colors.primaryColor,
+                  // }}
                 />
               </View>
             )}
@@ -274,6 +240,7 @@ const AddIncomeScreen = () => {
           isTheme
           style={styles.saveBtn}
           textStyle={{ fontSize: hp('1.5') }}
+          onPress={handleSubmit(onSubmit)}
         />
       </KeyBoardWrapper>
       {datePicker.alertVal && (

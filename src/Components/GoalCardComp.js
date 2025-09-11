@@ -1,62 +1,55 @@
-import { View, Text, Image, StyleSheet } from 'react-native';
 import React from 'react';
-import { TextComponent } from './TextComponent';
+import { View, Text, StyleSheet } from 'react-native';
+import { Touchable } from '../Components/Touchable';
 import { hp, wp } from '../Hooks/useResponsive';
 import { Colors } from '../Theme/Variables';
+import { arrowRight } from '../Assets';
+import { Image } from 'react-native';
+import NavigationService from '../Services/NavigationService';
 
-const GoalCardComp = ({ item }) => {
-  const remaining = item.goal - item.saved;
-  const percentage = (item.saved / item.goal) * 100;
+const GoalCardComp = ({ mainView, isDisable }) => {
+  const total = 80000;
+  const achieved = 34700;
+  const left = total - achieved;
+  const progress = (achieved / total) * 100;
 
   return (
-    <View style={[styles.card, { backgroundColor: item.bgColor }]}>
-      <View style={styles.cardTop}>
-        <View>
-          <TextComponent text={item.title} family="bold" />
-          <TextComponent
-            text="Save $80,000 by the month of January 2027"
-            size={'1.5'}
-            styles={{
-              marginTop: hp(0.5),
-              width: wp('50'),
-            }}
-            family={'500'}
-            fade
-          />
-        </View>
-        <Image source={item.image} style={styles.goalImage} />
+    <View style={{ ...styles.card, ...mainView }}>
+      {/* Top Row */}
+      <View style={styles.headerRow}>
+        <Text style={styles.title}>Emergency fund</Text>
+        <Touchable
+          disabled={isDisable}
+          onPress={() => NavigationService.navigate('GoalDetailScreen')}
+        >
+          <View style={styles.detailsRow}>
+            <Text style={styles.details}>View details</Text>
+            <Image source={arrowRight} style={styles.arrowIcon} />
+          </View>
+        </Touchable>
       </View>
 
-      <View style={styles.progressRow}>
-        <TextComponent
-          text={`$${item.saved.toLocaleString()}`}
-          size={'1.8'}
-          family="bold"
-        />
-        <TextComponent
-          text={`$${remaining.toLocaleString()} left of $${item.goal.toLocaleString()}`}
-          size={'1.8'}
-        />
+      {/* Subtitle */}
+      <Text style={styles.subtitle}>
+        Save ${total.toLocaleString()} by the January 2027
+      </Text>
+
+      {/* Progress info */}
+      <View style={styles.progressInfoRow}>
+        <Text style={styles.achieved}>
+          Achieved:{' '}
+          <Text style={styles.bold}>${achieved.toLocaleString()}</Text>
+        </Text>
+        <Text style={styles.left}>
+          ${left.toLocaleString()} left of{' '}
+          <Text style={styles.bold}>${total.toLocaleString()}</Text>
+        </Text>
       </View>
 
-      <View style={styles.progressBarBackground}>
-        <View
-          style={[
-            styles.progressBarFill,
-            {
-              width: `${percentage}%`,
-              backgroundColor: item.color,
-            },
-          ]}
-        />
+      {/* Progress bar */}
+      <View style={styles.progressBackground}>
+        <View style={[styles.progressFill, { width: `${progress}%` }]} />
       </View>
-
-      <TextComponent
-        text="$2,450 this month"
-        size={'1.8'}
-        color={item.color}
-        style={{ marginTop: hp(1) }}
-      />
     </View>
   );
 };
@@ -65,32 +58,74 @@ export default GoalCardComp;
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: 14,
-    padding: wp(4),
-    marginBottom: hp(2),
+    width: wp('95'),
+    backgroundColor: 'white',
+    borderRadius: 12,
+    padding: wp('4'),
+    alignSelf: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 6,
+    elevation: 3,
+    // marginVertical: hp('1'),
   },
-  cardTop: {
+  headerRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
-  goalImage: {
-    height: hp('9'),
-    width: wp('36'),
+  title: {
+    fontSize: hp('1.8'),
+    fontWeight: '600',
+    color: Colors.darkBlueColor,
   },
-  progressRow: {
-    marginTop: hp(1.5),
+  detailsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  details: {
+    fontSize: hp('1.3'),
+    color: Colors.primaryColor,
+    marginRight: wp('1'),
+  },
+  arrowIcon: {
+    width: wp('3'),
+    height: wp('3'),
+    tintColor: Colors.primaryColor,
+    resizeMode: 'contain',
+  },
+  subtitle: {
+    fontSize: hp('1.5'),
+    color: Colors.textGray,
+    marginTop: hp('0.5'),
+  },
+  progressInfoRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginTop: hp('2'),
   },
-  progressBarBackground: {
-    marginTop: hp(1),
-    height: hp(1),
-    backgroundColor: Colors.lightGrey,
-    borderRadius: 10,
+  achieved: {
+    fontSize: hp('1.5'),
+    color: Colors.textGray,
+  },
+  left: {
+    fontSize: hp('1.5'),
+    color: Colors.textGray,
+  },
+  bold: {
+    fontWeight: '600',
+    color: Colors.darkBlueColor,
+  },
+  progressBackground: {
+    marginTop: hp('1'),
+    height: hp('0.8'),
+    backgroundColor: '#EDEDED',
+    borderRadius: hp('1'),
     overflow: 'hidden',
   },
-  progressBarFill: {
+  progressFill: {
     height: '100%',
-    borderRadius: 10,
+    backgroundColor: '#FFA500', // orange progress
   },
 });

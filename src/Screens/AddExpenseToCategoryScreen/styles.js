@@ -65,7 +65,7 @@ export const styles = StyleSheet.create({
     color: Colors.textGray,
   },
   categoryContainer: {
-    width: wp('43'),
+    width: wp('90'),
     paddingVertical: hp('1.2'),
     paddingHorizontal: wp('1.5'),
     flexDirection: 'row',
@@ -96,4 +96,47 @@ export const styles = StyleSheet.create({
   },
 
   addIncomeText: { textAlign: 'center', marginTop: hp('1') },
+
+  // modal styles
+  modalContainer: {
+    marginTop: hp('2'),
+  },
+  dateIcon: {
+    width: wp('3'),
+    height: hp('2'),
+  },
+  uploadedImageWrapper: {
+    width: wp('90'),
+    height: hp('15'),
+    borderRadius: 10,
+    marginBottom: hp('2'),
+  },
+  uploadedImage: {
+    width: wp('90'),
+    height: hp('15'),
+    borderRadius: 10,
+  },
+  uploadOptionsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: hp('2'),
+  },
+  uploadImageBtn: {
+    width: wp('42'),
+    height: hp('13'),
+  },
+  commentInput: {
+    flex: 1,
+    fontSize: hp('1.5'),
+  },
+  priceInput: {
+    fontSize: hp('2.5'),
+    color: 'black',
+  },
+  summaryRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
 });

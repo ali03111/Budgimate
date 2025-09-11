@@ -31,7 +31,9 @@ const AddIncomeBar = ({ navigation }) => {
       />
       <View style={{ alignItems: 'center', marginTop: hp('2'), gap: hp('2') }}>
         <ActiveAndInactiveCardComp
-          onPress={() => navigation.navigate('AddIncomeScreen')}
+          onPress={() =>
+            navigation.navigate('AddIncomeScreen', { basic: true })
+          }
           title="Add income"
           subtitle="Add income to expense more"
           image={incomeCircle}
@@ -44,6 +46,7 @@ const AddIncomeBar = ({ navigation }) => {
           image={noteCircle}
         />
         <ActiveAndInactiveCardComp
+          onPress={() => navigation.navigate('AllGoalScreen')}
           // onPress={() => setActiveCard(activeCard === 'addIncome' ? null : 'addIncome')}
           title="Add income to goals"
           subtitle="Contribute income to complete goals"

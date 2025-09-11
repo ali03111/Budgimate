@@ -35,6 +35,11 @@ export const registerUrl = '/signup';
 export const loginUrl = '/login';
 
 export const createGoalUrl = '/goals/store';
+export const createIncomeUrl = '/income/store';
+export const createExpenseUrl = '/expense/store';
+export const createExpenseCategoryUrl = '/module-categories/store';
+
+export const getCategoryUrl = 'module-categories/categories';
 
 export const VerifyUserUrl = '/verify';
 export const allAssociatesUrl = '/setup/associations';

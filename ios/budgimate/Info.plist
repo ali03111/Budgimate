@@ -95,5 +95,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>To add profile picture , you need to allow access to your photo gallery</string>
+	<key>NSCameraUsageDescription</key>
+	<string>needs access to your Camera.</string>
 </dict>
 </plist>

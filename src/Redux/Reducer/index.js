@@ -29,20 +29,17 @@ const rootReducer = combineReducers({
   isloading: loadingReducer,
 });
 
-const persistedReducer = persistReducer(
-  {
-    key: 'root',
-    storage: AsyncStorage,
-    blacklist: [],
-  },
-  rootReducer,
-);
+// const persistedReducer = persistReducer(
+//   {
+//     key: 'root',
+//     storage: AsyncStorage,
+//     blacklist: [],
+//   },
+//   rootReducer,
+// );
 
 const dummyReducer = (state = {}, action) => state;
 
 // export const store = createStore(dummyReducer, applyMiddleware(thunk.thunk));
-export const store = createStore(
-  persistedReducer,
-  applyMiddleware(thunk.thunk),
-);
+export const store = createStore(rootReducer, applyMiddleware(thunk.thunk));
 export const persistor = persistStore(store);

@@ -30,7 +30,7 @@ import {
 } from '../../Services/GlobalFunctions';
 import DatePicker from 'react-native-date-picker';
 
-const AddGoalScreen = () => {
+const AddGoalScreen = ({ navigation }) => {
   const {
     control,
     handleSubmit,
@@ -349,7 +349,8 @@ const AddGoalScreen = () => {
           isTheme
           style={styles.saveBtn}
           textStyle={{ fontSize: hp('1.5') }}
-          onPress={handleSubmit(createGoalFun)}
+          // onPress={handleSubmit(createGoalFun)}
+          onPress={() => navigation.goBack()}
         />
       </KeyBoardWrapper>
       {datePicker.alertVal && (

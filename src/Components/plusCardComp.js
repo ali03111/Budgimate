@@ -10,10 +10,11 @@ const PlusCardComp = ({
   remaining = 'Remaining : $120 of $230',
   onPress,
   img,
+  rightText,
 }) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.card}>
-      <Image source={img} resizeMode="contain" style={styles.icon} />
+      {img && <Image source={img} resizeMode="contain" style={styles.icon} />}
       <View style={styles.textContainer}>
         <TextComponent text={category} family={'600'} size={'1.5'} />
         <TextComponent
@@ -25,10 +26,13 @@ const PlusCardComp = ({
       </View>
       <TouchableOpacity style={styles.addButton}>
         <TextComponent
-          text={'+'}
+          text={rightText ?? '+'}
           family={'600'}
           size={'3'}
-          styles={styles.addText}
+          styles={{
+            ...styles.addText,
+            fontSize: rightText ? hp('1.2') : hp('3'),
+          }}
         />
       </TouchableOpacity>
     </TouchableOpacity>

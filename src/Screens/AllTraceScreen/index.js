@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image, TextInput } from 'react-native';
 import React, { memo, useCallback } from 'react';
 import ExpenseProgressCard from '../../Components/ExpenseProgressCard';
 import {
@@ -6,6 +6,7 @@ import {
   editWhiteIcon,
   plusBlue,
   plusCircle,
+  searchIcon,
   trashWhite,
 } from '../../Assets';
 import { styles } from './styles';
@@ -13,6 +14,9 @@ import { HeaderComponent } from '../../Components/HeaderComp';
 import ThemeButton from '../../Components/ThemeButton';
 import { TextComponent } from '../../Components/TextComponent';
 import { hp, wp } from '../../Hooks/useResponsive';
+import { Colors } from '../../Theme/Variables';
+import { SwipeListView } from 'react-native-swipe-list-view';
+import { Touchable } from '../../Components/Touchable';
 
 const AllTraceScreen = ({ navigation }) => {
   const actions = [
@@ -45,17 +49,68 @@ const AllTraceScreen = ({ navigation }) => {
     </View>
   );
 
-  const listArry = [];
+  const listArry = [1];
 
   return (
     <View style={styles.container}>
       <HeaderComponent
         headerTitle="Traces"
         isBack
-        rightIconImg={listArry.length > 0 ? calender : plusBlue}
+        rightIconImg={plusBlue}
+        onRightPress={() => navigation.navigate('CreateNewTraceScreen')}
       />
 
-      {listArry.length > 0 ? null : (
+      {listArry.length > 0 ? (
+        <>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginBottom: hp('1'),
+            }}
+          >
+            <View style={styles.searchContainer}>
+              <Image
+                source={searchIcon}
+                resizeMode="contain"
+                style={styles.searchIcon}
+                tintColor={Colors.black}
+              />
+              <TextInput
+                style={styles.searchInput}
+                placeholder="Search categories"
+                placeholderTextColor={Colors.grayFaded}
+              />
+            </View>
+            <Touchable>
+              <Image
+                source={calender}
+                resizeMode="contain"
+                style={{ width: wp('7'), height: hp('3') }}
+              />
+            </Touchable>
+          </View>
+
+          <SwipeListView
+            showsVerticalScrollIndicator={false}
+            style={styles.upComingFlatlistView}
+            useFlatList
+            data={listArry}
+            // data={[]}
+            // sections={bottomData}
+            renderItem={renderItem}
+            renderHiddenItem={renderHiddenItem}
+            leftOpenValue={75}
+            rightOpenValue={-75}
+            previewRowKey={'0'}
+            // previewOpenValue={-40}
+            previewOpenDelay={3000}
+            // previewOpenValue={-40}
+            closeOnRowPress
+            refreshing={false}
+          />
+        </>
+      ) : (
         <View style={styles.emptyContainer}>
           <TextComponent
             text={'Time to create your first trace!'}

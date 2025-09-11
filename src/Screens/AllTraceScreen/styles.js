@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { hp, wp } from '../../Hooks/useResponsive';
 import { Colors } from '../../Theme/Variables';
 
@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
   },
 
   searchContainer: {
-    width: wp('90'),
+    width: wp('87'),
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 10,
@@ -29,8 +29,8 @@ export const styles = StyleSheet.create({
     borderColor: Colors.dkBorderColor,
     paddingVertical: hp('1.5'),
     paddingHorizontal: wp('1'),
-    alignSelf: 'center',
-    marginBottom: hp('1'),
+    // alignSelf: 'center',
+    marginHorizontal: wp('2'),
   },
   searchIcon: {
     width: wp('5'),
@@ -61,7 +61,7 @@ export const styles = StyleSheet.create({
     marginTop: hp('0.5'),
   },
   backRightBtn: {
-    height: hp('9.2'),
+    height: Platform.OS == 'ios' ? hp(9) : hp('9.2'),
     borderRadius: 10,
     // textAlign: 'left',
     // alignItems: 'center',

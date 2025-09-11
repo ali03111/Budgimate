@@ -1,4 +1,4 @@
-import {types} from '../types';
+import { types } from '../types';
 
 const initial_state = {
   userData: {},
@@ -8,6 +8,7 @@ const initial_state = {
 
 const actionMap = {
   [types.UpdateAuth]: (state, act) => {
+    console.log('Update Auth:', act.payload?.token);
     return {
       userData: act.payload.user,
       token: act.payload.token,

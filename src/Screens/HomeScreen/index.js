@@ -11,10 +11,12 @@ import {
   addCircleWhite,
   arrowRight,
   arrRight,
+  arrRightPurple,
   basket,
   building,
   cardReceive,
   cardSend,
+  crossWhite,
   HomeBg,
   plusWhite,
   station,
@@ -30,6 +32,7 @@ import { Colors } from '../../Theme/Variables';
 import { MultiView } from '../../Components/MultiView';
 import DonutChartComp from '../../Components/DonutChartComp';
 import WeeklyFinanceChartComp from '../../Components/WeeklyFinanceChartComp';
+import ThemeButton from '../../Components/ThemeButton';
 
 const categoryItem = [
   {
@@ -54,26 +57,14 @@ const HomeScreen = ({ navigation }) => {
     <ImageBackground source={HomeBg} style={globalStyles.ImgBg}>
       <HomeHeaderComp />
 
-      <View style={styles.budgetRow}>
+      {/* <View style={styles.budgetRow}>
         <Image source={wallet} resizeMode="contain" style={styles.walletIcon} />
         <TextComponent
           text="Remaining budget"
           isWhite
           styles={styles.remainingBudgetText}
         />
-      </View>
-
-      <View style={styles.budgetContainer}>
-        <TextComponent text="$18675.80" isGreen styles={styles.budgetAmount} />
-        <Touchable style={styles.addNewButton}>
-          <Image
-            source={plusWhite}
-            resizeMode="contain"
-            style={styles.addIcon}
-          />
-          <TextComponent text="Add new" isWhite styles={styles.addNewText} />
-        </Touchable>
-      </View>
+      </View> */}
 
       <View style={styles.cardContainer}>
         <PriceCardComp
@@ -88,7 +79,76 @@ const HomeScreen = ({ navigation }) => {
           priceBgColor="rgba(255, 222, 222, 1)"
         />
       </View>
+      <View style={styles.budgetContainer}>
+        <TextComponent text="$18675.80" isGreen styles={styles.budgetAmount} />
+      </View>
+      <View style={styles.progressBackground}>
+        <View style={[styles.progressFill, { width: 20 }]} />
+      </View>
 
+      <View
+        style={{
+          width: wp('95'),
+          backgroundColor: Colors.secondryColor,
+          marginTop: hp('2'),
+          alignSelf: 'center',
+          borderRadius: 10,
+          paddingVertical: hp('2'),
+          paddingHorizontal: wp('2'),
+        }}
+      >
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          <TextComponent
+            text={'💰Surplus Success!'}
+            family={'600'}
+            size={'1.5'}
+          />
+          <Touchable>
+            <Image
+              source={crossWhite}
+              resizeMode="contain"
+              style={{ width: wp('4'), height: hp('1.5') }}
+              tintColor={'black'}
+            />
+          </Touchable>
+        </View>
+        <TextComponent
+          text={'You’ve got $235 left unspent — that’s money working for you.'}
+          size={'1.3'}
+          styles={{ marginTop: hp('1') }}
+        />
+        <TextComponent
+          text={
+            'Smart spending leads to smarter choices. Ready to save, invest, or treat yourself?'
+          }
+          size={'1.3'}
+          styles={{ marginTop: hp('1') }}
+        />
+        <ThemeButton
+          title={'Allocate funds'}
+          style={{
+            width: wp('30'),
+            height: hp('4'),
+            alignSelf: 'flex-end',
+            backgroundColor: 'white',
+          }}
+          textStyle={{ fontSize: hp('1.5'), color: 'black' }}
+          image={arrRightPurple}
+          isRight
+          imageStyle={{
+            width: wp('3'),
+            height: hp('1.5'),
+            tintColor: Colors.black,
+          }}
+          onPress={() => navigation.navigate('AllocateFundScreen')}
+        />
+      </View>
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
