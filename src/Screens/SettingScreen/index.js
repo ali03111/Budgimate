@@ -21,7 +21,7 @@ import { styles } from './styles';
 import { TextComponent } from '../../Components/TextComponent';
 import { HeaderComponent } from '../../Components/HeaderComp';
 
-const SettingScreen = () => {
+const SettingScreen = ({ navigation }) => {
   const Account = {
     title: 'Account',
     arryView: [
@@ -29,6 +29,9 @@ const SettingScreen = () => {
         title: `Personal Information`,
         leftIcon: profileSetting,
         subView: 'Manage your personal information',
+        onPress: () => {
+          navigation.navigate('EditPersonalInformationScreen');
+        },
       },
       {
         title: 'Subscription',
@@ -49,11 +52,17 @@ const SettingScreen = () => {
         title: `Password`,
         leftIcon: passwordBlue,
         subView: 'Manage your password',
+        onPress: () => {
+          navigation.navigate('ChangePasswordScreen');
+        },
       },
       {
         title: 'Two-Factor Authentication',
         leftIcon: twoFactor,
         subView: 'Manage your two-factor authentication',
+        onPress: () => {
+          navigation.navigate('TwoFactorAuthScreen');
+        },
       },
       {
         title: 'Face ID / Touch ID',
@@ -125,8 +134,8 @@ const SettingScreen = () => {
             viewStyle={{ width: wp('100') }}
             //   dividerStyles={{ marginLeft: wp('8') }}
             leftStyles={styles.leftIconStyle}
-            titleStyles={{ fontSize: hp('1.5') }}
-            itemViewStyle={{ marginVertical: hp('0.5') }}
+            titleStyles={{ fontSize: hp('1.4') }}
+            itemViewStyle={{ marginVertical: hp('1') }}
           />
         </View>
         <View style={styles.upperWhiteView}>
@@ -136,8 +145,8 @@ const SettingScreen = () => {
             viewStyle={{ width: wp('100') }}
             //   dividerStyles={{ marginLeft: wp('8') }}
             leftStyles={styles.leftIconStyle}
-            titleStyles={{ fontSize: hp('1.5') }}
-            itemViewStyle={{ marginVertical: hp('0.5') }}
+            titleStyles={{ fontSize: hp('1.4') }}
+            itemViewStyle={{ marginVertical: hp('1') }}
           />
         </View>
         <View style={styles.upperWhiteView}>
@@ -150,8 +159,8 @@ const SettingScreen = () => {
             viewStyle={{ width: wp('100') }}
             //   dividerStyles={{ marginLeft: wp('8') }}
             leftStyles={styles.leftIconStyle}
-            titleStyles={{ fontSize: hp('1.5') }}
-            itemViewStyle={{ marginVertical: hp('0.5') }}
+            titleStyles={{ fontSize: hp('1.4') }}
+            itemViewStyle={{ marginVertical: hp('1') }}
           />
         </View>
         <View style={styles.upperWhiteView}>
@@ -161,8 +170,8 @@ const SettingScreen = () => {
             viewStyle={{ width: wp('100') }}
             //   dividerStyles={{ marginLeft: wp('8') }}
             leftStyles={styles.leftIconStyle}
-            titleStyles={{ fontSize: hp('1.5') }}
-            itemViewStyle={{ marginVertical: hp('0.5') }}
+            titleStyles={{ fontSize: hp('1.4') }}
+            itemViewStyle={{ marginVertical: hp('1') }}
           />
         </View>
         <View style={styles.upperWhiteView}>
@@ -172,8 +181,8 @@ const SettingScreen = () => {
             viewStyle={{ width: wp('100') }}
             //   dividerStyles={{ marginLeft: wp('8') }}
             leftStyles={styles.leftIconStyle}
-            titleStyles={{ fontSize: hp('1.5') }}
-            itemViewStyle={{ marginVertical: hp('0.5') }}
+            titleStyles={{ fontSize: hp('1.4') }}
+            itemViewStyle={{ marginVertical: hp('1') }}
           />
         </View>
       </ScrollView>

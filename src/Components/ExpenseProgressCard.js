@@ -15,24 +15,24 @@ const ExpenseProgressCard = ({
 
   return (
     <View style={styles.container}>
-      <View style={styles.iconContainer}>
+      {/* <View style={styles.iconContainer}>
         <Image source={icon} style={styles.iconStyle} resizeMode="contain" />
-      </View>
+      </View> */}
 
       <View style={styles.detailsContainer}>
         <View style={styles.headerRow}>
-          <TextComponent text={title} styles={styles.titleText} size={'1.8'} />
+          <TextComponent text={title} styles={styles.titleText} size={'1.5'} />
           <View style={styles.amountRow}>
             <TextComponent
               text={`$${remaining}`}
               isThemeColor
               styles={styles.amountText}
-              size={'1.5'}
+              size={'1.2'}
             />
             <TextComponent
               text={'Remaining'}
               styles={styles.remainingLabel}
-              size={'1.5'}
+              size={'1.2'}
             />
           </View>
         </View>
@@ -40,7 +40,7 @@ const ExpenseProgressCard = ({
         <TextComponent
           text={`${percentageSpent}% of total expense spent`}
           styles={[styles.spentText, { color: spentColor }]}
-          size={'1.5'}
+          size={'1.2'}
         />
 
         <View style={styles.progressBackground}>
@@ -66,6 +66,8 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     paddingHorizontal: wp('2'),
     paddingVertical: hp('1'),
+    width: wp('97'),
+    alignSelf: 'center',
   },
   iconContainer: {
     width: wp('12'),

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Dimensions, View } from 'react-native';
 import { BarChart } from 'react-native-chart-kit';
+import { hp } from '../Hooks/useResponsive';
 
 const WeeklyFinanceChartComp = () => {
   const data = {
@@ -36,7 +37,7 @@ const WeeklyFinanceChartComp = () => {
             borderRadius: 16,
           },
           propsForLabels: {
-            fontSize: 10,
+            fontSize: hp('1.3'),
           },
         }}
         style={{

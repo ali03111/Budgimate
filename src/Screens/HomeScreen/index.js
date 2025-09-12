@@ -159,7 +159,12 @@ const HomeScreen = ({ navigation }) => {
             styles={styles.sectionTitle}
           />
           <View style={styles.seeMoreContainer}>
-            <TextComponent text="See more" size="1.3" isLightThemeColor />
+            <TextComponent
+              text="See more"
+              size="1.3"
+              isLightThemeColor
+              onPress={() => navigation.navigate('IncomeVsExpenseScreen')}
+            />
             <Image
               source={arrowRight}
               resizeMode="contain"
@@ -182,7 +187,12 @@ const HomeScreen = ({ navigation }) => {
         <View style={styles.sectionHeader}>
           <TextComponent text="Expenses chart" styles={styles.sectionTitle} />
           <View style={styles.detailsContainer}>
-            <TextComponent text="See details" size="1.3" isLightThemeColor />
+            <TextComponent
+              text="See details"
+              size="1.3"
+              isLightThemeColor
+              onPress={() => navigation.navigate('IncomeVsExpenseScreen')}
+            />
             <Image
               source={arrowRight}
               resizeMode="contain"
@@ -200,7 +210,12 @@ const HomeScreen = ({ navigation }) => {
             styles={styles.sectionTitle}
           />
           <View style={styles.detailsContainer}>
-            <TextComponent text="View details" size="1.3" isLightThemeColor />
+            <TextComponent
+              text="View details"
+              size="1.3"
+              isLightThemeColor
+              onPress={() => navigation.navigate('IncomeVsExpenseScreen')}
+            />
             <Image
               source={arrowRight}
               resizeMode="contain"

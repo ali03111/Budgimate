@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, Platform } from 'react-native';
 import React from 'react';
 import { hp, wp } from '../Hooks/useResponsive';
 import { CircleImage } from './CircleImage';
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: wp('1'),
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: hp('6'),
+    marginTop: Platform.OS == 'ios' ? hp('6') : hp('2'),
   },
   textContainer: {
     marginLeft: wp('2'),

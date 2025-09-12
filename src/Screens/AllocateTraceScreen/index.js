@@ -11,21 +11,21 @@ import { LoginBg } from '../../Assets';
 import { HeaderComponent } from '../../Components/HeaderComp';
 import ThemeButton from '../../Components/ThemeButton';
 import { TextComponent } from '../../Components/TextComponent';
-import { styles } from './styles';
-import GoalCardComp from '../../Components/GoalCardComp';
 import { keyExtractor } from '../../Utils';
-import { hp, wp } from '../../Hooks/useResponsive';
-import useAllocateToGoalsScreen from './useAllocateToGoalsScreen';
-import BtnModalComponent from '../../Components/BtnModalComp';
+import GoalCardComp from '../../Components/GoalCardComp';
+import { hp } from '../../Hooks/useResponsive';
+import { styles } from './styles';
+import ExpenseProgressCard from '../../Components/ExpenseProgressCard';
+import useAllocateTraceScreen from './useAllocateTraceScreen';
 import ModalViewComp from '../../Components/ModalViewComp';
 
-const AllocateToGoalsScreen = () => {
-  const { modalVisible, setModalVisible } = useAllocateToGoalsScreen();
+const AllocateTraceScreen = () => {
+  const { modalVisible, setModalVisible } = useAllocateTraceScreen();
 
   const renderItem = useCallback((item, index) => {
     return (
       <Pressable onPress={() => setModalVisible(true)}>
-        <GoalCardComp
+        <ExpenseProgressCard
           key={index}
           mainView={{ marginVertical: hp('1') }}
           isDisable
@@ -33,10 +33,9 @@ const AllocateToGoalsScreen = () => {
       </Pressable>
     );
   }, []);
-
   return (
     <ImageBackground source={LoginBg} style={{ flex: 1 }}>
-      <HeaderComponent headerTitle={'Allocate Leftover to Goal'} isBack />
+      <HeaderComponent headerTitle={'Allocate Leftover to Trace'} isBack />
       <ThemeButton
         title={'Total Leftover: $250'}
         isTransparent
@@ -121,4 +120,4 @@ const AllocateToGoalsScreen = () => {
   );
 };
 
-export default memo(AllocateToGoalsScreen);
+export default memo(AllocateTraceScreen);

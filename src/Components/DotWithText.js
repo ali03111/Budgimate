@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { hp } from '../Hooks/useResponsive';
 
 const LegendItem = ({ text, dotColor }) => {
   return (
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
     marginRight: 6,
   }),
   label: {
-    fontSize: 16,
+    fontSize: hp('1.8'),
     color: '#7D8A99', // grayish text color
     fontWeight: '500',
   },

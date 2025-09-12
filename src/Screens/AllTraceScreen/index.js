@@ -1,9 +1,17 @@
-import { View, Text, TouchableOpacity, Image, TextInput } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  TextInput,
+  ImageBackground,
+} from 'react-native';
 import React, { memo, useCallback } from 'react';
 import ExpenseProgressCard from '../../Components/ExpenseProgressCard';
 import {
   calender,
   editWhiteIcon,
+  LoginBg,
   plusBlue,
   plusCircle,
   searchIcon,
@@ -52,7 +60,7 @@ const AllTraceScreen = ({ navigation }) => {
   const listArry = [1];
 
   return (
-    <View style={styles.container}>
+    <ImageBackground source={LoginBg} style={styles.container}>
       <HeaderComponent
         headerTitle="Traces"
         isBack
@@ -173,7 +181,7 @@ const AllTraceScreen = ({ navigation }) => {
       ))} */}
 
       {/* <DateRangeModalComp /> */}
-    </View>
+    </ImageBackground>
   );
 };
 

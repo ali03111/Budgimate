@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import useFormHook from '../../Hooks/UseFormHooks';
 import Schemas from '../../Utils/Validation';
+import { useMutation, useMutationState } from '@tanstack/react-query';
+import { createExpenseCategoryUrl } from '../../Utils/Urls';
+import { errorMessage, successMessage } from '../../Config/NotificationMessage';
 
 const useAddExpenseToCategoryScreen = ({ navigate }, { params }) => {
   const [inputWidth, setInputWidth] = useState(20); // starting small
@@ -55,8 +58,30 @@ const useAddExpenseToCategoryScreen = ({ navigate }, { params }) => {
     ]);
   };
 
+  const { mutateAsync } = useMutation({
+    mutationFn: data => {
+      return API.post(createExpenseCategoryUrl, data);
+    },
+    onSuccess: ({ ok, data }) => {
+      if (ok) {
+        successMessage(data?.message);
+      } else {
+        errorMessage('Oops! Something went wrong. Please try again later.');
+      }
+    },
+    onError: () => {
+      errorMessage('Network request failed.');
+    },
+  });
+
   const onSubmit = data => {
     console.log('Form Data:', data);
+    //     mutateAsync({
+    //       module_type:"basic"
+    // expense_category_id:10
+    // limit_amount:2000
+    // module_id:2
+    //     })
     // Handle form submission logic here
   };
 

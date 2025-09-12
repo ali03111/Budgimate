@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 0.5,
     borderColor: Colors.dkBorderColor,
-    paddingVertical: hp('1.5'),
+    paddingVertical: Platform.OS == 'ios' ? hp('1.5') : 0,
     paddingHorizontal: wp('1'),
     // alignSelf: 'center',
     marginHorizontal: wp('2'),
@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     color: 'black',
-    fontSize: hp('1.8'),
+    fontSize: hp('1.5'),
   },
   upComingFlatlistView: {
     paddingBottom: hp('15'),
@@ -61,7 +61,7 @@ export const styles = StyleSheet.create({
     marginTop: hp('0.5'),
   },
   backRightBtn: {
-    height: Platform.OS == 'ios' ? hp(9) : hp('9.2'),
+    height: Platform.OS == 'ios' ? hp(8) : hp('8.2'),
     borderRadius: 10,
     // textAlign: 'left',
     // alignItems: 'center',
@@ -72,7 +72,7 @@ export const styles = StyleSheet.create({
     // height: Platform.OS == 'ios' ? hp('10') : hp('10'),
     borderTopLeftRadius: 15,
     borderBottomLeftRadius: 15,
-    paddingTop: hp('0.5'),
+    paddingTop: Platform.OS == 'ios' ? hp('0.2') : hp('0'),
     paddingLeft: wp('35'),
   },
   backRightBtnRight: {
@@ -82,7 +82,7 @@ export const styles = StyleSheet.create({
     borderTopRightRadius: 15,
     borderBottomRightRadius: 15,
     alignItems: 'flex-end',
-    paddingTop: hp('0.5'),
+    paddingTop: Platform.OS == 'ios' ? hp('0.2') : hp('0'),
     paddingRight: wp('35'),
   },
   trashIcon: {

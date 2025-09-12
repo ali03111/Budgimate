@@ -49,7 +49,7 @@ const AllocateSelectorScreen = ({ navigation }) => {
           image={targetCircle}
         />
         <ActiveAndInactiveCardComp
-          onPress={() => navigation.navigate('AllTraceScreen')}
+          onPress={() => navigation.navigate('AllocateTraceScreen')}
           title="Allocate to trace"
           subtitle="Trace your budget by adding income"
           image={noteCircle}

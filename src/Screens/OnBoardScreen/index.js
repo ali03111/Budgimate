@@ -64,12 +64,12 @@ const OnboardScreen = ({ navigation }) => {
         backgroundColor: 'white',
       }}
     >
-      <TextComponent
+      {/* <TextComponent
         text={'Skip'}
         fade
         styles={{ top: hp('5'), textAlign: 'right', marginRight: wp('5') }}
         onPress={getStart}
-      />
+      /> */}
       <FlatList
         refreshing={false}
         ref={flatListRef}

@@ -67,6 +67,10 @@ function MainNavigator() {
               component={Screens.AllocateToExpenseScreen}
             />
             <Stack.Screen
+              name="AllocateTraceScreen"
+              component={Screens.AllocateTraceScreen}
+            />
+            <Stack.Screen
               name="AllocateToGoalsScreen"
               component={Screens.AllocateToGoalsScreen}
             />
@@ -122,7 +126,15 @@ function MainNavigator() {
               name="AddCategoryScreen"
               component={Screens.AddCategoryScreen}
             />
+            <Stack.Screen
+              name="TwoFactorAuthScreen"
+              component={Screens.TwoFactorAuthScreen}
+            />
             <Stack.Screen name="HomeScreen" component={Screens.HomeScreen} />
+            <Stack.Screen
+              name="ChangePasswordScreen"
+              component={Screens.ChangePasswordScreen}
+            />
 
             <Stack.Screen
               name="EditPersonalInformationScreen"

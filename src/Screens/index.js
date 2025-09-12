@@ -27,3 +27,6 @@ export { default as AllocateSelectorScreen } from './AllocateSelectorScreen';
 export { default as AllocateToIncome } from './AllocateToIncome';
 export { default as AllocateToGoalsScreen } from './AllocateToGoalsScreen';
 export { default as AllocateToExpenseScreen } from './AllocateToExpenseScreen';
+export { default as AllocateTraceScreen } from './AllocateTraceScreen';
+export { default as ChangePasswordScreen } from './ChangePasswordScreen';
+export { default as TwoFactorAuthScreen } from './TwoFactorAuthScreen';

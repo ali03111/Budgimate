@@ -61,7 +61,7 @@ export const styles = StyleSheet.create({
     marginTop: hp('0.5'),
   },
   backRightBtn: {
-    height: Platform.OS == 'ios' ? hp(13) : hp('13.2'),
+    height: Platform.OS == 'ios' ? hp(10) : hp('11.2'),
     borderRadius: 10,
     // textAlign: 'left',
     // alignItems: 'center',

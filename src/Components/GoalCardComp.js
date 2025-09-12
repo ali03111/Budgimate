@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     width: wp('95'),
     backgroundColor: 'white',
     borderRadius: 12,
-    padding: wp('4'),
+    padding: wp('2'),
     alignSelf: 'center',
     shadowColor: '#000',
     shadowOpacity: 0.1,
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: hp('1.8'),
+    fontSize: hp('1.5'),
     fontWeight: '600',
     color: Colors.darkBlueColor,
   },
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   subtitle: {
-    fontSize: hp('1.5'),
+    fontSize: hp('1.2'),
     color: Colors.textGray,
     marginTop: hp('0.5'),
   },
@@ -106,11 +106,11 @@ const styles = StyleSheet.create({
     marginTop: hp('2'),
   },
   achieved: {
-    fontSize: hp('1.5'),
+    fontSize: hp('1.3'),
     color: Colors.textGray,
   },
   left: {
-    fontSize: hp('1.5'),
+    fontSize: hp('1.3'),
     color: Colors.textGray,
   },
   bold: {

@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { hp, wp } from '../../Hooks/useResponsive';
 import { Colors } from '../../Theme/Variables';
 
@@ -61,13 +61,13 @@ export const styles = StyleSheet.create({
     borderColor: Colors.darkBlueColor,
     alignSelf: 'center',
     marginTop: hp('1'),
-    paddingVertical: hp('1.2'),
+    paddingTop: Platform.OS == 'ios' ? hp('1.2') : 0,
     paddingHorizontal: wp('2.5'),
     overflow: 'scroll',
   },
   descriptionInput: {
     fontSize: hp('1.5'),
-    height: hp('8'),
+    // height: hp('8'),
   },
 
   // Category

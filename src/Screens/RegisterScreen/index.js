@@ -147,7 +147,7 @@ const RegisterScreen = ({ navigation }) => {
               inputIconStyle: { flex: 0.4 },
             }}
           />
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          {/* <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Image
               source={tickSquare}
               resizeMode="contain"
@@ -158,7 +158,7 @@ const RegisterScreen = ({ navigation }) => {
               fade
               styles={{ fontSize: hp('1.5'), marginLeft: wp('2') }}
             />
-          </View>
+          </View> */}
           <View style={{ paddingTop: hp('1') }}>
             <ThemeButton
               title={'Register'}
