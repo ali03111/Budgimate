@@ -37,12 +37,15 @@ const SettingScreen = ({ navigation }) => {
         title: 'Subscription',
         leftIcon: subscriptionSetting,
         subView: 'Manage your subscription',
+        onPress: () => {
+          navigation.navigate('SubscriptionScreen');
+        },
       },
-      {
-        title: 'Linked accounts',
-        leftIcon: linkAccount,
-        subView: 'Invite your partner and link their account',
-      },
+      // {
+      //   title: 'Linked accounts',
+      //   leftIcon: linkAccount,
+      //   subView: 'Invite your partner and link their account',
+      // },
     ],
   };
   const Security = {
@@ -68,6 +71,9 @@ const SettingScreen = ({ navigation }) => {
         title: 'Face ID / Touch ID',
         leftIcon: faceID,
         subView: 'Manage your face ID / touch ID',
+        onPress: () => {
+          navigation.navigate('BiometricAuthScreen');
+        },
       },
     ],
   };
@@ -78,6 +84,9 @@ const SettingScreen = ({ navigation }) => {
         title: `Notification Preferences`,
         leftIcon: notificationBlue,
         subView: 'Manage your notification preferences',
+        onPress: () => {
+          navigation.navigate('NotificationScreen');
+        },
       },
     ],
   };

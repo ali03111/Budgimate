@@ -19,12 +19,23 @@ import ExpenseProgressCard from '../../Components/ExpenseProgressCard';
 import useAllocateTraceScreen from './useAllocateTraceScreen';
 import ModalViewComp from '../../Components/ModalViewComp';
 
-const AllocateTraceScreen = () => {
-  const { modalVisible, setModalVisible } = useAllocateTraceScreen();
+const AllocateTraceScreen = ({ navigation, route }) => {
+  const { modalVisible, setModalVisible, isProTrace } = useAllocateTraceScreen(
+    navigation,
+    route,
+  );
 
   const renderItem = useCallback((item, index) => {
     return (
-      <Pressable onPress={() => setModalVisible(true)}>
+      <Pressable
+        onPress={() => {
+          if (isProTrace) {
+            navigation.navigate('AddExpenseToTraceScreen', {
+              module_type: 'trace',
+            });
+          } else setModalVisible(true);
+        }}
+      >
         <ExpenseProgressCard
           key={index}
           mainView={{ marginVertical: hp('1') }}

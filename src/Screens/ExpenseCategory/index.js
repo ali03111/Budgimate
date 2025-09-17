@@ -30,7 +30,7 @@ import { Touchable } from '../../Components/Touchable';
 import useExpenseCategory from './useExpenseCategory';
 
 const ExpenseCategory = ({ navigation }) => {
-  const { dateRangeModal, setDateRangeModal } = useExpenseCategory();
+  const { dateRangeModal, arryList, setDateRangeModal } = useExpenseCategory();
 
   const actions = [
     {
@@ -42,8 +42,23 @@ const ExpenseCategory = ({ navigation }) => {
   ];
 
   const renderItem = useCallback(
-    (item, index) => {
-      return <ExpenseProgressCard key={index} />;
+    ({ item, index }) => {
+      return (
+        <ExpenseProgressCard
+          key={index}
+          item={item}
+          onPres={() =>
+            navigation.navigate('AddExpenseToCategoryScreen', {
+              catVal: {
+                id: item?.expense_category_id,
+                name: item?.category_name,
+              },
+              price: item?.limit,
+              module_type: 'basic',
+            })
+          }
+        />
+      );
     },
     [8],
   );
@@ -70,7 +85,9 @@ const ExpenseCategory = ({ navigation }) => {
         headerTitle="Expenses categories"
         isBack
         rightIconImg={plusBlue}
-        onRightPress={() => navigation.navigate('AddCategoryScreen')}
+        onRightPress={() =>
+          navigation.navigate('AddCategoryScreen', { module_type: 'basic' })
+        }
       />
 
       {listArry.length > 0 ? (
@@ -108,7 +125,7 @@ const ExpenseCategory = ({ navigation }) => {
             showsVerticalScrollIndicator={false}
             style={styles.upComingFlatlistView}
             useFlatList
-            data={listArry}
+            data={arryList}
             // data={[]}
             // sections={bottomData}
             renderItem={renderItem}
@@ -140,7 +157,9 @@ const ExpenseCategory = ({ navigation }) => {
             isTheme
             style={{ width: wp('50') }}
             textStyle={{ fontSize: hp('1.5') }}
-            onPress={() => navigation.navigate('AddCategoryScreen')}
+            onPress={() =>
+              navigation.navigate('AddCategoryScreen', { module_type: 'basic' })
+            }
           />
         </View>
       )}

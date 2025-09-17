@@ -279,7 +279,7 @@ const AddGoalScreen = ({ navigation }) => {
             />
           }
         />
-        <Controller
+        {/* <Controller
           control={control}
           name="eventImg"
           render={({ field: { onChange, value } }) => (
@@ -343,7 +343,7 @@ const AddGoalScreen = ({ navigation }) => {
               }
             />
           )}
-        />
+        /> */}
         <ThemeButton
           title={'Set goal'}
           isTheme

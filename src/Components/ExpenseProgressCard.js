@@ -1,8 +1,10 @@
 import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet, Pressable } from 'react-native';
 import { TextComponent } from './TextComponent'; // adjust path as needed
 import { hp, wp } from '../Hooks/useResponsive';
 import { Colors } from '../Theme/Variables';
+import { calculatePercentage, formatPrice } from '../Services/GlobalFunctions';
+import { Touchable } from './Touchable';
 
 const ExpenseProgressCard = ({
   icon,
@@ -10,21 +12,28 @@ const ExpenseProgressCard = ({
   percentageSpent = '43',
   remaining = '800',
   spentColor = 'red',
+  item,
+  isDisable,
+  onPres,
 }) => {
   const progressWidth = `${percentageSpent}%`;
 
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress={onPres} disabled={isDisable}>
       {/* <View style={styles.iconContainer}>
         <Image source={icon} style={styles.iconStyle} resizeMode="contain" />
       </View> */}
 
       <View style={styles.detailsContainer}>
         <View style={styles.headerRow}>
-          <TextComponent text={title} styles={styles.titleText} size={'1.5'} />
+          <TextComponent
+            text={item?.category_name ?? title}
+            styles={styles.titleText}
+            size={'1.5'}
+          />
           <View style={styles.amountRow}>
             <TextComponent
-              text={`$${remaining}`}
+              text={`$${formatPrice(item?.spent) ?? remaining}`}
               isThemeColor
               styles={styles.amountText}
               size={'1.2'}
@@ -38,16 +47,23 @@ const ExpenseProgressCard = ({
         </View>
 
         <TextComponent
-          text={`${percentageSpent}% of total expense spent`}
+          text={`${
+            calculatePercentage(item?.spent, item?.limit) ?? percentageSpent
+          }% of total expense spent`}
           styles={[styles.spentText, { color: spentColor }]}
           size={'1.2'}
         />
 
         <View style={styles.progressBackground}>
-          <View style={[styles.progressFill, { width: progressWidth }]} />
+          <View
+            style={[
+              styles.progressFill,
+              { width: calculatePercentage(item?.spent, item?.limit) },
+            ]}
+          />
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 };
 

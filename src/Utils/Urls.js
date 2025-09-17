@@ -36,8 +36,14 @@ export const loginUrl = '/login';
 
 export const createGoalUrl = '/goals/store';
 export const createIncomeUrl = '/income/store';
-export const createExpenseUrl = '/expense/store';
+export const createExpenseinCategoryUrl = '/expense/store';
+export const updateExpenseinCategoryUrl = '/expense/update/';
+export const deleteExpenseinCategoryUrl = '/expense/delete/';
+
 export const createExpenseCategoryUrl = '/module-categories/store';
+
+export const getExpenseCategoryUrl = '/basic/categories/';
+export const getExpenseByCategoryUrl = '/basic/categories/'; // this api ha more url /{id}/expenses
 
 export const getCategoryUrl = 'module-categories/categories';
 

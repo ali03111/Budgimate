@@ -149,12 +149,20 @@ function MainNavigator() {
               component={Screens.ExpenseCategory}
             />
             <Stack.Screen
+              name="NotificationScreen"
+              component={Screens.NotificationScreen}
+            />
+            <Stack.Screen
               name="SettingScreen"
               component={Screens.SettingScreen}
             />
             {/* <Stack.Screen name="LoginScreen" component={Screens.LoginScreen} /> */}
 
             <Stack.Screen name="AddOnScreen" component={Screens.AddOnScreen} />
+            <Stack.Screen
+              name="BiometricAuthScreen"
+              component={Screens.BiometricAuthScreen}
+            />
             <Stack.Screen
               name="ReviewSubscriptionScreen"
               component={Screens.ReviewSubscriptionScreen}

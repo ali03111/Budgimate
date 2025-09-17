@@ -127,6 +127,10 @@ const addGoalSchema = yup.object().shape({
     .required('Please select target complete period.'),
   gaolImg: yup.mixed().required('Goal image is required'),
 });
+const createCategorySchema = yup.object().shape({
+  amountLimit: yup.string().required('Please enter limit price.'),
+  catType: yup.object().required('Please select category.'),
+});
 
 const editProfileScheme = yup.object().shape({
   name: yup
@@ -293,6 +297,7 @@ const Schemas = {
   signUp: yupResolver(signUpschema),
   logIn: yupResolver(logInUpschema),
   addIncome: yupResolver(addIncomeSchema),
+  createCategory: yupResolver(createCategorySchema),
   addGoal: yupResolver(addGoalSchema),
   forgot: yupResolver(forgotSchema),
   newPassword: yupResolver(resetPasswordScheme),

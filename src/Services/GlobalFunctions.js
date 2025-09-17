@@ -584,7 +584,7 @@ const uploadFromCamera = async isMulti => {
 
   if (Array.isArray(imageData)) {
     return imageData.map(res => ({
-      uri: Platform.OS === 'ios' ? res?.path : res?.sourceURL,
+      uri: Platform.OS === 'ios' ? res?.path : `file://${res?.path}`,
       name: res?.filename || 'photo.jpg',
       type: res?.mime,
       orientation: checkOrientation(res),
@@ -606,7 +606,7 @@ const uploadFromCamera = async isMulti => {
     const orientation = checkOrientation(imageData);
 
     return {
-      uri,
+      uri: Platform.OS === 'ios' ? path : `file://${path}`,
       name: fileName,
       type: mime,
       orientation,
@@ -985,31 +985,26 @@ const checkImageOrientation = imageUrl => {
 // Example usage:
 
 function formatDateToYMD(dateStr) {
-  // input "Mon Jul 14 2025";
-
   const date = new Date(dateStr);
 
-  if (isNaN(date)) return null; // invalid date
+  if (isNaN(date.getTime())) return null; // invalid date
 
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
-  const day = String(date.getDate()).padStart(2, '0');
+  const year = date.getUTCFullYear();
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are 0-based
+  const day = String(date.getUTCDate()).padStart(2, '0');
 
   return `${year}-${month}-${day}`;
-
-  // output: "2025-07-14"
 }
+// function formatDateToLong(dateStr) {
+//   // input "Mon Jul 14 2025";
+//   const date = new Date(dateStr);
 
-function formatDateToLong(dateStr) {
-  // input "Mon Jul 14 2025";
-  const date = new Date(dateStr);
+//   if (isNaN(date)) return null; // Invalid date
 
-  if (isNaN(date)) return null; // Invalid date
-
-  const options = { year: 'numeric', month: 'long', day: 'numeric' };
-  return date.toLocaleDateString('en-US', options); // "July 14, 2025"
-  // output: "July 14, 2025"
-}
+//   const options = { year: 'numeric', month: 'long', day: 'numeric' };
+//   return date.toLocaleDateString('en-US', options); // "July 14, 2025"
+//   // output: "July 14, 2025"
+// }
 
 function getFormattedTime(dateStr) {
   const date = new Date(dateStr);
@@ -1046,6 +1041,39 @@ function getCustom12HourTime(dateStr) {
 // }
 
 const currentDate = new Date();
+
+/**
+ * Calculates the percentage of spent amount relative to the limit.
+ * Returns an integer percentage (decimal part removed).
+ * @param {number|string} spent - The amount spent.
+ * @param {number|string} limit - The total limit.
+ * @returns {number} The percentage as an integer, or 0 if inputs are invalid.
+ */
+const calculatePercentage = (spent, limit) => {
+  // Convert inputs to numbers
+  const spentNum = Number(spent);
+  const limitNum = Number(limit);
+
+  // Handle edge cases
+  if (isNaN(spentNum) || isNaN(limitNum) || limitNum === 0) {
+    return 0;
+  }
+
+  // Calculate percentage and remove decimal part
+  const percentage = (spentNum / limitNum) * 100;
+  return Math.trunc(percentage);
+};
+
+function formatDateToLong(dateStr) {
+  // input "Mon Jul 14 2025";
+  const date = new Date(dateStr);
+
+  if (isNaN(date)) return null; // Invalid date
+
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  return date.toLocaleDateString('en-US', options); // "July 14, 2025"
+  // output: "July 14, 2025"
+}
 
 export {
   getSingleCharacter,
@@ -1101,4 +1129,5 @@ export {
   getFormattedTime,
   getCustom12HourTime,
   currentDate,
+  calculatePercentage,
 };

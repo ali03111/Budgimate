@@ -6,25 +6,30 @@ import { TextComponent } from './TextComponent';
 import { Colors } from '../Theme/Variables';
 
 const PlusCardComp = ({
-  category = 'Food and grocery',
-  remaining = 'Remaining : $120 of $230',
+  category,
+  remaining,
   onPress,
   img,
   rightText,
+  onPlusPress,
 }) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.card}>
       {img && <Image source={img} resizeMode="contain" style={styles.icon} />}
       <View style={styles.textContainer}>
-        <TextComponent text={category} family={'600'} size={'1.5'} />
         <TextComponent
-          text={remaining}
+          text={category ?? 'Food and grocery'}
+          family={'600'}
+          size={'1.5'}
+        />
+        <TextComponent
+          text={remaining ?? 'Remaining : $120 of $230'}
           family={'400'}
           size={'1.5'}
           styles={styles.remainingText}
         />
       </View>
-      <TouchableOpacity style={styles.addButton}>
+      <TouchableOpacity style={styles.addButton} onPress={onPlusPress}>
         <TextComponent
           text={rightText ?? '+'}
           family={'600'}

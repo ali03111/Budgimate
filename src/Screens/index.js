@@ -30,3 +30,5 @@ export { default as AllocateToExpenseScreen } from './AllocateToExpenseScreen';
 export { default as AllocateTraceScreen } from './AllocateTraceScreen';
 export { default as ChangePasswordScreen } from './ChangePasswordScreen';
 export { default as TwoFactorAuthScreen } from './TwoFactorAuthScreen';
+export { default as BiometricAuthScreen } from './BiometricAuthScreen';
+export { default as NotificationScreen } from './NotificationScreen';

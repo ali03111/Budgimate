@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import useFormHook from '../../Hooks/UseFormHooks';
 import Schemas from '../../Utils/Validation';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import API from '../../Utils/helperFunc';
-import { getCategoryUrl } from '../../Utils/Urls';
+import { createExpenseCategoryUrl, getCategoryUrl } from '../../Utils/Urls';
+import { errorMessage, successMessage } from '../../Config/NotificationMessage';
 
-const useAddCategoryScreen = () => {
+const useAddCategoryScreen = ({ navigate, replace }, { params }) => {
   const [inputWidth, setInputWidth] = useState(20); // starting small
 
   const {
@@ -24,7 +25,7 @@ const useAddCategoryScreen = () => {
     unregister,
     watch,
     errors,
-  } = useFormHook(Schemas.logIn);
+  } = useFormHook(Schemas.createCategory);
 
   const [modalState, setModalState] = useState(false);
 
@@ -42,11 +43,47 @@ const useAddCategoryScreen = () => {
 
   const { data, refetch } = useQuery({
     queryKey: ['categoryData'],
-    queryFn: () => API.get(getCategoryUrl),
+    queryFn: () =>
+      API.get(getCategoryUrl + `?module_type=${params?.module_type}`),
+  });
+
+  const { mutate, mutateAsync } = useMutation({
+    mutationFn: data => {
+      return API.post(createExpenseCategoryUrl, data);
+    },
+    onSuccess: ({ ok, data }) => {
+      if (ok) {
+        replace('AddExpenseToCategoryScreen', {
+          catVal: selectedCat,
+          price: priceInput,
+          module_type: params?.module_type,
+        });
+      } else {
+        errorMessage(data?.message);
+      }
+    },
+    onError: () => {
+      errorMessage('Network request failed.');
+    },
   });
 
   const onSubmit = data => {
     console.log('Form Data:', data);
+    if (!selectedCat?.id) {
+      errorMessage('Please select category.');
+      return;
+    } else if (!priceInput || priceInput == '' || priceInput == null) {
+      errorMessage('Please enter limit price.');
+      return;
+    } else {
+      const body = {
+        module_type: params?.module_type,
+        expense_category_id: selectedCat?.id,
+        limit_amount: priceInput,
+        // module_id:2
+      };
+      mutate(body);
+    }
     // Handle form submission logic here
   };
   console.log('slkdnvklsdnvklsndlkvnklsdnvknsdkv', data?.data);

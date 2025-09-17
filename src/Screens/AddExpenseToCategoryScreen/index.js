@@ -7,6 +7,7 @@ import {
   ScrollView,
   TextInput,
   FlatList,
+  Platform,
 } from 'react-native';
 import React, { memo, useCallback, useState } from 'react';
 import {
@@ -17,6 +18,7 @@ import {
   LoginBg,
   plusCircle,
   takePhoto,
+  trashWhite,
   upload,
   uploadPhoto,
 } from '../../Assets';
@@ -33,14 +35,21 @@ import ExpenseProgressCard from '../../Components/ExpenseProgressCard';
 import PlusCardComp from '../../Components/plusCardComp';
 import DatePicker from 'react-native-date-picker';
 import {
+  calculatePercentage,
   convertToLocalTime,
-  currentDate,
   formatDateToCustomFormat,
+  formatDateToLong,
   uploadFromCamera,
   uploadFromGalary,
 } from '../../Services/GlobalFunctions';
+import { keyExtractor } from '../../Utils';
+import { set } from 'react-hook-form';
+import { SwipeListView } from 'react-native-swipe-list-view';
+import { imageUrl } from '../../Utils/Urls';
 
 const AddExpenseToCategoryScreen = ({ navigation, route }) => {
+  const currentDate = new Date();
+
   const {
     inputWidth,
     setInputWidth,
@@ -54,6 +63,19 @@ const AddExpenseToCategoryScreen = ({ navigation, route }) => {
     datePickerState,
     setDatePickerState,
     setInputPrice,
+    catDataFromAPi,
+    expensesArryFromApi,
+    onChangeVal,
+    comment,
+    inputPrice,
+    selectedDate,
+    selectedImg,
+    onSubmit,
+    setFormState,
+    isEdit,
+    onDeleteExpense,
+    dummy,
+    setDummy,
   } = useAddExpenseToCategoryScreen(navigation, route);
 
   // const ModalViewData = () => {
@@ -109,138 +131,41 @@ const AddExpenseToCategoryScreen = ({ navigation, route }) => {
   //   );
   // };
 
-  const ModalViewData = () => {
-    const [formState, setFormState] = useState({
-      selectedDate: null,
-      selectedImg: null,
-      comment: null,
-      inputPrice: null,
-    });
+  const handlePriceChange = useCallback(
+    text => {
+      onChangeVal('inputPrice', text);
+      setInputWidth(Math.max(20, text.length * 14));
+    },
+    [onChangeVal, setInputWidth],
+  );
 
-    const { comment, inputPrice, selectedDate, selectedImg } = formState;
-
-    const updateState = data =>
-      setFormState(prev => ({ ...formState, ...data }));
-
-    const onChangeVal = (key, val) => updateState({ [key]: val });
-
-    return (
-      <View style={styles.modalContainer}>
-        <View>
-          <TextComponent
-            text={'Select date'}
-            family={'400'}
-            isThemeColor
-            size={'1.5'}
-          />
-          <View style={styles.categoryContainer}>
-            <TextComponent
-              text={formatDateToCustomFormat(selectedDate) ?? '25/Jun/2025'}
-              size={'1.5'}
-              onPress={() => {
-                setDatePickerState(true);
-              }}
-            />
-            <Image
-              source={calendar}
-              resizeMode="contain"
-              style={styles.dateIcon}
-              tintColor={Colors.dkBorderColor}
-            />
-          </View>
-        </View>
-
-        {selectedImg?.uri ? (
-          <View style={styles.uploadedImageWrapper}>
-            <Image
-              source={{ uri: selectedImg?.uri }}
-              style={styles.uploadedImage}
-            />
-          </View>
-        ) : (
-          <View style={styles.uploadOptionsRow}>
-            <Touchable
-              onPress={async () => {
-                const image = await uploadFromGalary();
-                onChangeVal('selectedImg', image);
-              }}
-            >
-              <Image
-                source={uploadPhoto}
-                resizeMode="contain"
-                style={styles.uploadImageBtn}
-              />
-            </Touchable>
-            <Touchable
-              onPress={async () => {
-                const image = await uploadFromCamera();
-                onChangeVal('selectedImg', image);
-              }}
-            >
-              <Image
-                source={takePhoto}
-                resizeMode="contain"
-                style={styles.uploadImageBtn}
-              />
-            </Touchable>
-          </View>
-        )}
-
-        <TextComponent
-          text={'Add comments'}
-          family={'400'}
-          isThemeColor
-          size={'1.5'}
-        />
-        <View style={styles.categoryContainer}>
-          <TextInput
-            style={styles.commentInput}
-            placeholder="Type comment"
-            placeholderTextColor={'gray'}
-            value={comment}
-            onChangeText={e => onChangeVal('comment', e)}
-          />
-        </View>
-
-        <View style={styles.priceMainView}>
-          <View style={styles.priceInnerView}>
-            <TextComponent text={'$'} size={'2.5'} />
-            <TextInput
-              placeholder="0"
-              onChangeText={text => {
-                onChangeVal('InputPrice', text);
-                setInputWidth(Math.max(20, text.length * 14)); // dynamic width
-              }}
-              style={[styles.priceInput, { width: inputWidth }]}
-              value={inputPrice}
-              placeholderTextColor={'gray'}
-              keyboardType="numeric"
-            />
-          </View>
-          <TextComponent
-            text={'Set amount limit for your category'}
-            fade
-            size={'1.5'}
-            styles={styles.addIncomeText}
-          />
-        </View>
-
-        <View style={styles.summaryRow}>
-          <TextComponent text={'Spent so far: $1,070'} size={'1.5'} />
-          <TextComponent text={'Remaining: $1,430'} size={'1.5'} />
-        </View>
-      </View>
-    );
-  };
-
-  const renderData = useCallback(() => {
-    return (
-      <PlusCardComp
-        remaining={`Remaining : $${120} of $${price ?? '200'}`}
-        categoryName={'sdvsd'}
-      />
-    );
+  const handleCommentChange = useCallback(text => {
+    onChangeVal('comment', text);
   }, []);
+
+  const renderData = useCallback(
+    ({ item, index }) => {
+      return (
+        <PlusCardComp
+          remaining={`Spend : $${parseInt(item?.amount)}`}
+          category={item?.name}
+          onPlusPress={() => {
+            console.log('get item', item);
+            setFormState({
+              selectedDate: item?.date ? new Date(item?.date) : null,
+              selectedImg: { uri: item?.receipt },
+              comment: item?.name,
+              inputPrice: parseInt(item?.amount).toString(),
+              isEdit: true,
+              expenseID: item?.id,
+            });
+            setModalState(true);
+          }}
+        />
+      );
+    },
+    [expensesArryFromApi],
+  );
 
   return (
     <ImageBackground style={{ flex: 1 }} source={LoginBg}>
@@ -248,13 +173,13 @@ const AddExpenseToCategoryScreen = ({ navigation, route }) => {
       <View style={{ flexGrow: 1, paddingHorizontal: wp('2') }}>
         <View style={styles.header}>
           <TextComponent text={catName} family={'600'} size={'2.5'} />
-          <TouchableOpacity style={styles.editButton}>
+          {/* <TouchableOpacity style={styles.editButton}>
             <Image
               source={editIcon}
               style={styles.editIcon}
               resizeMode="contain"
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <TextComponent
           text={'Have to look on expenses in dubai.'}
@@ -263,7 +188,11 @@ const AddExpenseToCategoryScreen = ({ navigation, route }) => {
           styles={styles.description}
         />
         <View style={styles.progressContainer}>
-          <View style={styles.progressBar} />
+          <View
+            style={styles.progressBar(
+              calculatePercentage(catDataFromAPi?.spent, price),
+            )}
+          />
         </View>
         <View style={styles.limitContainer}>
           <TextComponent
@@ -271,13 +200,23 @@ const AddExpenseToCategoryScreen = ({ navigation, route }) => {
             family={'400'}
             size={'1.5'}
           />
-          <TextComponent text={`Spent: ${'0'}`} family={'400'} size={'1.5'} />
+          <TextComponent
+            text={`Spent: ${catDataFromAPi?.spent ?? 0}$`}
+            family={'400'}
+            size={'1.5'}
+          />
         </View>
         <View style={styles.expensesSection}>
           <TextComponent text="Expenses" family={'600'} size={'2'} />
           <Touchable
             style={styles.addButton}
             onPress={() => {
+              setFormState({
+                selectedDate: null,
+                selectedImg: null,
+                comment: null,
+                inputPrice: null,
+              });
               setModalState(true);
             }}
           >
@@ -297,8 +236,8 @@ const AddExpenseToCategoryScreen = ({ navigation, route }) => {
           styles={styles.expenseDescription}
         />
         <FlatList
-          data={expensesArry}
-          keyExtractor={KeyBoardWrapper}
+          data={expensesArryFromApi}
+          keyExtractor={keyExtractor}
           renderItem={renderData}
           contentContainerStyle={{ alignSelf: 'center' }}
           //   contentContainerStyle={{ flex: 1 }}
@@ -308,12 +247,129 @@ const AddExpenseToCategoryScreen = ({ navigation, route }) => {
         <ModalViewComp
           isModal={modalSate}
           heading={'Add Expense'}
-          subtitle={
-            'You’ve left $2500 from the total budget of $2500 from the “Grocery”.'
+          subtitle={`You’ve left $${catDataFromAPi?.spent} from the total budget of $${price} from the ${catName}.`}
+          childrenComp={
+            <View style={styles.modalContainer}>
+              <View>
+                <TextComponent
+                  text={'Select date'}
+                  family={'400'}
+                  isThemeColor
+                  size={'1.5'}
+                />
+                <View style={styles.categoryContainer}>
+                  <TextComponent
+                    text={formatDateToLong(selectedDate ?? currentDate)}
+                    size={'1.5'}
+                    onPress={() => {
+                      setDatePickerState(selectedDate ?? currentDate);
+                    }}
+                  />
+                  <Image
+                    source={calendar}
+                    resizeMode="contain"
+                    style={styles.dateIcon}
+                    tintColor={Colors.dkBorderColor}
+                  />
+                </View>
+              </View>
+
+              {selectedImg?.uri ? (
+                <Touchable
+                  style={styles.uploadedImageWrapper}
+                  onPress={async () => {
+                    const image = await uploadFromGalary();
+                    onChangeVal('selectedImg', image);
+                  }}
+                >
+                  <Image
+                    source={{
+                      uri: selectedImg?.name
+                        ? selectedImg?.uri
+                        : imageUrl(selectedImg?.uri),
+                    }}
+                    style={styles.uploadedImage}
+                  />
+                </Touchable>
+              ) : (
+                <View style={styles.uploadOptionsRow}>
+                  <Touchable
+                    onPress={async () => {
+                      const image = await uploadFromGalary();
+                      onChangeVal('selectedImg', image);
+                    }}
+                  >
+                    <Image
+                      source={uploadPhoto}
+                      resizeMode="contain"
+                      style={styles.uploadImageBtn}
+                    />
+                  </Touchable>
+                  <Touchable
+                    onPress={async () => {
+                      const image = await uploadFromCamera();
+                      onChangeVal('selectedImg', image);
+                    }}
+                  >
+                    <Image
+                      source={takePhoto}
+                      resizeMode="contain"
+                      style={styles.uploadImageBtn}
+                    />
+                  </Touchable>
+                </View>
+              )}
+
+              <TextComponent
+                text={'Add comments'}
+                family={'400'}
+                isThemeColor
+                size={'1.5'}
+              />
+              <View
+                style={{
+                  ...styles.categoryContainer,
+                  paddingVertical: Platform.OS == 'ios' ? hp('1.2') : 0,
+                }}
+              >
+                <TextInput
+                  style={styles.commentInput}
+                  placeholder="Type comment"
+                  placeholderTextColor={'gray'}
+                  value={comment}
+                  onChangeText={handleCommentChange}
+                />
+              </View>
+              <TextComponent
+                text={'Price'}
+                family={'400'}
+                isThemeColor
+                size={'1.5'}
+              />
+              <View style={styles.priceMainView}>
+                <View style={styles.priceInnerView}>
+                  <TextComponent text={'$'} size={'1.5'} />
+                  <TextInput
+                    placeholder="0"
+                    onChangeText={handlePriceChange}
+                    style={[styles.priceInput, { width: wp('70') }]}
+                    value={inputPrice}
+                    placeholderTextColor={'gray'}
+                    keyboardType="numeric"
+                  />
+                </View>
+              </View>
+            </View>
           }
-          childrenComp={<ModalViewData />}
           onBackPress={() => setModalState(false)}
-          onPress={() => setModalState(false)}
+          onPress={() => {
+            onSubmit();
+          }}
+          onNewBtnPress={id => {
+            onDeleteExpense();
+          }}
+          isNewBtn={isEdit}
+          btnTitle={isEdit ? 'Update Expense' : 'Save Expense'}
           // onBackPress={}
         />
       )}
@@ -321,11 +377,11 @@ const AddExpenseToCategoryScreen = ({ navigation, route }) => {
       <DatePicker
         // mode={'datetime'}
         mode={'date'}
-        open={datePickerState}
-        date={currentDate}
+        open={Boolean(datePickerState)}
+        date={selectedDate ?? currentDate}
         is24hourSource="locale"
         locale="en"
-        onCancel={() => setDatePickerState(false)}
+        onCancel={() => setDatePickerState(null)}
         modal
         onConfirm={e => {
           console.log(
@@ -347,7 +403,7 @@ const AddExpenseToCategoryScreen = ({ navigation, route }) => {
           // onChange(new Date(e.getTime() + 24 * 60 * 60 * 1000));
           // datePicker.onChange(e);
           // onSelectValue(datePicker.stateName, e);
-          setDatePickerState(false);
+          setDatePickerState(null);
           // }
         }}
       />

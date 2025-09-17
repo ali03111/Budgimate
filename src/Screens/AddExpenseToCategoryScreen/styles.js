@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { hp, wp } from '../../Hooks/useResponsive';
 import { Colors } from '../../Theme/Variables';
 
@@ -39,12 +39,12 @@ export const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: hp('1'),
   },
-  progressBar: {
+  progressBar: progressRatio => ({
     height: '100%',
-    width: '0%', // Adjust dynamically based on spent/limit ratio if data is available
+    width: progressRatio ? `${progressRatio}%` : '0%', // Adjust dynamically based on spent/limit ratio if data is available
     backgroundColor: Colors.primaryColor,
     borderRadius: 5,
-  },
+  }),
   limitContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -66,7 +66,7 @@ export const styles = StyleSheet.create({
   },
   categoryContainer: {
     width: wp('90'),
-    paddingVertical: hp('1.2'),
+    paddingVertical: Platform.OS == 'ios' ? hp('1.2') : hp('1.2'),
     paddingHorizontal: wp('1.5'),
     flexDirection: 'row',
     alignSelf: 'center',
@@ -82,7 +82,7 @@ export const styles = StyleSheet.create({
     width: wp('90'),
     alignSelf: 'center',
     backgroundColor: 'white',
-    paddingVertical: hp('3'),
+    paddingVertical: Platform.OS == 'ios' ? hp('1') : 0,
     borderRadius: 10,
     marginVertical: hp('2'),
     gap: hp('1'),
@@ -91,11 +91,12 @@ export const styles = StyleSheet.create({
   },
   priceInnerView: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     alignItems: 'center',
+    marginLeft: wp('2'),
   },
 
-  addIncomeText: { textAlign: 'center', marginTop: hp('1') },
+  addIncomeText: { marginLeft: wp('2'), marginTop: hp('1') },
 
   // modal styles
   modalContainer: {
@@ -131,7 +132,7 @@ export const styles = StyleSheet.create({
     fontSize: hp('1.5'),
   },
   priceInput: {
-    fontSize: hp('2.5'),
+    fontSize: hp('1.5'),
     color: 'black',
   },
   summaryRow: {

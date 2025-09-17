@@ -55,6 +55,14 @@ const AllocateSelectorScreen = ({ navigation }) => {
           image={noteCircle}
         />
         <ActiveAndInactiveCardComp
+          onPress={() =>
+            navigation.navigate('AllocateTraceScreen', { isPro: true })
+          }
+          title="Allocate to pro trace"
+          subtitle="Trace your budget by adding income"
+          image={noteCircle}
+        />
+        <ActiveAndInactiveCardComp
           onPress={() => navigation.navigate('AllocateToExpenseScreen')}
           title="Rollover to current cycle categories"
           subtitle="Add your expenses to manage"

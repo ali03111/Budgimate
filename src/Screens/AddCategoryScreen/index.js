@@ -21,7 +21,7 @@ import ListViewScreen from '../../Components/ListViewComp';
 import BtnModalComponent from '../../Components/BtnModalComp';
 import { Touchable } from '../../Components/Touchable';
 
-const AddCategoryScreen = ({ navigation }) => {
+const AddCategoryScreen = ({ navigation, route }) => {
   const {
     control,
     handleSubmit,
@@ -37,7 +37,7 @@ const AddCategoryScreen = ({ navigation }) => {
     isOverSpend,
     selectedCat,
     priceInput,
-  } = useAddCategoryScreen();
+  } = useAddCategoryScreen(navigation, route);
 
   const bottomView = [
     {
@@ -105,6 +105,11 @@ const AddCategoryScreen = ({ navigation }) => {
             tintColor={Colors.dkBorderColor}
           />
         </Touchable>
+        {/* <Controller
+                control={control}
+                name={`privateEvent`}
+                render={({field: {onChange, value}}) => {
+                  return ()}} /> */}
         <View style={styles.priceMainView}>
           <View style={styles.priceInnerView}>
             <TextComponent text={'$'} size={'2.5'} />
@@ -149,12 +154,7 @@ const AddCategoryScreen = ({ navigation }) => {
         <ThemeButton
           title={'Continue'}
           isTheme
-          onPress={() =>
-            navigation.navigate('AddExpenseToCategoryScreen', {
-              catVal: selectedCat,
-              price: priceInput,
-            })
-          }
+          onPress={onSubmit}
           style={{ marginTop: hp('-5') }}
         />
       </ScrollView>

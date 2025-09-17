@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
-import React from 'react';
+import React, { memo } from 'react';
 import { Touchable } from './Touchable';
 import { boldDivider, crossWhite } from '../Assets';
 import { TextComponent } from './TextComponent';
@@ -8,94 +8,135 @@ import { hp, wp } from '../Hooks/useResponsive';
 import Modal from 'react-native-modal';
 import ThemeButton from './ThemeButton';
 
-const ModalViewComp = ({
-  heading,
-  subtitle,
-  isModal,
-  onPress,
-  onBackPress,
-  firstHit,
-  childrenComp,
-  btnTitle,
-}) => {
-  return (
-    <View style={styles.modalView}>
-      <Modal
-        isVisible={isModal}
-        animationInTiming={100}
-        animationOutTiming={100}
-        avoidKeyboard
-        animationType="fade"
-        // hideModalContentWhileAnimating
-        // useNativeDriver
-        onBackButtonPress={onBackPress}
-        style={styles.bottomModal}
-      >
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'flex-end',
-          }}
+const ModalViewComp = memo(
+  ({
+    heading,
+    subtitle,
+    isModal,
+    onPress,
+    onBackPress,
+    firstHit,
+    childrenComp,
+    btnTitle,
+    isNewBtn,
+    newBtnTitle,
+    onNewBtnPress,
+  }) => {
+    return (
+      <View style={styles.modalView}>
+        <Modal
+          isVisible={isModal}
+          animationInTiming={100}
+          animationOutTiming={100}
+          avoidKeyboard
+          animationType="fade"
+          // hideModalContentWhileAnimating
+          // useNativeDriver
+          onBackButtonPress={onBackPress}
+          style={styles.bottomModal}
         >
           <View
             style={{
-              ...styles.modalData,
-              paddingBottom: !onPress ? hp('5') : 0,
+              flex: 1,
+              justifyContent: 'flex-end',
             }}
           >
-            <View style={styles.upperIconView}>
-              <Image
-                source={boldDivider}
-                resizeMode="contain"
-                style={styles.divider}
-              />
-              <Touchable
-                onPress={() => (onPress ? onPress({}, false) : onBackPress())}
-              >
-                <Image
-                  source={crossWhite}
-                  resizeMode="contain"
-                  style={styles.cancelIcon}
-                />
-              </Touchable>
-            </View>
-            <TextComponent text={heading} styles={styles.headingText} />
-            <TextComponent
-              text={subtitle}
-              styles={{
-                textAlign: 'center',
-                width: wp('70'),
-                alignSelf: 'center',
+            <View
+              style={{
+                ...styles.modalData,
+                paddingBottom: !onPress ? hp('5') : 0,
               }}
-              fade
-              size={'1.2'}
-            />
-            <ScrollView
-              showsVerticalScrollIndicator={false}
-              // keyboardShouldPersistTaps="always"
-              contentContainerStyle={styles.modalScroll}
             >
-              {childrenComp}
-              {onPress && (
-                <ThemeButton
-                  title={btnTitle ?? 'Save expense'}
-                  style={styles.modalBtn}
-                  onPress={() => {
-                    onPress();
-                  }}
-                  isTheme
-                  textStyle={{ fontSize: hp('1.5') }}
+              <View style={styles.upperIconView}>
+                <Image
+                  source={boldDivider}
+                  resizeMode="contain"
+                  style={styles.divider}
                 />
-              )}
-            </ScrollView>
-            {/* {firstHit && ( */}
-            {/* )} */}
+                <Touchable onPress={onBackPress}>
+                  <Image
+                    source={crossWhite}
+                    resizeMode="contain"
+                    style={styles.cancelIcon}
+                  />
+                </Touchable>
+              </View>
+              <TextComponent text={heading} styles={styles.headingText} />
+              <TextComponent
+                text={subtitle}
+                styles={{
+                  textAlign: 'center',
+                  width: wp('70'),
+                  alignSelf: 'center',
+                }}
+                fade
+                size={'1.2'}
+              />
+              <ScrollView
+                showsVerticalScrollIndicator={false}
+                // keyboardShouldPersistTaps="always"
+                contentContainerStyle={styles.modalScroll}
+              >
+                {childrenComp}
+                {onPress && !isNewBtn && (
+                  <ThemeButton
+                    title={btnTitle ?? 'Save expense'}
+                    style={{
+                      ...styles.modalBtn,
+                    }}
+                    onPress={() => {
+                      onPress();
+                    }}
+                    isTheme
+                    textStyle={{ fontSize: hp('1.5') }}
+                  />
+                )}
+                {isNewBtn && (
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      width: wp('90'),
+                    }}
+                  >
+                    <ThemeButton
+                      title={newBtnTitle ?? 'Delete'}
+                      style={{
+                        ...styles.modalBtn,
+                        backgroundColor: 'red',
+                        width: wp('42'),
+                        // bottom: hp('12'),
+                      }}
+                      onPress={() => {
+                        onNewBtnPress();
+                      }}
+                      textStyle={{ fontSize: hp('1.5') }}
+                    />
+                    <ThemeButton
+                      title={btnTitle ?? 'Save expense'}
+                      style={{
+                        ...styles.modalBtn,
+                        width: wp('42'),
+                      }}
+                      onPress={() => {
+                        onPress();
+                      }}
+                      isTheme
+                      textStyle={{ fontSize: hp('1.5') }}
+                    />
+                  </View>
+                )}
+              </ScrollView>
+              {/* {firstHit && ( */}
+              {/* )} */}
+            </View>
           </View>
-        </View>
-      </Modal>
-    </View>
-  );
-};
+        </Modal>
+      </View>
+    );
+  },
+);
 
 export default ModalViewComp;
 
