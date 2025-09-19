@@ -26,8 +26,11 @@ import { Colors } from '../../Theme/Variables';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { Touchable } from '../../Components/Touchable';
 import GoalCardComp from '../../Components/GoalCardComp';
+import useAllGoalsScreen from './useAllGoalScreen';
 
 const AllGoalScreen = ({ navigation }) => {
+  const { goalList, deleteGoal } = useAllGoalsScreen(navigation);
+
   const actions = [
     {
       text: 'Create Expense',
@@ -38,8 +41,14 @@ const AllGoalScreen = ({ navigation }) => {
   ];
 
   const renderItem = useCallback(
-    (item, index) => {
-      return <GoalCardComp key={index} />;
+    ({ item, index }) => {
+      return (
+        <GoalCardComp
+          key={index}
+          item={item}
+          mainView={{ marginVertical: hp('1') }}
+        />
+      );
     },
     [8],
   );
@@ -48,12 +57,23 @@ const AllGoalScreen = ({ navigation }) => {
     <View style={styles.rowBack}>
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnRight]}
-        onPress={() => {}}
+        onPress={() => deleteGoal(item?.id)}
       >
-        <Image source={trashWhite} style={styles.trashIcon} />
+        <Image
+          source={trashWhite}
+          style={styles.trashIcon}
+          tintColor={'#EA4335'}
+        />
       </TouchableOpacity>
-      <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnLeft]}>
-        <Image source={editWhiteIcon} style={styles.trashIcon} />
+      <TouchableOpacity
+        style={[styles.backRightBtn, styles.backRightBtnLeft]}
+        onPress={() => navigation.navigate('AddGoalScreen', item)}
+      >
+        <Image
+          source={editWhiteIcon}
+          style={styles.trashIcon}
+          tintColor={'#1877F2'}
+        />
       </TouchableOpacity>
     </View>
   );
@@ -69,7 +89,7 @@ const AllGoalScreen = ({ navigation }) => {
         onRightPress={() => navigation.navigate('AddGoalScreen')}
       />
 
-      {listArry.length > 0 ? (
+      {goalList.length > 0 ? (
         <>
           <TextComponent
             text={'Select goal to add income and expenses'}
@@ -82,16 +102,16 @@ const AllGoalScreen = ({ navigation }) => {
               'Choose the goal below to add your income and expenses in to complete your goal on time.'
             }
             family={'500'}
-            size={'1.2'}
+            size={'1.5'}
             fade
             styles={{ marginLeft: wp('2'), marginVertical: hp('1') }}
           />
 
           <SwipeListView
             showsVerticalScrollIndicator={false}
-            style={styles.upComingFlatlistView}
+            contentContainerStyle={styles.upComingFlatlistView}
             useFlatList
-            data={listArry}
+            data={goalList}
             // data={[]}
             // sections={bottomData}
             renderItem={renderItem}

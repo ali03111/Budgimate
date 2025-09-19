@@ -10,6 +10,7 @@ import React, { memo, useCallback } from 'react';
 import {
   arrowRight,
   arrRight,
+  arrRightPurple,
   edit2,
   editIcon,
   LoginBg,
@@ -26,10 +27,15 @@ import { Touchable } from '../../Components/Touchable';
 import ModalViewComp from '../../Components/ModalViewComp';
 import useAddExpenseToTraceScreen from './useAddExpenseToTraceScreen';
 import { keyExtractor } from '../../Utils';
-import { formatDateToCustomFormat } from '../../Services/GlobalFunctions';
+import {
+  calculatePercentage,
+  formatDateToCustomFormat,
+  formatPrice,
+} from '../../Services/GlobalFunctions';
 import ModalReciptComp from '../../Components/ModalReciptComp';
+import { createExpenseCategoryUrl, getCategoryUrl } from '../../Utils/Urls';
 
-const AddExpenseToTraceScreen = ({ navigation }) => {
+const AddExpenseToTraceScreen = ({ navigation, route }) => {
   const {
     modalState,
     setModalState,
@@ -39,7 +45,21 @@ const AddExpenseToTraceScreen = ({ navigation }) => {
     setCatName,
     categoryArry,
     setCategoryArry,
-  } = useAddExpenseToTraceScreen();
+    limit,
+    spend,
+    setInputWidth,
+    inputWidth,
+    inputPrice,
+    setInputPrice,
+    updateLimit,
+    traceName,
+    onChangeVal,
+    selectedDate,
+    selectedImg,
+    comment,
+    inputExpensePrice,
+    addExpense,
+  } = useAddExpenseToTraceScreen(navigation, route);
 
   const renderItem = useCallback(({ item }) => {
     return (
@@ -70,14 +90,15 @@ const AddExpenseToTraceScreen = ({ navigation }) => {
       <View style={styles.expenseCard}>
         <View style={styles.expenseHeaderRow}>
           <View>
-            <TextComponent text={'Holiday in Dubai'} family={'400'} />
-            <TextComponent
-              text={'Have to look on expenses in dubai.'}
-              fade
-              size={'1.5'}
-            />
+            <TextComponent text={traceName} family={'400'} />
           </View>
-          <Touchable onPress={() => setModalState('editLimit')}>
+          <Touchable
+            onPress={() => {
+              setInputPrice(limit.toString());
+              setInputWidth(Math.max(20, limit.length * 14));
+              setModalState('editLimit');
+            }}
+          >
             <Image
               source={editIcon}
               resizeMode="contain"
@@ -87,12 +108,25 @@ const AddExpenseToTraceScreen = ({ navigation }) => {
         </View>
 
         <View style={styles.limitSpentRow}>
-          <TextComponent text={'Trace Limit: $2500'} fade size={'1.5'} />
-          <TextComponent text={'Spent: $0'} fade size={'1.5'} />
+          <TextComponent
+            text={`Trace Limit: ${formatPrice(parseInt(limit))}`}
+            fade
+            size={'1.5'}
+          />
+          <TextComponent
+            text={`Spent: ${formatPrice(parseInt(spend))}`}
+            fade
+            size={'1.5'}
+          />
         </View>
 
         <View style={styles.progressBackground}>
-          <View style={[styles.progressFill, { width: '30%' }]} />
+          <View
+            style={[
+              styles.progressFill,
+              { width: calculatePercentage(spend, limit) },
+            ]}
+          />
         </View>
       </View>
 
@@ -181,17 +215,17 @@ const AddExpenseToTraceScreen = ({ navigation }) => {
                   <TextInput
                     placeholder="0"
                     onChangeText={text => {
-                      // onChangeVal('InputPrice', text);
-                      // setInputWidth(Math.max(20, text.length * 14)); // dynamic width
+                      setInputPrice(text);
+                      setInputWidth(Math.max(20, text.length * 14)); // dynamic width
                     }}
-                    style={[styles.priceInput, { width: 20 }]}
-                    // value={inputPrice}
+                    style={[styles.priceInput, { width: inputWidth }]}
+                    value={inputPrice}
                     placeholderTextColor={'gray'}
                     keyboardType="numeric"
                   />
                 </View>
               </View>
-              <View
+              {/* <View
                 style={{
                   flexDirection: 'row',
                   alignItems: 'center',
@@ -201,21 +235,44 @@ const AddExpenseToTraceScreen = ({ navigation }) => {
               >
                 <TextComponent text={'Spent so far: $1,070'} size={'1.5'} />
                 <TextComponent text={'Remaining: $1,430'} size={'1.5'} />
-              </View>
+              </View> */}
             </View>
           )) ||
           (modalState == 'newCategory' && (
             <View style={styles.modalContent}>
               <TextComponent text={'Category'} size={'1.5'} />
-              <View style={styles.modalInputBox}>
-                <TextInput
+              <Touchable
+                style={styles.modalInputBox}
+                onPress={() => {
+                  setModalState(null);
+                  navigation.navigate('ListViewScreen', {
+                    onSelectValue: e => {
+                      setCatName(e);
+                      setModalState('newCategory');
+                    },
+                    selectedValue: [catName],
+                    urlName: getCategoryUrl + `?module_type=trace`,
+                  });
+                }}
+              >
+                <TextComponent
+                  text={catName?.name ?? 'Choose category here'}
+                  size={'1.5'}
+                />
+                <Image
+                  source={arrRightPurple}
+                  resizeMode="contain"
+                  style={{ width: wp('4'), height: hp('2') }}
+                  tintColor={'black'}
+                />
+                {/* <TextInput
                   placeholder="Type category name"
                   placeholderTextColor={'gray'}
                   style={styles.modalInput}
                   value={catName}
                   onChangeText={setCatName}
-                />
-              </View>
+                /> */}
+              </Touchable>
 
               <TextComponent text={'Expense amount'} size={'1.5'} />
               <View style={styles.modalInputBox}>
@@ -235,7 +292,9 @@ const AddExpenseToTraceScreen = ({ navigation }) => {
         onBackPress={() => setModalState(null)}
         onPress={() => {
           setModalState(null);
-          setCategoryArry([...categoryArry, { catName, expenceAmount }]);
+          if (modalState == 'editLimit') updateLimit();
+          else if (modalState == 'newCategory') addExpense();
+          else setCategoryArry([...categoryArry, { catName, expenceAmount }]);
         }}
       />
     </ImageBackground>

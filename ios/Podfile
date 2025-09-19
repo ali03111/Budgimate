@@ -72,6 +72,7 @@ use_react_native!(
 # pod 'FirebaseAppCheck', :modular_headers => true
  
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
   permissions_path = '../node_modules/react-native-permissions/ios'
  
  

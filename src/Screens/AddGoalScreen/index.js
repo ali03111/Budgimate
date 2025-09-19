@@ -30,7 +30,7 @@ import {
 } from '../../Services/GlobalFunctions';
 import DatePicker from 'react-native-date-picker';
 
-const AddGoalScreen = ({ navigation }) => {
+const AddGoalScreen = ({ navigation, route }) => {
   const {
     control,
     handleSubmit,
@@ -41,8 +41,7 @@ const AddGoalScreen = ({ navigation }) => {
     currentDate,
     toggleDate,
     datePicker,
-    createGoalFun,
-  } = useAddGoalScreen();
+  } = useAddGoalScreen(navigation, route);
 
   const arryView = [
     {
@@ -182,25 +181,10 @@ const AddGoalScreen = ({ navigation }) => {
             />
           </View>
           <TextComponent
-            text={'Set amount for your goal allocate from'}
+            text={'Set an amount for your goal'}
             fade
             size={'1.5'}
             styles={styles.addIncomeText}
-          />
-          <Controller
-            control={control}
-            name="goalType"
-            render={({ field: { onChange, value } }) => (
-              <View style={styles.priceTimeView}>
-                <MultiSelectButton
-                  items={arryView}
-                  selectedAlter={value} // currently selected
-                  onSelectVal={(i, val) => onChange(val)} // update form field
-                  btnStyle={styles.priceMultiView}
-                  isPrimaryColorStyle={true}
-                />
-              </View>
-            )}
           />
         </View>
         <TitleInputView
@@ -213,7 +197,7 @@ const AddGoalScreen = ({ navigation }) => {
               render={({ field: { onChange, value } }) => (
                 <TextInput
                   style={styles.inputStyle}
-                  placeholder="Enter expense name"
+                  placeholder="Enter goal name"
                   maxLength={50}
                   placeholderTextColor={'gray'}
                   value={value}
@@ -238,7 +222,7 @@ const AddGoalScreen = ({ navigation }) => {
                   <TextComponent
                     // text={'DD / MM / YYYY'}
                     text={formatDateToLong(value) ?? 'DD / MM / YYYY'}
-                    styles={styles.textStyle}
+                    styles={styles.textStyle(Boolean(formatDateToLong(value)))}
                     size={'1.2'}
                   />
                   <Image
@@ -349,8 +333,7 @@ const AddGoalScreen = ({ navigation }) => {
           isTheme
           style={styles.saveBtn}
           textStyle={{ fontSize: hp('1.5') }}
-          // onPress={handleSubmit(createGoalFun)}
-          onPress={() => navigation.goBack()}
+          onPress={handleSubmit(onSubmit)}
         />
       </KeyBoardWrapper>
       {datePicker.alertVal && (

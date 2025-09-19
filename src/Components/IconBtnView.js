@@ -37,7 +37,7 @@ const IconBtnView = ({
       ) : null}
       <View style={{ marginLeft: wp('3') }}>
         <TextComponent text={title} styles={{ ...styles.text, ...textStyle }} />
-        {subView && <TextComponent text={subView} size={'1.2'} fade />}
+        {subView && <TextComponent text={subView} size={'1.4'} fade />}
       </View>
       {rightChilderView ??
         (rightText ? (

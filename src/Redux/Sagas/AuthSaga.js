@@ -20,6 +20,8 @@ import {
 import { errorMessage, successMessage } from '../../Config/NotificationMessage';
 import NavigationService from '../../Services/NavigationService';
 import { store } from '../Reducer';
+import { statusCodes } from '@react-native-google-signin/google-signin';
+import appleAuth from '@invertase/react-native-apple-authentication';
 
 const loginObject = {
   Google: () => googleLogin(),
@@ -62,10 +64,42 @@ export const loginThunk =
         }
       }
     } catch (error) {
-      const errorStr =
-        error?.message?.split(' ')?.slice(1)?.join(' ') ?? error.message;
-      errorMessage(errorStr);
-      console.log('Login Error:', error.toString());
+      console.log('🔥 Full Error Object:', JSON.stringify(error, null, 2));
+
+      const errorCode = error?.code || 'UNKNOWN_CODE';
+      const errorMsg = error?.message || error.toString();
+
+      switch (errorCode) {
+        case statusCodes.SIGN_IN_CANCELLED:
+        case '1001':
+          errorMessage('Cancelled');
+          break;
+        case 'UNKNOWN_CODE':
+          errorMessage('Cancelled');
+          break;
+        case statusCodes.IN_PROGRESS:
+          errorMessage('Login already in progress');
+          break;
+        case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+          errorMessage('Play services not available or outdated');
+          break;
+        case 'auth/email-already-in-use':
+          errorMessage('This email is already registered');
+          break;
+        case 'auth/invalid-credential':
+          errorMessage('Invalid or expired login credential');
+          break;
+        case 'auth/internal-error':
+          errorMessage('Cancelled');
+          break;
+        case appleAuth.Error.CANCELED:
+          errorMessage('Apple Sign-In was canceled');
+          break;
+        // … add more firebase/google/apple codes as needed
+        default:
+          errorMessage('Cancelled');
+          break;
+      }
     } finally {
       dispatch(loadingFalse());
     }

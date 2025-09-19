@@ -15,31 +15,31 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
   },
 
-  basicTraceBox: {
+  basicTraceBox: isSelected => ({
     width: wp('45'),
     paddingVertical: hp('3'),
     borderRadius: 10,
     borderWidth: 0.5,
-    backgroundColor: 'white',
+    backgroundColor: isSelected ? Colors.lightBlueBgColor : 'white',
     alignItems: 'center',
     justifyContent: 'center',
-    borderColor: Colors.dkBorderColor,
+    borderColor: isSelected ? Colors.primaryColor : Colors.dkBorderColor,
     gap: hp('1'),
     paddingHorizontal: wp('6'),
-  },
+  }),
 
-  proTraceBox: {
+  proTraceBox: isSelected => ({
     width: wp('45'),
     paddingVertical: hp('3'),
     borderRadius: 10,
     borderWidth: 0.5,
-    backgroundColor: 'white',
+    backgroundColor: isSelected ? Colors.lightBlueBgColor : 'white',
     alignItems: 'center',
     justifyContent: 'center',
-    borderColor: Colors.dkBorderColor,
+    borderColor: isSelected ? Colors.primaryColor : Colors.dkBorderColor,
     gap: hp('1'),
     paddingHorizontal: wp('2'),
-  },
+  }),
 
   textCenter: {
     textAlign: 'center',

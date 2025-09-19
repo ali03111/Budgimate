@@ -1,12 +1,20 @@
 import { useMemo, useState } from 'react';
 import useFormHook from '../../Hooks/UseFormHooks';
 import Schemas from '../../Utils/Validation';
-import { useMutation } from '@tanstack/react-query';
-import { createGoalUrl } from '../../Utils/Urls';
-import { formDataFunc } from '../../Utils/helperFunc';
-import { successMessage } from '../../Config/NotificationMessage';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import {
+  createGoalUrl,
+  getGoalsDetailUrl,
+  updateGoalUrl,
+} from '../../Utils/Urls';
+import API, { formDataFunc } from '../../Utils/helperFunc';
+import { errorMessage, successMessage } from '../../Config/NotificationMessage';
+import { formatDateToYMD } from '../../Services/GlobalFunctions';
+import useReduxStore from '../../Hooks/UseReduxStore';
 
-const useAddGoalScreen = () => {
+const useAddGoalScreen = ({ goBack }, { params }) => {
+  const { queryClient } = useReduxStore();
+
   const [inputWidth, setInputWidth] = useState(20); // starting small
   const currentDate = new Date();
 
@@ -26,50 +34,45 @@ const useAddGoalScreen = () => {
     unregister,
     watch,
     errors,
-  } = useFormHook(Schemas.logIn);
+  } = useFormHook(Schemas.addGoal);
 
-  const createGoalFun = async ({}) => {
-    console.log('Creating event...');
-    try {
-      const body = {
-        'images[]': eventImg,
-      };
+  const { data } = useQuery({
+    queryKey: [`getGoalsDetailUrl${params?.id}`],
+    queryFn: async () => {
+      const allProps = await API.get(getGoalsDetailUrl + params?.id);
+      if (allProps?.ok) {
+        const res = allProps.data;
 
-      console.log('Request Body:', JSON.stringify(body));
+        setValue('goalPrice', parseInt(res?.target_amount).toString() || '');
+        setValue('note', res?.note || '');
+        setValue('goalName', res?.name || '');
+        setValue('targetCompleteDate', new Date(res?.completion_date) || '');
+      }
+      return allProps;
+    },
+  });
 
-      const { ok, data } = await formDataFunc(
-        createGoalUrl,
-        // isEditEvnet ? updateEventUrl + event?.id : createEventUrl,
-        body,
-        'images[]',
+  const { mutate } = useMutation({
+    mutationFn: data => {
+      return API.post(
+        params?.id ? updateGoalUrl + params?.id : createGoalUrl,
+        data,
       );
-
-      console.log('API Response:', data);
-
+    },
+    onSuccess: ({ ok, data }) => {
+      console.log('lsmlslcmslcmslmcmscmlsc', data);
       if (ok) {
-        // Post-save logic
-        if (params?.functionToUpdatePostOrEvent) {
-          params?.functionToUpdatePostOrEvent(data);
-        }
-        if (isEditEvnet) queryClient.invalidateQueries(['profilePosts']);
-        queryClient.invalidateQueries({ queryKey: ['getEventDate'] });
-
-        successMessage(
-          //   isEditEvnet
-          //     ? 'Event updated successfully'
-          // :
-          'Event created successfully',
-        );
+        successMessage(data?.message);
+        queryClient.invalidateQueries(['getGoalsUrl']);
         goBack();
       } else {
-        errorMessage(
-          isEditEvnet ? 'Error on updating event' : 'Error on creating event',
-        );
+        errorMessage('Oops! Something went wrong. Please try again later.');
       }
-    } catch (error) {
-      console.log('Error creating event:', error);
-    }
-  };
+    },
+    onError: () => {
+      errorMessage('Network request failed.');
+    },
+  });
 
   const [datePicker, setDateRikcer] = useState({
     alertVal: false,
@@ -86,18 +89,25 @@ const useAddGoalScreen = () => {
         setValue(stateName, e);
       },
     });
-  const onSubmit = () => {};
+  const onSubmit = ({ goalPrice, note, goalName, targetCompleteDate }) => {
+    mutate({
+      target_amount: goalPrice,
+      name: goalName,
+      completion_date: formatDateToYMD(targetCompleteDate),
+      note,
+    });
+  };
 
   return {
     control,
     handleSubmit,
     errors,
-    createGoalFun,
     inputWidth,
     setInputWidth,
     currentDate,
     toggleDate,
     datePicker,
+    onSubmit,
   };
 };
 

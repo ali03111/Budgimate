@@ -6,8 +6,9 @@ import { Colors } from '../Theme/Variables';
 import { arrowRight } from '../Assets';
 import { Image } from 'react-native';
 import NavigationService from '../Services/NavigationService';
+import { calculatePercentage } from '../Services/GlobalFunctions';
 
-const GoalCardComp = ({ mainView, isDisable }) => {
+const GoalCardComp = ({ mainView, isDisable, item }) => {
   const total = 80000;
   const achieved = 34700;
   const left = total - achieved;
@@ -17,10 +18,10 @@ const GoalCardComp = ({ mainView, isDisable }) => {
     <View style={{ ...styles.card, ...mainView }}>
       {/* Top Row */}
       <View style={styles.headerRow}>
-        <Text style={styles.title}>Emergency fund</Text>
+        <Text style={styles.title}>{item?.name}</Text>
         <Touchable
           disabled={isDisable}
-          onPress={() => NavigationService.navigate('GoalDetailScreen')}
+          onPress={() => NavigationService.navigate('GoalDetailScreen', item)}
         >
           <View style={styles.detailsRow}>
             <Text style={styles.details}>View details</Text>
@@ -30,9 +31,9 @@ const GoalCardComp = ({ mainView, isDisable }) => {
       </View>
 
       {/* Subtitle */}
-      <Text style={styles.subtitle}>
+      {/* <Text style={styles.subtitle}>
         Save ${total.toLocaleString()} by the January 2027
-      </Text>
+      </Text> */}
 
       {/* Progress info */}
       <View style={styles.progressInfoRow}>
@@ -41,14 +42,24 @@ const GoalCardComp = ({ mainView, isDisable }) => {
           <Text style={styles.bold}>${achieved.toLocaleString()}</Text>
         </Text>
         <Text style={styles.left}>
-          ${left.toLocaleString()} left of{' '}
-          <Text style={styles.bold}>${total.toLocaleString()}</Text>
+          ${parseInt(item?.saved_amount)} left of{' '}
+          <Text style={styles.bold}>${parseInt(item?.target_amount)}</Text>
         </Text>
       </View>
 
       {/* Progress bar */}
       <View style={styles.progressBackground}>
-        <View style={[styles.progressFill, { width: `${progress}%` }]} />
+        <View
+          style={[
+            styles.progressFill,
+            {
+              width: calculatePercentage(
+                item?.saved_amount,
+                item?.target_amount,
+              ),
+            },
+          ]}
+        />
       </View>
     </View>
   );

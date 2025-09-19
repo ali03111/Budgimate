@@ -71,7 +71,6 @@ export const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     marginTop: hp('2'),
     paddingHorizontal: wp('2.5'),
-    paddingBottom: hp('10'),
   },
   sectionHeader: {
     flexDirection: 'row',
@@ -99,7 +98,7 @@ export const styles = StyleSheet.create({
     marginLeft: wp('8'),
   },
   categoryTitle: {
-    fontSize: hp('1.2'),
+    fontSize: hp('1.5'),
   },
   categoryRightText: {
     color: 'red',

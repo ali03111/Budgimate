@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
     marginTop: hp('2'),
   },
   infoText: {
-    fontSize: hp('1.6'),
+    fontSize: hp('1.8'),
     color: Colors.textGray,
   },
   bold: {

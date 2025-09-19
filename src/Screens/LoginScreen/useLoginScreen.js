@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { getFbResult, logOutFirebase } from '../../Services/AuthServices';
 import useReduxStore from '../../Hooks/UseReduxStore';
 import { loginUser, registerUser } from '../../Redux/Action/AuthAction';
-import { registerThunk } from '../../Redux/Sagas/AuthSaga';
+import { loginThunk, registerThunk } from '../../Redux/Sagas/AuthSaga';
 
 const { default: useFormHook } = require('../../Hooks/UseFormHooks');
 const { default: Schemas } = require('../../Utils/Validation');
@@ -23,7 +23,7 @@ const useLogin = ({ navigate, goBack }) => {
   };
 
   const socialLoginFun = type => {
-    dispatch(loginUser({ type, datas: {} }));
+    dispatch(loginThunk({ type, datas: {} }));
   };
 
   const onPress = () => navigate('RegisterScreen');

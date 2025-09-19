@@ -5,12 +5,14 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  ImageBackground,
 } from 'react-native';
 import React, { memo, useCallback } from 'react';
 import { HeaderComponent } from '../../Components/HeaderComp';
 import {
   calender,
   editWhiteIcon,
+  LoginBg,
   plusBlue,
   plusCircle,
   plusWhite,
@@ -30,7 +32,19 @@ import { Touchable } from '../../Components/Touchable';
 import useExpenseCategory from './useExpenseCategory';
 
 const ExpenseCategory = ({ navigation }) => {
-  const { dateRangeModal, arryList, setDateRangeModal } = useExpenseCategory();
+  const {
+    dateRangeModal,
+    arryList,
+    setDateRangeModal,
+    onDeleteCat,
+    searchFun,
+    filterData,
+    text,
+    setText,
+    dateRange,
+    setDateRange,
+    refetch,
+  } = useExpenseCategory();
 
   const actions = [
     {
@@ -60,19 +74,42 @@ const ExpenseCategory = ({ navigation }) => {
         />
       );
     },
-    [8],
+    [arryList, filterData],
   );
 
   const renderHiddenItem = ({ item }) => (
     <View style={styles.rowBack}>
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnRight]}
-        onPress={() => {}}
+        onPress={() => {
+          console.log('kslnvklsdkvlsbdklvbskdlvlskvsdlkvsdvb', item);
+          onDeleteCat(item?.module_category_id);
+        }}
       >
-        <Image source={trashWhite} style={styles.trashIcon} />
+        <Image
+          source={trashWhite}
+          style={styles.trashIcon}
+          tintColor={'#EA4335'}
+        />
       </TouchableOpacity>
-      <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnLeft]}>
-        <Image source={editWhiteIcon} style={styles.trashIcon} />
+      <TouchableOpacity
+        style={[styles.backRightBtn, styles.backRightBtnLeft]}
+        onPress={() =>
+          navigation.navigate('AddExpenseToCategoryScreen', {
+            catVal: {
+              id: item?.expense_category_id,
+              name: item?.category_name,
+            },
+            price: item?.limit,
+            module_type: 'basic',
+          })
+        }
+      >
+        <Image
+          source={editWhiteIcon}
+          style={styles.trashIcon}
+          tintColor={'#1877F2'}
+        />
       </TouchableOpacity>
     </View>
   );
@@ -80,7 +117,7 @@ const ExpenseCategory = ({ navigation }) => {
   const listArry = [1, 2, 3];
 
   return (
-    <View style={styles.container}>
+    <ImageBackground style={styles.container} source={LoginBg}>
       <HeaderComponent
         headerTitle="Expenses categories"
         isBack
@@ -90,7 +127,7 @@ const ExpenseCategory = ({ navigation }) => {
         }
       />
 
-      {listArry.length > 0 ? (
+      {arryList && arryList.length > 0 ? (
         <>
           <View
             style={{
@@ -110,6 +147,8 @@ const ExpenseCategory = ({ navigation }) => {
                 style={styles.searchInput}
                 placeholder="Search categories"
                 placeholderTextColor={Colors.grayFaded}
+                value={text}
+                onChangeText={e => searchFun(e)}
               />
             </View>
             <Touchable onPress={() => setDateRangeModal(true)}>
@@ -123,9 +162,13 @@ const ExpenseCategory = ({ navigation }) => {
 
           <SwipeListView
             showsVerticalScrollIndicator={false}
-            style={styles.upComingFlatlistView}
+            contentContainerStyle={styles.upComingFlatlistView}
             useFlatList
-            data={arryList}
+            data={
+              arryList != null &&
+              arryList?.length > 0 &&
+              (filterData.length >= 0 && text != '' ? filterData : arryList)
+            }
             // data={[]}
             // sections={bottomData}
             renderItem={renderItem}
@@ -172,10 +215,17 @@ const ExpenseCategory = ({ navigation }) => {
         <DateRangeModalComp
           visible={dateRangeModal}
           onClose={() => setDateRangeModal(false)}
-          onSelectRange={() => setDateRangeModal(false)}
+          onSelectRange={e => {
+            setDateRange(e);
+            setTimeout(() => {
+              refetch();
+            }, 100);
+            setDateRangeModal(false);
+          }}
+          selectedRange={dateRange}
         />
       )}
-    </View>
+    </ImageBackground>
   );
 };
 

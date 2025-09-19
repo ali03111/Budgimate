@@ -5,7 +5,7 @@ import { Colors } from '../../Theme/Variables';
 export const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    flexGrow: 1,
+    flex: 1,
   },
 
   emptyContainer: {
@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
   },
 
   searchContainer: {
-    width: wp('87'),
+    width: wp('95'),
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 10,
@@ -42,8 +42,8 @@ export const styles = StyleSheet.create({
     fontSize: hp('1.5'),
   },
   upComingFlatlistView: {
-    paddingBottom: hp('15'),
-    flexGrow: 1,
+    paddingBottom: hp('10'),
+    // flexGrow: 1,
     // paddingTop: hp('2'),
     // paddingTop: hp('1'),
     // backgroundColor: '#fff',
@@ -67,7 +67,7 @@ export const styles = StyleSheet.create({
     // alignItems: 'center',
   },
   backRightBtnLeft: {
-    backgroundColor: '#1877F2',
+    // backgroundColor: '#1877F2',
     flex: 1,
     // height: Platform.OS == 'ios' ? hp('10') : hp('10'),
     borderTopLeftRadius: 15,
@@ -76,7 +76,7 @@ export const styles = StyleSheet.create({
     paddingLeft: wp('35'),
   },
   backRightBtnRight: {
-    backgroundColor: '#EA4335',
+    // backgroundColor: '#EA4335',
     flex: 1,
     // height: Platform.OS == 'ios' ? hp('10') : hp('10'),
     borderTopRightRadius: 15,

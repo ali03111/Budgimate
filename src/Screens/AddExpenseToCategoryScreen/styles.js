@@ -41,8 +41,11 @@ export const styles = StyleSheet.create({
   },
   progressBar: progressRatio => ({
     height: '100%',
-    width: progressRatio ? `${progressRatio}%` : '0%', // Adjust dynamically based on spent/limit ratio if data is available
-    backgroundColor: Colors.primaryColor,
+    width: progressRatio
+      ? `${progressRatio >= 100 ? 100 : progressRatio}%`
+      : '0%', // Adjust dynamically based on spent/limit ratio if data is available
+    backgroundColor:
+      progressRatio >= 100 ? Colors.themeRed : Colors.primaryColor,
     borderRadius: 5,
   }),
   limitContainer: {

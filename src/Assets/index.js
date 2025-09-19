@@ -83,6 +83,12 @@ export { default as cardSend } from './Icons/cardSend.png';
 export { default as cardReceive } from './Icons/cardReceive.png';
 export { default as arrowRight } from './Icons/arrowRight.png';
 
+export { default as deleteBlueBg } from './Icons/deleteBlueBg.png';
+export { default as logoutBlueBg } from './Icons/logoutBlueBg.png';
+
+export { default as creditIcon } from './Icons/creditIcon.png';
+export { default as debitIcon } from './Icons/debitIcon.png';
+
 export { default as payOfDebtBlue } from './Icons/payOfDebtBlue.png';
 export { default as vacationBlue } from './Icons/vacationBlue.png';
 export { default as homeBlue } from './Icons/homeBlue.png';

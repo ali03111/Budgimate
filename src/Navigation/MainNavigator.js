@@ -5,6 +5,7 @@ import NavigationService from '../Services/NavigationService';
 import * as Screens from '../Screens/index';
 import useReduxStore from '../Hooks/UseReduxStore';
 import MybottomTabs from './BottomNavigation';
+import ListViewScreen from '../Components/ListViewComp';
 
 const Stack = createNativeStackNavigator();
 
@@ -12,7 +13,6 @@ function MainNavigator() {
   const { getState } = useReduxStore();
   const { onboarding } = getState('onboarding');
   const { isLogin, userData, token } = getState('Auth');
-  console.log('tokentokentokentokentokentoken', token, userData);
   return (
     <NavigationContainer
       ref={ref => {
@@ -61,6 +61,11 @@ function MainNavigator() {
             <Stack.Screen
               name="MyGoalsScreen"
               component={Screens.MyGoalsScreen}
+            />
+            <Stack.Screen name="ListViewScreen" component={ListViewScreen} />
+            <Stack.Screen
+              name="TranscritionHistoryScreen"
+              component={Screens.TranscritionHistoryScreen}
             />
             <Stack.Screen
               name="AllocateToExpenseScreen"

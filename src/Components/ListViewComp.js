@@ -58,15 +58,20 @@ export default function ListViewScreen({ navigation, route }) {
     }
   };
 
+  console.log(
+    'datadatadatadatadatadatadatadatadatadatadatadatadatadata',
+    data?.data,
+  );
+
   const [filterData, setFilterData] = useState([]);
   const [text, setText] = useState('');
 
   function searchFun(e) {
     var text = e;
-    if (text && data?.data?.data?.length > 0) {
+    if (text && data?.data?.length > 0) {
       // Inserted text is not blank
       // Filter the masterDataSource and update FilteredDataSource
-      const newData = data?.data?.data.filter(function (item) {
+      const newData = data?.data.filter(function (item) {
         // Applying filter for the inserted text in search bar
         const itemData = (item.name || '').toUpperCase();
         const textData = text.toUpperCase();
@@ -76,7 +81,7 @@ export default function ListViewScreen({ navigation, route }) {
       setFilterData(newData);
       setText(text);
     } else {
-      setFilterData(data?.data?.data ?? []);
+      setFilterData(data?.data ?? []);
       setText(text);
     }
   }
@@ -145,48 +150,51 @@ export default function ListViewScreen({ navigation, route }) {
             />
           }
         /> */}
-        {data?.data?.data != null &&
-          data?.data?.data?.length > 0 &&
-          (filterData.length >= 0 && text != ''
-            ? filterData
-            : data?.data?.data
-          )?.map((item, index) => (
-            <TouchableOpacity
-              key={index}
-              onPress={() => toggleAllergy(item)}
-              style={{
-                backgroundColor: selectedList?.filter(
-                  res => res?.id == item?.id,
-                )[0]?.id
-                  ? Colors.backgroundTheme
-                  : Colors.white,
-                ...styles.allergiesBtns,
-              }}
-            >
-              <Text
+        {data?.data != null &&
+          data?.data?.length > 0 &&
+          (filterData.length >= 0 && text != '' ? filterData : data?.data)?.map(
+            (item, index) => (
+              <TouchableOpacity
+                key={index}
+                onPress={() => toggleAllergy(item)}
                 style={{
-                  color: selectedList?.filter(res => res?.id == item?.id)[0]?.id
-                    ? 'white'
-                    : 'black',
+                  backgroundColor: selectedList?.filter(
+                    res => res?.id == item?.id,
+                  )[0]?.id
+                    ? Colors.backgroundTheme
+                    : Colors.white,
+                  ...styles.allergiesBtns,
                 }}
               >
-                {item?.name ?? item?.agency_name}
-              </Text>
-              {Boolean(
-                selectedList?.filter(res => res?.id == item?.id)[0]?.id,
-              ) && (
-                <Image
-                  source={crossWhite}
-                  resizeMode="contain"
+                <Text
                   style={{
-                    width: wp('3'),
-                    height: hp('5'),
-                    marginLeft: wp('3'),
+                    color: selectedList?.filter(res => res?.id == item?.id)[0]
+                      ?.id
+                      ? 'white'
+                      : 'black',
                   }}
-                />
-              )}
-            </TouchableOpacity>
-          ))}
+                >
+                  {item?.name ??
+                    item?.agency_name ??
+                    item?.category_name ??
+                    item}
+                </Text>
+                {Boolean(
+                  selectedList?.filter(res => res?.id == item?.id)[0]?.id,
+                ) && (
+                  <Image
+                    source={crossWhite}
+                    resizeMode="contain"
+                    style={{
+                      width: wp('3'),
+                      height: hp('5'),
+                      marginLeft: wp('3'),
+                    }}
+                  />
+                )}
+              </TouchableOpacity>
+            ),
+          )}
       </ScrollView>
     </View>
   );

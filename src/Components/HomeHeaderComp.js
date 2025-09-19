@@ -6,17 +6,20 @@ import { TextComponent } from './TextComponent';
 import { notificationWhite } from '../Assets';
 import { Touchable } from './Touchable';
 import useReduxStore from '../Hooks/UseReduxStore';
+import { imageUrl } from '../Utils/Urls';
 
 const HomeHeaderComp = () => {
   const { getState } = useReduxStore();
 
   const { userData } = getState('Auth');
+  console.log(
+    'userDatauserDatauserDatauserDatauserDatauserDatauserData',
+    userData,
+  );
   return (
     <View style={styles.container}>
       <CircleImage
-        image={
-          'https://images.pexels.com/photos/15157857/pexels-photo-15157857.jpeg'
-        }
+        image={imageUrl(userData?.profile_image)}
         uri={true}
         size={0.12}
       />

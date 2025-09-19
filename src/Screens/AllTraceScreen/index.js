@@ -25,8 +25,12 @@ import { hp, wp } from '../../Hooks/useResponsive';
 import { Colors } from '../../Theme/Variables';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { Touchable } from '../../Components/Touchable';
+import useAllTraceScreen from './useAllTraceScreen';
 
 const AllTraceScreen = ({ navigation }) => {
+  const { deleteTrace, traceList, searchFun, text, setText, filterData } =
+    useAllTraceScreen();
+
   const actions = [
     {
       text: 'Create Expense',
@@ -37,27 +41,50 @@ const AllTraceScreen = ({ navigation }) => {
   ];
 
   const renderItem = useCallback(
-    (item, index) => {
-      return <ExpenseProgressCard key={index} />;
+    ({ item, index }) => {
+      return (
+        <ExpenseProgressCard
+          key={index}
+          item={item}
+          onPres={() => {
+            navigation.navigate('AddExpenseToTraceScreen', {
+              catVal: { id: item?.id },
+              price: parseInt(item?.budget),
+              module_type: 'trace',
+              module_id: 3,
+              traceType: item?.type,
+            });
+          }}
+        />
+      );
     },
-    [8],
+    [filterData, traceList],
   );
 
   const renderHiddenItem = ({ item }) => (
     <View style={styles.rowBack}>
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnRight]}
-        onPress={() => {}}
+        onPress={() => deleteTrace(item.id)} // Assuming item has an id
       >
-        <Image source={trashWhite} style={styles.trashIcon} />
+        <Image
+          source={trashWhite}
+          style={styles.trashIcon}
+          tintColor={'#EA4335'}
+        />
       </TouchableOpacity>
-      <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnLeft]}>
-        <Image source={editWhiteIcon} style={styles.trashIcon} />
+      <TouchableOpacity
+        style={[styles.backRightBtn, styles.backRightBtnLeft]}
+        onPress={() => console.log('Edit pressed', item)}
+      >
+        <Image
+          source={editWhiteIcon}
+          style={styles.trashIcon}
+          tintColor={'#1877F2'}
+        />
       </TouchableOpacity>
     </View>
   );
-
-  const listArry = [1];
 
   return (
     <ImageBackground source={LoginBg} style={styles.container}>
@@ -68,7 +95,7 @@ const AllTraceScreen = ({ navigation }) => {
         onRightPress={() => navigation.navigate('CreateNewTraceScreen')}
       />
 
-      {listArry.length > 0 ? (
+      {traceList && traceList.length > 0 ? (
         <>
           <View
             style={{
@@ -88,34 +115,37 @@ const AllTraceScreen = ({ navigation }) => {
                 style={styles.searchInput}
                 placeholder="Search categories"
                 placeholderTextColor={Colors.grayFaded}
+                value={text}
+                onChangeText={e => searchFun(e)} // Call searchFun on text change
               />
             </View>
-            <Touchable>
+            {/* <Touchable>
               <Image
                 source={calender}
                 resizeMode="contain"
                 style={{ width: wp('7'), height: hp('3') }}
               />
-            </Touchable>
+            </Touchable> */}
           </View>
 
           <SwipeListView
             showsVerticalScrollIndicator={false}
-            style={styles.upComingFlatlistView}
+            contentContainerStyle={styles.upComingFlatlistView}
             useFlatList
-            data={listArry}
-            // data={[]}
-            // sections={bottomData}
+            data={
+              traceList != null &&
+              traceList?.length > 0 &&
+              (filterData.length >= 0 && text != '' ? filterData : traceList)
+            } // Use filterData or fallback to traceList
             renderItem={renderItem}
             renderHiddenItem={renderHiddenItem}
             leftOpenValue={75}
             rightOpenValue={-75}
             previewRowKey={'0'}
-            // previewOpenValue={-40}
             previewOpenDelay={3000}
-            // previewOpenValue={-40}
             closeOnRowPress
             refreshing={false}
+            scrollEnabled
           />
         </>
       ) : (
@@ -142,45 +172,6 @@ const AllTraceScreen = ({ navigation }) => {
           />
         </View>
       )}
-
-      {/* <View style={styles.searchContainer}>
-        <Image
-          source={searchIcon} 
-          resizeMode="contain"
-          style={styles.searchIcon}
-          tintColor={Colors.black}
-        />
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search categories"
-          placeholderTextColor={Colors.grayFaded}
-        />
-      </View>
-
-      <SwipeListView
-        showsVerticalScrollIndicator={false}
-        style={styles.upComingFlatlistView}
-        useFlatList
-        // data={[1, 23, 4]}
-        data={[]}
-        // sections={bottomData}
-        renderItem={renderItem}
-        renderHiddenItem={renderHiddenItem}
-        leftOpenValue={75}
-        rightOpenValue={-75}
-        previewRowKey={'0'}
-        // previewOpenValue={-40}
-        previewOpenDelay={3000}
-        // previewOpenValue={-40}
-        closeOnRowPress
-        refreshing={false}
-      /> */}
-
-      {/* {Array.from({ length: 6 }).map((_, index) => (
-        <ExpenseProgressCard key={index} />
-      ))} */}
-
-      {/* <DateRangeModalComp /> */}
     </ImageBackground>
   );
 };

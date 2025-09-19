@@ -97,9 +97,9 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  textStyle: {
-    color: Colors.textGray,
-  },
+  textStyle: isFilled => ({
+    color: isFilled ? Colors.black : Colors.textGray,
+  }),
   // Component View
 
   mainView: {

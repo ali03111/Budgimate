@@ -4138,6 +4138,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"base-64@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "base-64@npm:0.1.0"
+  checksum: 5a42938f82372ab5392cbacc85a5a78115cbbd9dbef9f7540fa47d78763a3a8bd7d598475f0d92341f66285afd377509851a9bb5c67bbecb89686e9255d5b3eb
+  languageName: node
+  linkType: hard
+
 "base64-js@npm:^1.3.1, base64-js@npm:^1.5.1":
   version: 1.5.1
   resolution: "base64-js@npm:1.5.1"
@@ -4271,6 +4278,7 @@ __metadata:
     react: 19.1.0
     react-hook-form: ^7.58.1
     react-native: 0.80.0
+    react-native-awesome-alerts: ^2.0.0
     react-native-biometrics: ^3.0.1
     react-native-blurhash: ^2.1.1
     react-native-chart-kit: ^6.12.0
@@ -4278,6 +4286,7 @@ __metadata:
     react-native-fast-image: ^8.6.3
     react-native-flash-message: ^0.4.2
     react-native-floating-action: ^1.22.0
+    react-native-fs: ^2.20.0
     react-native-geolocation-service: ^5.3.1
     react-native-image-crop-picker: ^0.50.1
     react-native-keyboard-aware-scroll-view: ^0.9.5
@@ -9041,6 +9050,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-awesome-alerts@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "react-native-awesome-alerts@npm:2.0.0"
+  dependencies:
+    prop-types: ^15.7.2
+  checksum: 3c52c121dcc8d7df5d453233c92f413a2422e8a0165be33c9727a9874926e1b344e5afcdfee00cd857e2497af9ef922bbe7129870e521826ec065b9314b00325
+  languageName: node
+  linkType: hard
+
 "react-native-biometrics@npm:^3.0.1":
   version: 3.0.1
   resolution: "react-native-biometrics@npm:3.0.1"
@@ -9117,6 +9135,22 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 26acb4fcd23dca2cbf8fe323d6ded94ae96eb2562a5a36cc6182a6a6497b6a6af91fd9ed76885ee48dc4354b650b561ee5a99e8076b949ad0247d6bca3f869d4
+  languageName: node
+  linkType: hard
+
+"react-native-fs@npm:^2.20.0":
+  version: 2.20.0
+  resolution: "react-native-fs@npm:2.20.0"
+  dependencies:
+    base-64: ^0.1.0
+    utf8: ^3.0.0
+  peerDependencies:
+    react-native: "*"
+    react-native-windows: "*"
+  peerDependenciesMeta:
+    react-native-windows:
+      optional: true
+  checksum: 0be9bb9a5c13b501d0a3006efc3aa5c0b5b211456ee04718297f4e522532f3527f1daa220bd67d3b82d819ed8fdab8f64b7d6e0d7b768c1fd1d8ec9122d94316
   languageName: node
   linkType: hard
 
@@ -10703,6 +10737,13 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
   checksum: 5e639c9273200adb6985b512c96a3a02c458bc8ca1a72e91da9cdc6426144fc6538dca434b0f99b28fb1baabc82e1c383ba7900b25ccdcb43758fb058dc66c34
+  languageName: node
+  linkType: hard
+
+"utf8@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "utf8@npm:3.0.0"
+  checksum: cb89a69ad9ab393e3eae9b25305b3ff08bebca9adc839191a34f90777eb2942f86a96369d2839925fea58f8f722f7e27031d697f10f5f39690f8c5047303e62d
   languageName: node
   linkType: hard
 

@@ -8,15 +8,28 @@ import { Colors } from '../../Theme/Variables';
 import useCreateNewTraceScreen from './useCreateNewTraceScreen';
 import { styles } from './styles';
 import ThemeButton from '../../Components/ThemeButton';
+import { Touchable } from '../../Components/Touchable';
 
 const CreateNewTraceScreen = ({ navigation }) => {
-  const { inputWidth, setInputWidth } = useCreateNewTraceScreen();
+  const {
+    inputWidth,
+    setInputWidth,
+    isSelected,
+    setSelectedTrace,
+    onChangeVal,
+    inputName,
+    inputPrice,
+    onCreateTrace,
+  } = useCreateNewTraceScreen(navigation);
 
   return (
     <ImageBackground source={LoginBg} style={styles.bgImage}>
       <HeaderComponent headerTitle={'Create a New Trace'} isBack />
       <View style={styles.traceOptionMain}>
-        <View style={styles.basicTraceBox}>
+        <Touchable
+          style={styles.basicTraceBox(Boolean(isSelected == 'basic'))}
+          onPress={() => setSelectedTrace('basic')}
+        >
           <TextComponent text={'Basic trace'} size={'1.5'} family={'500'} />
           <TextComponent
             text={'Simple limit-based tracking'}
@@ -24,8 +37,11 @@ const CreateNewTraceScreen = ({ navigation }) => {
             fade
             styles={styles.textCenter}
           />
-        </View>
-        <View style={styles.proTraceBox}>
+        </Touchable>
+        <Touchable
+          style={styles.proTraceBox(Boolean(isSelected == 'pro'))}
+          onPress={() => setSelectedTrace('pro')}
+        >
           <TextComponent text={'Pro trace'} size={'1.5'} family={'500'} />
           <TextComponent
             text={'Advanced category-based tracking'}
@@ -33,7 +49,7 @@ const CreateNewTraceScreen = ({ navigation }) => {
             fade
             styles={styles.textCenter}
           />
-        </View>
+        </Touchable>
       </View>
 
       <View style={styles.priceMainView}>
@@ -43,10 +59,12 @@ const CreateNewTraceScreen = ({ navigation }) => {
             placeholder="0"
             onChangeText={text => {
               setInputWidth(Math.max(20, text.length * 14)); // increase width based on content
+              onChangeVal('inputPrice', text);
             }}
             style={[styles.priceInput, { width: inputWidth }]}
             placeholderTextColor={'gray'}
             keyboardType="numeric"
+            value={inputPrice}
           />
         </View>
         <TextComponent
@@ -69,6 +87,8 @@ const CreateNewTraceScreen = ({ navigation }) => {
           placeholder="Trace Name"
           placeholderTextColor={'gray'}
           style={styles.traceNameInput}
+          value={inputName}
+          onChangeText={e => onChangeVal('inputName', e)}
         />
       </View>
 
@@ -76,7 +96,8 @@ const CreateNewTraceScreen = ({ navigation }) => {
         title={'Create trace'}
         isTheme
         style={styles.createBtn}
-        onPress={() => navigation.navigate('AddExpenseToTraceScreen')}
+        // onPress={() => navigation.navigate('AddExpenseToTraceScreen',{})}
+        onPress={onCreateTrace}
       />
     </ImageBackground>
   );

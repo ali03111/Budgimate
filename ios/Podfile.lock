@@ -2455,6 +2455,8 @@ PODS:
     - Firebase/Auth (= 11.15.0)
     - React-Core
     - RNFBApp
+  - RNFS (2.20.0):
+    - React-Core
   - RNGoogleSignin (15.0.0):
     - boost
     - DoubleConversion
@@ -2821,6 +2823,7 @@ DEPENDENCIES:
   - RNFastImage (from `../node_modules/react-native-fast-image`)
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
+  - RNFS (from `../node_modules/react-native-fs`)
   - "RNGoogleSignin (from `../node_modules/@react-native-google-signin/google-signin`)"
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
@@ -3021,6 +3024,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBAuth:
     :path: "../node_modules/@react-native-firebase/auth"
+  RNFS:
+    :path: "../node_modules/react-native-fs"
   RNGoogleSignin:
     :path: "../node_modules/@react-native-google-signin/google-signin"
   RNImageCropPicker:
@@ -3136,6 +3141,7 @@ SPEC CHECKSUMS:
   RNFastImage: 462a183c4b0b6b26fdfd639e1ed6ba37536c3b87
   RNFBApp: 90cf0209fb8f0460ab069a7de857d7ec851c8476
   RNFBAuth: 7a28922f8ae64c5079211ca7af299c9842206839
+  RNFS: 89de7d7f4c0f6bafa05343c578f61118c8282ed8
   RNGoogleSignin: 0f9deae0357018403a3c34b367456dee09c95b2c
   RNImageCropPicker: c83c85012d3d860e1fb40f21bd185e7c95a03506
   RNPermissions: a822726a50b25797a407774b657336e44f163d79
@@ -3148,6 +3154,6 @@ SPEC CHECKSUMS:
   TOCropViewController: 80b8985ad794298fb69d3341de183f33d1853654
   Yoga: c6dc84349a2b99e1900fe5729f5c34df75c009f2
 
-PODFILE CHECKSUM: 8f448953e0310d5e8a445b642c32b63439e22f5a
+PODFILE CHECKSUM: 030bec080819829ec80cef2a8e068bf8d1f29b46
 
 COCOAPODS: 1.16.2

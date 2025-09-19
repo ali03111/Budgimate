@@ -14,7 +14,7 @@ import { Colors } from '../../Theme/Variables';
 import { hp, wp } from '../../Hooks/useResponsive';
 import GoalCardComp from '../../Components/GoalCardComp';
 
-const MyGoalsScreen = () => {
+const MyGoalsScreen = ({ navigation, route }) => {
   const goals = [
     {
       title: 'Emergency fund',

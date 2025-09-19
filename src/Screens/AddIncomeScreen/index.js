@@ -169,7 +169,7 @@ const AddIncomeScreen = ({ navigation, route }) => {
               render={({ field: { onChange, value } }) => (
                 <TextInput
                   style={styles.inputStyle}
-                  placeholder="Enter expense name"
+                  placeholder="Enter income source"
                   maxLength={50}
                   placeholderTextColor={'gray'}
                   value={value}
@@ -236,7 +236,7 @@ const AddIncomeScreen = ({ navigation, route }) => {
           }
         />
         <ThemeButton
-          title={'Saves income'}
+          title={'Save income'}
           isTheme
           style={styles.saveBtn}
           textStyle={{ fontSize: hp('1.5') }}

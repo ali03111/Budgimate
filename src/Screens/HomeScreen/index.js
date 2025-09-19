@@ -149,84 +149,86 @@ const HomeScreen = ({ navigation }) => {
           onPress={() => navigation.navigate('AllocateFundScreen')}
         />
       </View>
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={styles.sectionHeader}>
-          <TextComponent
-            text="Remaining expenses"
-            styles={styles.sectionTitle}
+      <View style={styles.scrollContent}>
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1, paddingBottom: hp('50') }}
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={styles.sectionHeader}>
+            <TextComponent
+              text="Remaining expenses"
+              styles={styles.sectionTitle}
+            />
+            <View style={styles.seeMoreContainer}>
+              <TextComponent
+                text="See more"
+                size="1.4"
+                isLightThemeColor
+                onPress={() => navigation.navigate('IncomeVsExpenseScreen')}
+              />
+              <Image
+                source={arrowRight}
+                resizeMode="contain"
+                style={styles.arrowIcon}
+                tintColor={Colors.primaryColor}
+              />
+            </View>
+          </View>
+
+          <TextComponent text="May 2025" isDarkFade size="1.5" />
+
+          <MultiView
+            data={categoryItem}
+            viewStyle={styles.multiViewContainer}
+            dividerStyles={styles.multiViewDivider}
+            titleStyles={styles.categoryTitle}
+            rightTextStyles={styles.categoryRightText}
           />
-          <View style={styles.seeMoreContainer}>
-            <TextComponent
-              text="See more"
-              size="1.3"
-              isLightThemeColor
-              onPress={() => navigation.navigate('IncomeVsExpenseScreen')}
-            />
-            <Image
-              source={arrowRight}
-              resizeMode="contain"
-              style={styles.arrowIcon}
-              tintColor={Colors.primaryColor}
-            />
+
+          <View style={styles.sectionHeader}>
+            <TextComponent text="Expenses chart" styles={styles.sectionTitle} />
+            <View style={styles.detailsContainer}>
+              <TextComponent
+                text="See details"
+                size="1.3"
+                isLightThemeColor
+                onPress={() => navigation.navigate('IncomeVsExpenseScreen')}
+              />
+              <Image
+                source={arrowRight}
+                resizeMode="contain"
+                style={styles.arrowIcon}
+                tintColor={Colors.primaryColor}
+              />
+            </View>
           </View>
-        </View>
 
-        <TextComponent text="May 2025" isDarkFade size="1.3" />
+          <DonutChartComp />
 
-        <MultiView
-          data={categoryItem}
-          viewStyle={styles.multiViewContainer}
-          dividerStyles={styles.multiViewDivider}
-          titleStyles={styles.categoryTitle}
-          rightTextStyles={styles.categoryRightText}
-        />
-
-        <View style={styles.sectionHeader}>
-          <TextComponent text="Expenses chart" styles={styles.sectionTitle} />
-          <View style={styles.detailsContainer}>
+          <View style={styles.sectionHeader}>
             <TextComponent
-              text="See details"
-              size="1.3"
-              isLightThemeColor
-              onPress={() => navigation.navigate('IncomeVsExpenseScreen')}
+              text="Income vs. Expenses"
+              styles={styles.sectionTitle}
             />
-            <Image
-              source={arrowRight}
-              resizeMode="contain"
-              style={styles.arrowIcon}
-              tintColor={Colors.primaryColor}
-            />
+            <View style={styles.detailsContainer}>
+              <TextComponent
+                text="View details"
+                size="1.3"
+                isLightThemeColor
+                onPress={() => navigation.navigate('IncomeVsExpenseScreen')}
+              />
+              <Image
+                source={arrowRight}
+                resizeMode="contain"
+                style={styles.arrowIcon}
+                tintColor={Colors.primaryColor}
+              />
+            </View>
           </View>
-        </View>
 
-        <DonutChartComp />
-
-        <View style={styles.sectionHeader}>
-          <TextComponent
-            text="Income vs. Expenses"
-            styles={styles.sectionTitle}
-          />
-          <View style={styles.detailsContainer}>
-            <TextComponent
-              text="View details"
-              size="1.3"
-              isLightThemeColor
-              onPress={() => navigation.navigate('IncomeVsExpenseScreen')}
-            />
-            <Image
-              source={arrowRight}
-              resizeMode="contain"
-              style={styles.arrowIcon}
-              tintColor={Colors.primaryColor}
-            />
-          </View>
-        </View>
-
-        <WeeklyFinanceChartComp />
-      </ScrollView>
+          <WeeklyFinanceChartComp />
+        </ScrollView>
+      </View>
     </ImageBackground>
   );
 };

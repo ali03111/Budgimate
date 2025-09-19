@@ -12,6 +12,7 @@ import { PERMISSIONS, RESULTS, check, request } from 'react-native-permissions';
 import { MapAPIKey } from '../Utils/Urls';
 import { store } from '../Redux/Reducer';
 import { femaleImg, maleImg } from '../Assets';
+import RNFS from 'react-native-fs';
 // import Intl from 'intl';
 
 const getSingleCharacter = text => {
@@ -526,48 +527,82 @@ const getIdsFromArry = (arry, key) => {
 };
 
 //GET IMAGE From Mobile
+const MAX_SIZE = 10 * 1024 * 1024; // 10MB
+
+const getOrientation = (width, height) => {
+  if (width > height) return 'landscape';
+  if (height > width) return 'portrait';
+  return 'square';
+};
+
+const compressIfNeeded = async (image, quality = 0.8) => {
+  let currentQuality = quality;
+  let compressed = { ...image };
+
+  // Check size of file
+  let fileSize = await RNFS.stat(compressed.uri.replace('file://', '')).then(
+    f => f.size,
+  );
+
+  while (fileSize > MAX_SIZE && currentQuality > 0.1) {
+    const reduced = await ImageCropPicker.openCropper({
+      path: image.uri,
+      width: Math.floor(image.width * 0.9), // shrink dimensions
+      height: Math.floor(image.height * 0.9),
+      compressImageQuality: currentQuality,
+      cropping: false,
+    });
+
+    compressed = {
+      uri: Platform.OS === 'ios' ? reduced?.sourceURL : reduced?.path,
+      name: reduced?.filename || 'photo.jpg',
+      type: reduced?.mime,
+      width: reduced?.width,
+      height: reduced?.height,
+      orientation: getOrientation(reduced?.width, reduced?.height),
+    };
+
+    fileSize = await RNFS.stat(compressed.uri.replace('file://', '')).then(
+      f => f.size,
+    );
+    currentQuality -= 0.1; // keep reducing quality
+  }
+
+  return compressed;
+};
+// upload from gallery
 const uploadFromGalary = async isMulti => {
   const imageData = await ImageCropPicker.openPicker({
     cropping: false,
-    width: 300, // set desired resolution
-    height: 300,
-    // compressImageQuality: 0.8,
     multiple: isMulti ?? false,
+    compressImageQuality: 0.9, // initial compression
   });
 
-  const getOrientation = (width, height) => {
-    if (width > height) return 'landscape';
-    if (height > width) return 'portrait';
-    return 'square';
-  };
-
   if (Array.isArray(imageData)) {
-    return imageData.map(res => ({
-      uri: Platform.OS === 'ios' ? res?.sourceURL : res?.path,
-      name: res?.filename || 'photo.jpg',
-      type: res?.mime,
-      orientation: getOrientation(res?.width, res?.height),
-    }));
+    const results = [];
+    for (let img of imageData) {
+      const formatted = {
+        uri: Platform.OS === 'ios' ? img?.sourceURL : img?.path,
+        name: img?.filename || 'photo.jpg',
+        type: img?.mime,
+        width: img?.width,
+        height: img?.height,
+        orientation: getOrientation(img?.width, img?.height),
+      };
+      results.push(await compressIfNeeded(formatted));
+    }
+    return results;
   } else {
-    const {
-      height,
-      width,
-      size,
-      path,
-      filename,
-      sourceURL,
-      localIdentifier,
-      mime,
-    } = imageData;
-    const uri = Platform.OS === 'ios' ? sourceURL : path;
-    const fileName = filename || 'photo.jpg';
-
-    return {
-      uri,
-      name: fileName,
+    const { width, height, path, filename, sourceURL, mime } = imageData;
+    const formatted = {
+      uri: Platform.OS === 'ios' ? sourceURL : path,
+      name: filename || 'photo.jpg',
       type: mime,
+      width,
+      height,
       orientation: getOrientation(width, height),
     };
+    return await compressIfNeeded(formatted);
   }
 };
 
@@ -583,12 +618,19 @@ const uploadFromCamera = async isMulti => {
   };
 
   if (Array.isArray(imageData)) {
-    return imageData.map(res => ({
-      uri: Platform.OS === 'ios' ? res?.path : `file://${res?.path}`,
-      name: res?.filename || 'photo.jpg',
-      type: res?.mime,
-      orientation: checkOrientation(res),
-    }));
+    const results = [];
+    for (let img of imageData) {
+      const formatted = {
+        uri: Platform.OS === 'ios' ? path : `file://${path}`,
+        name: img?.filename || 'photo.jpg',
+        type: img?.mime,
+        width: img?.width,
+        height: img?.height,
+        orientation: getOrientation(img?.width, img?.height),
+      };
+      results.push(await compressIfNeeded(formatted));
+    }
+    return results;
   } else {
     const {
       height,
@@ -600,17 +642,26 @@ const uploadFromCamera = async isMulti => {
       localIdentifier,
       mime,
     } = imageData;
-
-    const uri = Platform.OS === 'ios' ? path : sourceURL;
-    const fileName = filename || 'photo.jpg';
-    const orientation = checkOrientation(imageData);
-
-    return {
+    const formatted = {
       uri: Platform.OS === 'ios' ? path : `file://${path}`,
-      name: fileName,
+      name: filename || 'photo.jpg',
       type: mime,
-      orientation,
+      width,
+      height,
+      orientation: getOrientation(width, height),
     };
+    return await compressIfNeeded(formatted);
+
+    // const uri = Platform.OS === 'ios' ? path : sourceURL;
+    // const fileName = filename || 'photo.jpg';
+    // const orientation = checkOrientation(imageData);
+
+    // return {
+    //   uri: Platform.OS === 'ios' ? path : `file://${path}`,
+    //   name: fileName,
+    //   type: mime,
+    //   orientation,
+    // };
   }
 };
 

@@ -2,13 +2,13 @@ const getCredentials = () => {
   if (__DEV__)
     return {
       baseURL: 'https://budgimate.com/backend/api',
-      imageURL: 'https://tac-app-bucket.s3.us-east-2.amazonaws.com/',
+      imageURL: 'https://budgimate.com/backend/storage/',
     };
   else {
     console.log = () => {};
     return {
       baseURL: 'https://budgimate.com/backend/api',
-      imageURL: 'https://tac-app-bucket.s3.us-east-2.amazonaws.com/',
+      imageURL: 'https://budgimate.com/backend/storage/',
     };
   }
 };
@@ -34,11 +34,30 @@ export const MapAPIKey = 'AIzaSyAu-nEBbiOahfUyeMc8Lc1gTTKfete_wnQ';
 export const registerUrl = '/signup';
 export const loginUrl = '/login';
 
-export const createGoalUrl = '/goals/store';
 export const createIncomeUrl = '/income/store';
 export const createExpenseinCategoryUrl = '/expense/store';
 export const updateExpenseinCategoryUrl = '/expense/update/';
 export const deleteExpenseinCategoryUrl = '/expense/delete/';
+
+export const getGoalsUrl = '/goals/index/1';
+export const getGoalsDetailUrl = '/goals/show/';
+export const getGoalsDetailHistoryUrl = '/goals/transaction-history/';
+
+export const createGoalUrl = '/goals/store';
+export const updateGoalUrl = '/goals/update/';
+export const deleteGoalUrl = '/goals/';
+export const completeGoalUrl = '/goals/complete/';
+
+export const createTraceUrl = '/traces/store';
+export const getAllTraceUrl = '/traces';
+export const getTraceDetailUrl = '/traces/show/';
+export const getTraceReportUrl = '/traces/report/';
+export const getTraceExpenseUrl = '/traces/expense-report/';
+export const updateTraceUrl = '/traces/update/';
+export const deleteTraceUrl = '/traces/delete/';
+
+export const updateCategoryLimitUrl = '/module-categories/update/';
+export const deleteCategoryLimitUrl = '/module-categories/delete/';
 
 export const createExpenseCategoryUrl = '/module-categories/store';
 

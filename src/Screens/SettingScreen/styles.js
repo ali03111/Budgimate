@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     paddingLeft: wp('2'),
     marginBottom: hp('1'),
-    fontSize: hp('1.5'),
+    // fontSize: hp('1.5'),
   },
   leftIconStyle: {
     width: wp('7'),

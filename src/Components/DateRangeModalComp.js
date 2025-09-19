@@ -10,13 +10,15 @@ const DateRangeModalComp = ({
   onSelectRange,
   selectedRange,
 }) => {
-  const [active, setActive] = useState(selectedRange || 'week');
+  const [active, setActive] = useState(selectedRange || 'last_week');
 
   const handleSelect = range => {
     setActive(range);
     onSelectRange && onSelectRange(range);
   };
-
+  // last_month
+  // last_week
+  // current_month
   return (
     <Modal transparent visible={visible} animationType="fade">
       <View style={styles.overlay}>
@@ -35,32 +37,39 @@ const DateRangeModalComp = ({
 
           <View style={styles.buttonRow}>
             <TouchableOpacity
-              style={[styles.rangeBtn, active === 'week' && styles.activeBtn]}
-              onPress={() => handleSelect('week')}
+              style={[
+                styles.rangeBtn,
+                active === 'last_week' && styles.activeBtn,
+              ]}
+              onPress={() => handleSelect('last_week')}
             >
               <TextComponent
                 text="Last week"
                 size="1.5"
                 styles={[styles.btnText]}
-                isWhite={Boolean(active === 'week')}
+                isWhite={Boolean(active === 'last_week')}
               />
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={[styles.rangeBtn, active === 'month' && styles.activeBtn]}
-              onPress={() => handleSelect('month')}
+              style={[
+                styles.rangeBtn,
+                active === 'last_month' && styles.activeBtn,
+              ]}
+              onPress={() => handleSelect('last_month')}
             >
               <TextComponent
                 text="Last month"
                 size="1.5"
+                isWhite={Boolean(active === 'last_month')}
                 styles={[
                   styles.btnText,
-                  active === 'month' && styles.activeBtnText,
+                  active === 'last_month' && styles.activeBtnText,
                 ]}
               />
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={onClose}>
+            <TouchableOpacity onPress={() => handleSelect('current_month')}>
               <TextComponent
                 text="Reset"
                 size="1.5"

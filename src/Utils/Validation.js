@@ -110,22 +110,11 @@ const addIncomeSchema = yup.object().shape({
 const addGoalSchema = yup.object().shape({
   goalPrice: yup.string().required('Please enter goal price.'),
   note: yup.string(),
-  goalType: yup
-    .string()
-    .oneOf(
-      [
-        { title: 'Income', id: 'Income' },
-        { title: 'Savings', id: 'Savings' },
-        { title: 'leftover', id: 'leftover' },
-      ],
-      'Please select a valid type.',
-    )
-    .required('Please select goal type.'),
+
   goalName: yup.string().required('Please goal name.'),
   targetCompleteDate: yup
     .string()
     .required('Please select target complete period.'),
-  gaolImg: yup.mixed().required('Goal image is required'),
 });
 const createCategorySchema = yup.object().shape({
   amountLimit: yup.string().required('Please enter limit price.'),

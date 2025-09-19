@@ -27,13 +27,13 @@ const ExpenseProgressCard = ({
       <View style={styles.detailsContainer}>
         <View style={styles.headerRow}>
           <TextComponent
-            text={item?.category_name ?? title}
+            text={item?.category_name ?? item?.name ?? title}
             styles={styles.titleText}
             size={'1.5'}
           />
           <View style={styles.amountRow}>
             <TextComponent
-              text={`$${formatPrice(item?.spent) ?? remaining}`}
+              text={`${formatPrice(item?.spent ?? item?.budget) ?? remaining}`}
               isThemeColor
               styles={styles.amountText}
               size={'1.2'}
@@ -47,9 +47,12 @@ const ExpenseProgressCard = ({
         </View>
 
         <TextComponent
-          text={`${
-            calculatePercentage(item?.spent, item?.limit) ?? percentageSpent
-          }% of total expense spent`}
+          text={
+            item?.type ??
+            `${
+              calculatePercentage(item?.spent, item?.limit) ?? percentageSpent
+            }% of total expense spent`
+          }
           styles={[styles.spentText, { color: spentColor }]}
           size={'1.2'}
         />
@@ -57,8 +60,12 @@ const ExpenseProgressCard = ({
         <View style={styles.progressBackground}>
           <View
             style={[
-              styles.progressFill,
-              { width: calculatePercentage(item?.spent, item?.limit) },
+              styles.progressFill(
+                calculatePercentage(
+                  item?.spent ?? item?.expenses_sum_amount ?? 0,
+                  item?.limit ?? item?.budget,
+                ),
+              ),
             ]}
           />
         </View>
@@ -128,9 +135,13 @@ const styles = StyleSheet.create({
     borderRadius: hp('1'),
     overflow: 'hidden',
   },
-  progressFill: {
+  progressFill: progressRatio => ({
     height: '100%',
-    backgroundColor: Colors.primaryColor,
+    backgroundColor:
+      progressRatio >= 100 ? Colors.themeRed : Colors.primaryColor,
     borderRadius: hp('1'),
-  },
+    width: progressRatio
+      ? `${progressRatio >= 100 ? 100 : progressRatio}%`
+      : '0%',
+  }),
 });

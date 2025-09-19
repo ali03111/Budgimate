@@ -39,7 +39,7 @@ const useRegister = ({ navigate, goBack }) => {
   };
 
   const socialLoginFun = type => {
-    dispatch(loginUser({ type, datas: {} }));
+    dispatch(loginThunk({ type, datas: {} }));
   };
 
   return {

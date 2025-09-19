@@ -58,7 +58,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row',
     marginHorizontal: wp('3.5'),
-    marginTop: hp('0.5'),
+    // marginTop: hp('0.5'),
   },
   backRightBtn: {
     height: Platform.OS == 'android' ? hp('8.2') : hp('8'),
@@ -67,7 +67,7 @@ export const styles = StyleSheet.create({
     // alignItems: 'center',
   },
   backRightBtnLeft: {
-    backgroundColor: '#1877F2',
+    // backgroundColor: '#1877F2',
     flex: 1,
     // height: Platform.OS == 'ios' ? hp('10') : hp('10'),
     borderTopLeftRadius: 15,
@@ -78,7 +78,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   backRightBtnRight: {
-    backgroundColor: '#EA4335',
+    // backgroundColor: '#EA4335',
     flex: 1,
     // height: Platform.OS == 'ios' ? hp('10') : hp('10'),
     borderTopRightRadius: 15,

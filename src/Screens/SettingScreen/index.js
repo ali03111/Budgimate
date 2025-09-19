@@ -3,10 +3,12 @@ import React, { memo } from 'react';
 import {
   aboutBlue,
   contactUs,
+  deleteBlueBg,
   faceID,
   helpCenter,
   linkAccount,
   LoginBg,
+  logoutBlueBg,
   notificationBlue,
   passwordBlue,
   privacyBlue,
@@ -20,8 +22,13 @@ import { hp, wp } from '../../Hooks/useResponsive';
 import { styles } from './styles';
 import { TextComponent } from '../../Components/TextComponent';
 import { HeaderComponent } from '../../Components/HeaderComp';
+import { AlertDesign } from '../../Components/AlertDesign';
+import useSettingScreen from './useSettingScreen';
 
 const SettingScreen = ({ navigation }) => {
+  const { deleteAlert, logoutAlert, toggleAlert, onConfirm } =
+    useSettingScreen();
+
   const Account = {
     title: 'Account',
     arryView: [
@@ -123,6 +130,15 @@ const SettingScreen = ({ navigation }) => {
         leftIcon: termsBlue,
         subView: 'Contact us for support',
       },
+      {
+        title: 'Logout',
+        leftIcon: logoutBlueBg,
+        onPress: () => toggleAlert('logoutAlert'),
+      },
+      // {
+      //   title: 'Delete account',
+      //   leftIcon: deleteBlueBg,
+      // },
     ],
   };
 
@@ -143,7 +159,7 @@ const SettingScreen = ({ navigation }) => {
             viewStyle={{ width: wp('100') }}
             //   dividerStyles={{ marginLeft: wp('8') }}
             leftStyles={styles.leftIconStyle}
-            titleStyles={{ fontSize: hp('1.4') }}
+            titleStyles={{ fontSize: hp('1.8') }}
             itemViewStyle={{ marginVertical: hp('1') }}
           />
         </View>
@@ -154,7 +170,7 @@ const SettingScreen = ({ navigation }) => {
             viewStyle={{ width: wp('100') }}
             //   dividerStyles={{ marginLeft: wp('8') }}
             leftStyles={styles.leftIconStyle}
-            titleStyles={{ fontSize: hp('1.4') }}
+            titleStyles={{ fontSize: hp('1.8') }}
             itemViewStyle={{ marginVertical: hp('1') }}
           />
         </View>
@@ -168,8 +184,8 @@ const SettingScreen = ({ navigation }) => {
             viewStyle={{ width: wp('100') }}
             //   dividerStyles={{ marginLeft: wp('8') }}
             leftStyles={styles.leftIconStyle}
-            titleStyles={{ fontSize: hp('1.4') }}
-            itemViewStyle={{ marginVertical: hp('1') }}
+            titleStyles={{ fontSize: hp('1.8') }}
+            itemViewStyle={{ marginVertical: hp('0.5') }}
           />
         </View>
         <View style={styles.upperWhiteView}>
@@ -179,7 +195,7 @@ const SettingScreen = ({ navigation }) => {
             viewStyle={{ width: wp('100') }}
             //   dividerStyles={{ marginLeft: wp('8') }}
             leftStyles={styles.leftIconStyle}
-            titleStyles={{ fontSize: hp('1.4') }}
+            titleStyles={{ fontSize: hp('1.8') }}
             itemViewStyle={{ marginVertical: hp('1') }}
           />
         </View>
@@ -190,11 +206,33 @@ const SettingScreen = ({ navigation }) => {
             viewStyle={{ width: wp('100') }}
             //   dividerStyles={{ marginLeft: wp('8') }}
             leftStyles={styles.leftIconStyle}
-            titleStyles={{ fontSize: hp('1.4') }}
+            titleStyles={{ fontSize: hp('1.8') }}
             itemViewStyle={{ marginVertical: hp('1') }}
           />
         </View>
       </ScrollView>
+      <AlertDesign
+        isVisible={
+          (deleteAlert == true && deleteAlert) ||
+          (logoutAlert == true && logoutAlert)
+        }
+        message={
+          (logoutAlert && 'Are you sure you want to logout?') ||
+          (deleteAlert && 'Are you sure that you want to delete your account?')
+        }
+        confirmText={'Log out'}
+        title={'Warning'}
+        onConfirm={() =>
+          onConfirm(
+            (logoutAlert && 'logoutAlert') || (deleteAlert && 'deleteAlert'),
+          )
+        }
+        onCancel={() =>
+          toggleAlert(
+            (logoutAlert && 'logoutAlert') || (deleteAlert && 'deleteAlert'),
+          )
+        }
+      />
     </ImageBackground>
   );
 };

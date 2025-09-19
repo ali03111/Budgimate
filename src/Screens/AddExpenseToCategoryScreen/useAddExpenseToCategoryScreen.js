@@ -7,6 +7,7 @@ import {
   createExpenseinCategoryUrl,
   deleteExpenseinCategoryUrl,
   getExpenseByCategoryUrl,
+  updateCategoryLimitUrl,
   updateExpenseinCategoryUrl,
 } from '../../Utils/Urls';
 import { errorMessage, successMessage } from '../../Config/NotificationMessage';
@@ -48,7 +49,7 @@ const useAddExpenseToCategoryScreen = ({ navigate }, { params }) => {
   const [datePickerState, setDatePickerState] = useState(false);
 
   const [expensesArry, setExpensesArry] = useState([1, 2]);
-  const [dummy, setDummy] = useState(0);
+  const [catUpateLimit, setCatUpdareLimit] = useState(false);
 
   const [formState, setFormState] = useState({
     selectedDate: null,
@@ -56,9 +57,11 @@ const useAddExpenseToCategoryScreen = ({ navigate }, { params }) => {
     comment: null,
     inputPrice: null,
     isEdit: false,
+    catLimit: '',
   });
 
-  const { comment, inputPrice, selectedDate, selectedImg, isEdit } = formState;
+  const { comment, inputPrice, selectedDate, selectedImg, isEdit, catLimit } =
+    formState;
 
   const updateState = data => setFormState(prev => ({ ...prev, ...data }));
 
@@ -118,6 +121,37 @@ const useAddExpenseToCategoryScreen = ({ navigate }, { params }) => {
       if (ok) {
         successMessage(data?.message);
         queryClient.invalidateQueries(['expenseByCategoryData']);
+        queryClient.invalidateQueries(['getExpenseCategoryUrl']);
+        setFormState({
+          selectedDate: null,
+          selectedImg: null,
+          comment: null,
+          inputPrice: null,
+          isEdit: false,
+        });
+      } else {
+        errorMessage('Oops! Something went wrong. Please try again later.');
+      }
+    },
+    onError: () => {
+      errorMessage('Network request failed.');
+    },
+  });
+  const updateCatLimit = useMutation({
+    mutationFn: _ => {
+      return API.post(
+        updateCategoryLimitUrl + data?.data?.category?.module_category_id,
+        {
+          limit_amount: catLimit,
+        },
+      );
+    },
+    onSuccess: ({ ok, data }) => {
+      console.log('skldbvklsdbvklsblkvbsdklbvksd', data);
+      if (ok) {
+        successMessage(data?.message);
+        queryClient.invalidateQueries(['expenseByCategoryData']);
+        queryClient.invalidateQueries(['getExpenseCategoryUrl']);
         setFormState({
           selectedDate: null,
           selectedImg: null,
@@ -182,8 +216,14 @@ const useAddExpenseToCategoryScreen = ({ navigate }, { params }) => {
       setModalState(false);
       mutateAsync();
     },
-    dummy,
-    setDummy,
+    catLimit,
+    onUpdateCatLimit: () => {
+      setCatUpdareLimit(false);
+      updateCatLimit.mutate();
+    },
+    catUpateLimit,
+    setCatUpdareLimit,
+    formState,
   };
 };
 

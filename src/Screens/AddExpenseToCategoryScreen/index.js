@@ -74,8 +74,11 @@ const AddExpenseToCategoryScreen = ({ navigation, route }) => {
     setFormState,
     isEdit,
     onDeleteExpense,
-    dummy,
-    setDummy,
+    formState,
+    catLimit,
+    onUpdateCatLimit,
+    catUpateLimit,
+    setCatUpdareLimit,
   } = useAddExpenseToCategoryScreen(navigation, route);
 
   // const ModalViewData = () => {
@@ -173,20 +176,31 @@ const AddExpenseToCategoryScreen = ({ navigation, route }) => {
       <View style={{ flexGrow: 1, paddingHorizontal: wp('2') }}>
         <View style={styles.header}>
           <TextComponent text={catName} family={'600'} size={'2.5'} />
-          {/* <TouchableOpacity style={styles.editButton}>
+          <TouchableOpacity
+            style={styles.editButton}
+            onPress={() => {
+              console.log(
+                'pricepricepricepricepricepricepricepriceprice',
+                price,
+              );
+              onChangeVal('catLimit', price.toString());
+              onChangeVal('expenseID', expensesArryFromApi[0]?.id);
+              setCatUpdareLimit(true);
+            }}
+          >
             <Image
               source={editIcon}
               style={styles.editIcon}
               resizeMode="contain"
             />
-          </TouchableOpacity> */}
+          </TouchableOpacity>
         </View>
-        <TextComponent
+        {/* <TextComponent
           text={'Have to look on expenses in dubai.'}
           family={'300'}
           size={'1.5'}
           styles={styles.description}
-        />
+        /> */}
         <View style={styles.progressContainer}>
           <View
             style={styles.progressBar(
@@ -370,6 +384,34 @@ const AddExpenseToCategoryScreen = ({ navigation, route }) => {
           }}
           isNewBtn={isEdit}
           btnTitle={isEdit ? 'Update Expense' : 'Save Expense'}
+          // onBackPress={}
+        />
+      )}
+      {catUpateLimit && (
+        <ModalViewComp
+          isModal={catUpateLimit}
+          heading={'Update Category Limit'}
+          subtitle={`You’ve left $${catDataFromAPi?.spent} from the total budget of $${price} from the ${catName}.`}
+          childrenComp={
+            <View style={styles.priceMainView}>
+              <View style={styles.priceInnerView}>
+                <TextComponent text={'$ '} size={'1.5'} />
+                <TextInput
+                  placeholder="Enter price"
+                  onChangeText={e => onChangeVal('catLimit', e)}
+                  style={[styles.priceInput, { width: wp('70') }]}
+                  value={catLimit}
+                  placeholderTextColor={'gray'}
+                  keyboardType="numeric"
+                />
+              </View>
+            </View>
+          }
+          onBackPress={() => setCatUpdareLimit(false)}
+          onPress={() => {
+            if (catLimit != '') onUpdateCatLimit();
+          }}
+          btnTitle={'Update Limit'}
           // onBackPress={}
         />
       )}
