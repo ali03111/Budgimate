@@ -179,7 +179,7 @@ const useAddExpenseToCategoryScreen = ({ navigate }, { params }) => {
         expense_category_id: data?.data?.category?.expense_category_id,
         amount: inputPrice,
         date: formatDateToYMD(selectedDate ?? currentDate),
-        name: comment,
+        name: comment ?? 'Name not availabe',
         receipt: selectedImg,
         // image: selectedImg,
       });
@@ -194,7 +194,7 @@ const useAddExpenseToCategoryScreen = ({ navigate }, { params }) => {
     onSubmit,
     inputWidth,
     setInputWidth,
-    price: params?.price ?? data?.data?.category?.limit ?? 0,
+    price: data?.data?.category?.limit ?? params?.price ?? 0,
     catName: params?.catVal?.name,
     onAddExpense,
     onUpdateVal,

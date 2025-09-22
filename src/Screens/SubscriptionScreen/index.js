@@ -32,19 +32,19 @@ const SubscriptionScreen = ({ navigation }) => {
         <TextComponent
           text="Take full control of your finances."
           isWhite
-          size="1.8"
+          size="2.2"
           styles={styles.subHeaderText}
         />
         <TextComponent
           text="Go beyond basic budgeting and unlock powerful features designed to help you save smarter, spend wisely, and achieve your financial goals faster."
           fade
-          size="1.5"
+          size="2"
           styles={styles.descriptionText}
         />
         <TextComponent
           text="What You’ll Get:"
           isWhite
-          size="1.8"
+          size="2"
           styles={styles.sectionHeader}
         />
         {subscriptionPoints.map((res, index) => (
@@ -52,7 +52,7 @@ const SubscriptionScreen = ({ navigation }) => {
             key={index}
             text={res}
             fade
-            size="1.2"
+            size="1.8"
             styles={styles.bulletPoint}
           />
         ))}
@@ -80,7 +80,7 @@ const SubscriptionScreen = ({ navigation }) => {
           <Image source={family} resizeMode="contain" style={styles.planIcon} />
           <View style={styles.planDetails}>
             <TextComponent text="Family Plan" size="1.8" isWhite />
-            <TextComponent text="$2.99/month" fade size="1.5" />
+            <TextComponent text="$2.99/month" fade size="1.6" />
           </View>
           <Image
             source={grayCircleEmpty}
@@ -98,7 +98,7 @@ const SubscriptionScreen = ({ navigation }) => {
         <TextComponent
           text="Payments renew monthly. Cancel anytime from settings."
           fade
-          size="1.2"
+          size="1.6"
           styles={styles.footerNote}
         />
       </ScrollView>

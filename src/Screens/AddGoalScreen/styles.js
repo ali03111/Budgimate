@@ -79,7 +79,12 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: hp('3'),
   },
-  inputStyle: { flex: 1, color: 'black', fontSize: hp('1.2') },
+  inputStyle: {
+    flex: 1,
+    color: 'black',
+    fontSize: hp('1.8'),
+    height: hp('5.5'),
+  },
 
   textTouchBtn: {
     width: wp('90'),
@@ -88,7 +93,7 @@ export const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: Colors.dkBorderColor,
     backgroundColor: 'white',
-    height: hp('4'),
+    height: hp('4.5'),
     paddingHorizontal: wp('2'),
     marginBottom: hp('1'),
     fontSize: hp('1.2'),
@@ -108,7 +113,7 @@ export const styles = StyleSheet.create({
     marginBottom: hp('1'),
   },
   compTitle: {
-    fontSize: hp('1.5'),
+    fontSize: hp('1.8'),
     marginVertical: hp('1'),
     color: Colors.darkBlueColor,
   },

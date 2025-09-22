@@ -160,7 +160,6 @@ const SettingScreen = ({ navigation }) => {
             //   dividerStyles={{ marginLeft: wp('8') }}
             leftStyles={styles.leftIconStyle}
             titleStyles={{ fontSize: hp('1.8') }}
-            itemViewStyle={{ marginVertical: hp('1') }}
           />
         </View>
         <View style={styles.upperWhiteView}>
@@ -171,7 +170,6 @@ const SettingScreen = ({ navigation }) => {
             //   dividerStyles={{ marginLeft: wp('8') }}
             leftStyles={styles.leftIconStyle}
             titleStyles={{ fontSize: hp('1.8') }}
-            itemViewStyle={{ marginVertical: hp('1') }}
           />
         </View>
         <View style={styles.upperWhiteView}>
@@ -185,7 +183,6 @@ const SettingScreen = ({ navigation }) => {
             //   dividerStyles={{ marginLeft: wp('8') }}
             leftStyles={styles.leftIconStyle}
             titleStyles={{ fontSize: hp('1.8') }}
-            itemViewStyle={{ marginVertical: hp('0.5') }}
           />
         </View>
         <View style={styles.upperWhiteView}>
@@ -196,7 +193,6 @@ const SettingScreen = ({ navigation }) => {
             //   dividerStyles={{ marginLeft: wp('8') }}
             leftStyles={styles.leftIconStyle}
             titleStyles={{ fontSize: hp('1.8') }}
-            itemViewStyle={{ marginVertical: hp('1') }}
           />
         </View>
         <View style={styles.upperWhiteView}>
@@ -207,7 +203,6 @@ const SettingScreen = ({ navigation }) => {
             //   dividerStyles={{ marginLeft: wp('8') }}
             leftStyles={styles.leftIconStyle}
             titleStyles={{ fontSize: hp('1.8') }}
-            itemViewStyle={{ marginVertical: hp('1') }}
           />
         </View>
       </ScrollView>

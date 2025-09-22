@@ -90,7 +90,7 @@ const addUsernameScheme = yup.object().shape({
   username: yup.string().required('Please enter name.'),
 });
 const addIncomeSchema = yup.object().shape({
-  incomePrice: yup.string().required('Please income.'),
+  incomePrice: yup.string().required('Please add income.'),
   incomeType: yup
     .string()
     // .requiredoneOf(

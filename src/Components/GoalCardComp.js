@@ -25,7 +25,11 @@ const GoalCardComp = ({ mainView, isDisable, item }) => {
         >
           <View style={styles.detailsRow}>
             <Text style={styles.details}>View details</Text>
-            <Image source={arrowRight} style={styles.arrowIcon} />
+            <Image
+              source={arrowRight}
+              style={styles.arrowIcon}
+              resizeMode="contain"
+            />
           </View>
         </Touchable>
       </View>
@@ -87,7 +91,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: hp('1.5'),
+    fontSize: hp('1.8'),
     fontWeight: '600',
     color: Colors.darkBlueColor,
   },
@@ -96,15 +100,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   details: {
-    fontSize: hp('1.3'),
+    fontSize: hp('1.8'),
     color: Colors.primaryColor,
     marginRight: wp('1'),
   },
   arrowIcon: {
-    width: wp('3'),
-    height: wp('3'),
+    width: wp('5'),
+    height: wp('5'),
     tintColor: Colors.primaryColor,
-    resizeMode: 'contain',
   },
   subtitle: {
     fontSize: hp('1.2'),
@@ -117,11 +120,11 @@ const styles = StyleSheet.create({
     marginTop: hp('2'),
   },
   achieved: {
-    fontSize: hp('1.3'),
+    fontSize: hp('1.5'),
     color: Colors.textGray,
   },
   left: {
-    fontSize: hp('1.3'),
+    fontSize: hp('1.5'),
     color: Colors.textGray,
   },
   bold: {

@@ -33,3 +33,4 @@ export { default as TwoFactorAuthScreen } from './TwoFactorAuthScreen';
 export { default as BiometricAuthScreen } from './BiometricAuthScreen';
 export { default as NotificationScreen } from './NotificationScreen';
 export { default as TranscritionHistoryScreen } from './TranscritionHistoryScreen';
+export { default as ReportScreen } from './ReportScreen';

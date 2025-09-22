@@ -52,7 +52,7 @@ const AddCategoryScreen = ({ navigation, route }) => {
           ios_backgroundColor="#EAF6ED"
           onValueChange={e => onChangeVal('isBudgmetLimit', e)}
           value={isBudgmetLimit}
-          style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }} // Adjust the scale as needed
+          style={{ transform: [{ scaleX: 0.7 }, { scaleY: 0.7 }] }} // Adjust the scale as needed
         />
       ),
     },
@@ -68,7 +68,7 @@ const AddCategoryScreen = ({ navigation, route }) => {
           ios_backgroundColor="#EAF6ED"
           onValueChange={e => onChangeVal('isOverSpend', e)}
           value={isOverSpend}
-          style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }} // Adjust the scale as needed
+          style={{ transform: [{ scaleX: 0.7 }, { scaleY: 0.7 }] }} // Adjust the scale as needed
         />
       ),
     },
@@ -88,7 +88,7 @@ const AddCategoryScreen = ({ navigation, route }) => {
           text={'Category'}
           family={'400'}
           isThemeColor
-          size={'1.5'}
+          size={'2'}
         />
         <Touchable
           style={styles.categoryContainer}
@@ -96,12 +96,12 @@ const AddCategoryScreen = ({ navigation, route }) => {
         >
           <TextComponent
             text={selectedCat?.name ?? 'Please select category'}
-            size={'1.5'}
+            size={'1.6'}
           />
           <Image
             source={arrRightPurple}
             resizeMode="contain"
-            style={{ width: wp('3'), height: hp('2') }}
+            style={{ width: wp('4'), height: hp('2') }}
             tintColor={Colors.dkBorderColor}
           />
         </Touchable>
@@ -121,7 +121,7 @@ const AddCategoryScreen = ({ navigation, route }) => {
                 onChangeVal('priceInput', text);
               }}
               style={{
-                fontSize: hp('2.5'),
+                fontSize: hp('3'),
                 color: 'black',
                 width: inputWidth,
               }}
@@ -133,20 +133,20 @@ const AddCategoryScreen = ({ navigation, route }) => {
           <TextComponent
             text={'Set amount limit for your category'}
             fade
-            size={'1.5'}
+            size={'1.8'}
             styles={styles.addIncomeText}
           />
         </View>
         <TextComponent
           text={'In - app notification'}
           isThemeColor
-          size={'1.5'}
+          size={'2'}
           styles={styles.inAppNotiText}
         />
         <MultiView
           data={bottomView}
           titleStyles={{
-            fontSize: hp('1.5'),
+            fontSize: hp('1.8'),
             color: Colors.textGray,
             width: wp('85'),
           }}

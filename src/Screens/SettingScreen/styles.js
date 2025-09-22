@@ -10,7 +10,8 @@ export const styles = StyleSheet.create({
   headingText: {
     fontWeight: 'bold',
     paddingLeft: wp('2'),
-    marginBottom: hp('1'),
+    marginBottom: hp('0.5'),
+    marginTop: hp('2'),
     // fontSize: hp('1.5'),
   },
   leftIconStyle: {

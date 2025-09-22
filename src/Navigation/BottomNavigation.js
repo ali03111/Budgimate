@@ -99,7 +99,7 @@ function MybottomTabs() {
           shadowOpacity: 0,
           borderTopRightRadius: 20,
           borderTopLeftRadius: 20,
-          height: hp('8'),
+          height: hp('9'),
           paddingBottom: hp('1.5'),
           // bottom: Platform.OS == 'ios' ? hp('1.7') : hp('1.5'),
           width: wp('100'),
@@ -121,19 +121,20 @@ function MybottomTabs() {
         component={Screens.AllTraceScreen}
       />
       <Tab.Screen
-        name="MyEventScreen"
+        name="AddNewBottomScreen"
         options={tabarComponent(
           bluePlus,
           bluePlus,
-          { width: wp('15'), bottom: hp('2') },
+          { width: wp('18'), bottom: hp('2') },
           true,
         )}
         component={Screens.AddNewScreen}
       />
       <Tab.Screen
         name="AllBottomGoalScreen"
-        options={tabarComponent(target, target, {}, true)}
+        options={tabarComponent(target, target)}
         component={Screens.AllGoalScreen}
+        initialParams={{ noBack: true }}
       />
       <Tab.Screen
         name="SettingScreen"
@@ -198,6 +199,6 @@ const styles = StyleSheet.create({
 
   imgstyle: {
     resizeMode: 'contain',
-    width: wp('5'),
+    width: wp('6'),
   },
 });

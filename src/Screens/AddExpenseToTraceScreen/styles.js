@@ -23,8 +23,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   plusIcon: {
-    width: wp('4'),
-    height: hp('2'),
+    width: wp('5'),
+    height: hp('3'),
   },
   limitSpentRow: {
     flexDirection: 'row',
@@ -40,11 +40,15 @@ export const styles = StyleSheet.create({
     borderRadius: hp('1'),
     overflow: 'hidden',
   },
-  progressFill: {
+  progressFill: progressRatio => ({
     height: '100%',
-    backgroundColor: Colors.primaryColor,
+    backgroundColor:
+      progressRatio >= 100 ? Colors.themeRed : Colors.primaryColor,
     borderRadius: hp('1'),
-  },
+    width: progressRatio
+      ? `${progressRatio >= 100 ? 100 : progressRatio}%`
+      : '0%',
+  }),
 
   // Description
   descriptionLabel: {
@@ -66,7 +70,7 @@ export const styles = StyleSheet.create({
     overflow: 'scroll',
   },
   descriptionInput: {
-    fontSize: hp('1.5'),
+    fontSize: hp('1.8'),
     // height: hp('8'),
   },
 
@@ -228,5 +232,45 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: hp('2'),
     marginLeft: wp('2'),
+  },
+
+  rowBack: {
+    // width: wp('100'),
+    // marginBottom: 10,
+    // flex: 1,
+    borderRadius: 15,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    marginHorizontal: wp('3.5'),
+    marginTop: hp('0.5'),
+  },
+  backRightBtn: {
+    height: Platform.OS == 'ios' ? hp(8) : hp('8.2'),
+    borderRadius: 10,
+    // textAlign: 'left',
+    // alignItems: 'center',
+  },
+  backRightBtnLeft: {
+    // backgroundColor: '#1877F2',
+    flex: 1,
+    // height: Platform.OS == 'ios' ? hp('10') : hp('10'),
+    borderTopLeftRadius: 15,
+    borderBottomLeftRadius: 15,
+    paddingTop: Platform.OS == 'ios' ? hp('1.5') : hp('0'),
+    paddingLeft: wp('35'),
+  },
+  backRightBtnRight: {
+    // backgroundColor: '#EA4335',
+    flex: 1,
+    // height: Platform.OS == 'ios' ? hp('10') : hp('10'),
+    borderTopRightRadius: 15,
+    borderBottomRightRadius: 15,
+    alignItems: 'flex-end',
+    paddingTop: Platform.OS == 'ios' ? hp('1.5') : hp('0'),
+    paddingRight: wp('35'),
+  },
+  trashIcon: {
+    width: wp('6'),
+    resizeMode: 'contain',
   },
 });

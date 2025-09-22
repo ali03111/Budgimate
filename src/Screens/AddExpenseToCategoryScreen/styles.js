@@ -132,10 +132,10 @@ export const styles = StyleSheet.create({
   },
   commentInput: {
     flex: 1,
-    fontSize: hp('1.5'),
+    fontSize: hp('1.8'),
   },
   priceInput: {
-    fontSize: hp('1.5'),
+    fontSize: hp('1.8'),
     color: 'black',
   },
   summaryRow: {

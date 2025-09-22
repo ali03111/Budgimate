@@ -107,7 +107,7 @@ const HomeScreen = ({ navigation }) => {
           <TextComponent
             text={'💰Surplus Success!'}
             family={'600'}
-            size={'1.5'}
+            size={'1.8'}
           />
           <Touchable>
             <Image
@@ -120,14 +120,14 @@ const HomeScreen = ({ navigation }) => {
         </View>
         <TextComponent
           text={'You’ve got $235 left unspent — that’s money working for you.'}
-          size={'1.3'}
+          size={'1.5'}
           styles={{ marginTop: hp('1') }}
         />
         <TextComponent
           text={
             'Smart spending leads to smarter choices. Ready to save, invest, or treat yourself?'
           }
-          size={'1.3'}
+          size={'1.5'}
           styles={{ marginTop: hp('1') }}
         />
         <ThemeButton
@@ -162,7 +162,7 @@ const HomeScreen = ({ navigation }) => {
             <View style={styles.seeMoreContainer}>
               <TextComponent
                 text="See more"
-                size="1.4"
+                size="1.6"
                 isLightThemeColor
                 onPress={() => navigation.navigate('IncomeVsExpenseScreen')}
               />
@@ -175,7 +175,7 @@ const HomeScreen = ({ navigation }) => {
             </View>
           </View>
 
-          <TextComponent text="May 2025" isDarkFade size="1.5" />
+          <TextComponent text="May 2025" isDarkFade size="1.6" />
 
           <MultiView
             data={categoryItem}
@@ -190,7 +190,7 @@ const HomeScreen = ({ navigation }) => {
             <View style={styles.detailsContainer}>
               <TextComponent
                 text="See details"
-                size="1.3"
+                size="1.6"
                 isLightThemeColor
                 onPress={() => navigation.navigate('IncomeVsExpenseScreen')}
               />
@@ -213,7 +213,7 @@ const HomeScreen = ({ navigation }) => {
             <View style={styles.detailsContainer}>
               <TextComponent
                 text="View details"
-                size="1.3"
+                size="1.6"
                 isLightThemeColor
                 onPress={() => navigation.navigate('IncomeVsExpenseScreen')}
               />

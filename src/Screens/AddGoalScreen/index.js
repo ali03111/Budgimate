@@ -168,7 +168,7 @@ const AddGoalScreen = ({ navigation, route }) => {
                     onChange(text); // increase width based on content
                   }}
                   style={{
-                    fontSize: hp('2.5'),
+                    fontSize: hp('3.5'),
                     color: 'black',
                     // width: value ?? inputWidth,
                   }}
@@ -183,13 +183,13 @@ const AddGoalScreen = ({ navigation, route }) => {
           <TextComponent
             text={'Set an amount for your goal'}
             fade
-            size={'1.5'}
+            size={'1.8'}
             styles={styles.addIncomeText}
           />
         </View>
         <TitleInputView
-          title={'Goal name'}
-          //   errorName={errors['eventTitle']}
+          title={'Goal name*'}
+          errorName={errors['goalName']}
           innerLeftView={
             <Controller
               control={control}
@@ -208,35 +208,45 @@ const AddGoalScreen = ({ navigation, route }) => {
           }
         />
         <TitleInputView
-          title={'Target completion date'}
-          //   errorName={errors['eventTitle']}
+          title={'Target completion date*'}
+          errorName={errors['targetCompleteDate']}
           centerInnerView={
-            <Controller
-              control={control}
-              name="targetCompleteDate"
-              render={({ field: { onChange, value } }) => (
-                <Touchable
-                  style={styles.textTouchBtn}
-                  onPress={() => toggleDate('targetCompleteDate')}
-                >
-                  <TextComponent
-                    // text={'DD / MM / YYYY'}
-                    text={formatDateToLong(value) ?? 'DD / MM / YYYY'}
-                    styles={styles.textStyle(Boolean(formatDateToLong(value)))}
-                    size={'1.2'}
-                  />
-                  <Image
-                    source={calendar}
-                    resizeMode="contain"
-                    style={styles.calenderIcon}
-                  />
-                </Touchable>
+            <>
+              <Controller
+                control={control}
+                name="targetCompleteDate"
+                render={({ field: { onChange, value } }) => (
+                  <Touchable
+                    style={styles.textTouchBtn}
+                    onPress={() => toggleDate('targetCompleteDate')}
+                  >
+                    <TextComponent
+                      // text={'DD / MM / YYYY'}
+                      text={formatDateToLong(value) ?? 'DD / MM / YYYY'}
+                      styles={styles.textStyle(
+                        Boolean(formatDateToLong(value)),
+                      )}
+                      size={'1.5'}
+                    />
+                    <Image
+                      source={calendar}
+                      resizeMode="contain"
+                      style={styles.calenderIcon}
+                    />
+                  </Touchable>
+                )}
+              />
+              {errors['targetCompleteDate']?.message && (
+                <TextComponent
+                  text={errors['targetCompleteDate']?.message}
+                  styles={styles.errorText}
+                />
               )}
-            />
+            </>
           }
         />
         <TitleInputView
-          mainViewStyles={{ marginTop: hp('-1'), paddingBottom: hp('2') }}
+          mainViewStyles={{ marginTop: hp('-10'), paddingBottom: hp('2') }}
           title={'Notes'}
           //   errorName={errors['specialNotes']}
           centerInnerView={
@@ -250,7 +260,7 @@ const AddGoalScreen = ({ navigation, route }) => {
                       overflow: 'scroll',
                       alignSelf: 'flex-start',
                       color: 'black',
-                      fontSize: hp('1.5'),
+                      fontSize: hp('1.8'),
                     }}
                     placeholder="Write here..."
                     maxLength={50}

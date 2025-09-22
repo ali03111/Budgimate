@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
     elevation: 2,
   },
   statLabel: {
-    fontSize: hp('1.5'),
+    fontSize: hp('2'),
     color: Colors.textGray,
     marginBottom: hp('1'),
   },

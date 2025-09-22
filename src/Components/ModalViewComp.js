@@ -21,6 +21,7 @@ const ModalViewComp = memo(
     isNewBtn,
     newBtnTitle,
     onNewBtnPress,
+    hideBtn,
   }) => {
     return (
       <View style={styles.modalView}>
@@ -70,7 +71,7 @@ const ModalViewComp = memo(
                   alignSelf: 'center',
                 }}
                 fade
-                size={'1.2'}
+                size={'1.6'}
               />
               <ScrollView
                 showsVerticalScrollIndicator={false}
@@ -78,7 +79,7 @@ const ModalViewComp = memo(
                 contentContainerStyle={styles.modalScroll}
               >
                 {childrenComp}
-                {onPress && !isNewBtn && (
+                {!hideBtn && onPress && !isNewBtn && (
                   <ThemeButton
                     title={btnTitle ?? 'Save expense'}
                     style={{
@@ -182,7 +183,7 @@ const styles = StyleSheet.create({
     height: hp('2'),
   },
   headingText: {
-    fontSize: hp('1.5'),
+    fontSize: hp('2'),
     fontWeight: 'bold',
     paddingLeft: wp('5'),
     marginBottom: hp('1'),

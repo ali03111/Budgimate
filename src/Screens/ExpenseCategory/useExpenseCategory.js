@@ -16,6 +16,7 @@ const useExpenseCategory = () => {
   const { data, refetch } = useQuery({
     queryKey: ['getExpenseCategoryUrl'],
     queryFn: () => API.get(getExpenseCategoryUrl + '?filter=' + dateRange),
+    refetchOnWindowFocus: true,
   });
 
   console.log('llllllllllllllllllll', data?.data);

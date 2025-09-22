@@ -5,19 +5,27 @@ import { TextComponent } from './TextComponent';
 import { useState } from 'react';
 import { calendar, takePhoto, uploadPhoto } from '../Assets';
 import {
+  currentDate,
   formatDateToCustomFormat,
   uploadFromCamera,
   uploadFromGalary,
 } from '../Services/GlobalFunctions';
 import { Touchable } from './Touchable';
+import ThemeButton from './ThemeButton';
+import { errorMessage } from '../Config/NotificationMessage';
+import DatePicker from 'react-native-date-picker';
 
-const ModalReciptComp = ({ btnTitle }) => {
+const ModalReciptComp = ({ btnTitle, onPress }) => {
   const [formState, setFormState] = useState({
-    selectedDate: null,
+    selectedDate: currentDate,
     selectedImg: null,
     comment: null,
     inputPrice: null,
   });
+
+  const [inputWidth, setInputWidth] = useState(20); // starting small
+
+  const [datePickerState, setDatePickerState] = useState(null);
 
   const { comment, inputPrice, selectedDate, selectedImg } = formState;
 
@@ -29,15 +37,18 @@ const ModalReciptComp = ({ btnTitle }) => {
     <View style={styles.modalContainer}>
       <View>
         <TextComponent
-          text={'Select date'}
+          text={'Select date*'}
           family={'400'}
           isThemeColor
-          size={'1.5'}
+          size={'2'}
         />
         <View style={styles.categoryContainer}>
           <TextComponent
-            text={formatDateToCustomFormat(selectedDate) ?? '25/Jun/2025'}
-            size={'1.5'}
+            text={
+              formatDateToCustomFormat(selectedDate ?? currentDate) ??
+              '25/Jun/2025'
+            }
+            size={'1.8'}
             onPress={() => {
               setDatePickerState(true);
             }}
@@ -54,7 +65,7 @@ const ModalReciptComp = ({ btnTitle }) => {
         text={'Upload Receipt'}
         family={'400'}
         isThemeColor
-        size={'1.5'}
+        size={'2'}
         styles={{ marginBottom: hp('2') }}
       />
       {selectedImg?.uri ? (
@@ -97,7 +108,7 @@ const ModalReciptComp = ({ btnTitle }) => {
         text={'Add comments'}
         family={'400'}
         isThemeColor
-        size={'1.5'}
+        size={'2'}
       />
       <View style={styles.categoryContainer}>
         <TextInput
@@ -109,10 +120,10 @@ const ModalReciptComp = ({ btnTitle }) => {
         />
       </View>
       <TextComponent
-        text={'Add amount'}
+        text={'Add amount*'}
         family={'400'}
         isThemeColor
-        size={'1.5'}
+        size={'2'}
       />
       <View style={styles.priceMainView}>
         <View style={styles.priceInnerView}>
@@ -120,10 +131,10 @@ const ModalReciptComp = ({ btnTitle }) => {
           <TextInput
             placeholder="0"
             onChangeText={text => {
-              //   onChangeVal('InputPrice', text);
-              //   setInputWidth(Math.max(20, text.length * 14)); // dynamic width
+              onChangeVal('inputPrice', text);
+              setInputWidth(Math.max(20, text.length * 14)); // dynamic width
             }}
-            style={[styles.priceInput, { width: 20 }]}
+            style={[styles.priceInput, { width: inputWidth }]}
             value={inputPrice}
             placeholderTextColor={'gray'}
             keyboardType="numeric"
@@ -138,6 +149,65 @@ const ModalReciptComp = ({ btnTitle }) => {
           />
         )}
       </View>
+      {onPress && (
+        <ThemeButton
+          title={'Save'}
+          onPress={() => {
+            if (
+              selectedDate != null &&
+              inputPrice != null &&
+              inputPrice != ''
+            ) {
+              onPress(formState);
+              setFormState({
+                selectedDate: null,
+                selectedImg: null,
+                comment: null,
+                inputPrice: null,
+              });
+            } else errorMessage('Please complete required fields');
+          }}
+          style={{
+            ...styles.modalBtn,
+          }}
+          isTheme
+          textStyle={{ fontSize: hp('1.5') }}
+        />
+      )}
+
+      <DatePicker
+        // mode={'datetime'}
+        mode={'date'}
+        open={Boolean(datePickerState)}
+        date={selectedDate ?? currentDate}
+        is24hourSource="locale"
+        locale="en"
+        onCancel={() => setDatePickerState(null)}
+        modal
+        onConfirm={e => {
+          console.log(
+            'lksdbvlksbdlkvbsdlkbvlsdblvkbsdlvbsdkvsd',
+            e,
+            new Date(e.getTime() + 24 * 60 * 60 * 1000),
+            e.toDateString(),
+          );
+          // if (datePicker.stateName == 'perfEventList') {
+          //   datePicker.onChange();
+          //   onSelectValueInList(
+          //     datePicker?.index,
+          //     datePicker.modalType ?? 'date',
+          //     e,
+          //   );
+          //   toggleDate(null);
+          // } else {
+          onChangeVal('selectedDate', e);
+          // onChange(new Date(e.getTime() + 24 * 60 * 60 * 1000));
+          // datePicker.onChange(e);
+          // onSelectValue(datePicker.stateName, e);
+          setDatePickerState(null);
+          // }
+        }}
+      />
     </View>
   );
 };
@@ -178,7 +248,7 @@ const styles = StyleSheet.create({
     marginVertical: hp('2'),
   },
   dateIcon: {
-    width: wp('3'),
+    width: wp('5'),
     height: hp('2'),
   },
   uploadedImageWrapper: {
@@ -204,7 +274,7 @@ const styles = StyleSheet.create({
   },
   commentInput: {
     flex: 1,
-    fontSize: hp('1.5'),
+    fontSize: hp('1.8'),
   },
   priceMainView: {
     width: wp('90'),
@@ -231,5 +301,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+  },
+  modalBtn: {
+    width: wp('90'),
+    alignSelf: 'center',
+    marginTop: hp('2'),
+    marginBottom: hp('5'),
+    height: hp('5'),
   },
 });

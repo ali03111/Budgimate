@@ -181,6 +181,7 @@ const ExpenseCategory = ({ navigation }) => {
             // previewOpenValue={-40}
             closeOnRowPress
             refreshing={false}
+            onRefresh={refetch}
           />
         </>
       ) : (

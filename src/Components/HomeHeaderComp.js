@@ -18,11 +18,13 @@ const HomeHeaderComp = () => {
   );
   return (
     <View style={styles.container}>
-      <CircleImage
-        image={imageUrl(userData?.profile_image)}
-        uri={true}
-        size={0.12}
-      />
+      {userData?.profile_image && (
+        <CircleImage
+          image={imageUrl(userData?.profile_image)}
+          uri={true}
+          size={0.12}
+        />
+      )}
       <View style={styles.textContainer}>
         <TextComponent text={'Hello,'} isWhite styles={styles.greeting} />
         <TextComponent
@@ -55,12 +57,12 @@ const styles = StyleSheet.create({
     width: wp('75'),
   },
   greeting: {
-    fontSize: hp('1.5'),
+    fontSize: hp('2'),
     marginBottom: hp('0.5'),
   },
   name: {
     fontWeight: '600',
-    fontSize: hp('1.8'),
+    fontSize: hp('2'),
   },
   notificationIcon: {
     width: wp('6'),

@@ -27,12 +27,12 @@ const ActiveAndInactiveCardComp = ({
         text={title || 'Add Icon'}
         family={'500'}
         // fade={!isActive}
-        size={'1.8'}
+        size={'2'}
       />
       <TextComponent
         text={subtitle || 'Add income to expense more'}
         family={'300'}
-        size={'1.2'}
+        size={'1.8'}
       />
     </Touchable>
   );

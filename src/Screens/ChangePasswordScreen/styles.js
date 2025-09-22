@@ -51,10 +51,10 @@ export const styles = StyleSheet.create({
     // shadowRadius: 5.46,
     borderColor: Colors.black,
     elevation: 9,
-    height: hp('4'),
+    height: hp('5'),
   },
   passText: {
-    fontSize: hp('1.5'),
+    fontSize: hp('2'),
     fontWeight: '600',
     color: Colors.black,
     marginTop: hp('5'),

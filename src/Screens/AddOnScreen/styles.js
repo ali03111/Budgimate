@@ -47,7 +47,7 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
     paddingVertical: hp('2'),
-    marginTop: hp('5'),
+    marginTop: hp('2'),
   },
   familyPlan: {
     marginTop: hp('2'),

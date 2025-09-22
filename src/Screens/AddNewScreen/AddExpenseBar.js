@@ -10,7 +10,7 @@ const AddExpenseBar = ({ navigation }) => {
     <ImageBackground style={{ flex: 1 }} source={LoginBg}>
       <TextComponent
         text={'Select the following'}
-        size={'1.5'}
+        size={'2'}
         family={'500'}
         styles={{ marginVertical: hp('1'), marginHorizontal: hp('2') }}
       />
@@ -19,7 +19,7 @@ const AddExpenseBar = ({ navigation }) => {
           'Choose the income fields below and manage your budget with budgimate.'
         }
         fade
-        size={'1.2'}
+        size={'1.8'}
         family={'400'}
         styles={{ marginHorizontal: hp('2') }}
       />

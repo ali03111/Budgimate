@@ -27,8 +27,9 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 import { Touchable } from '../../Components/Touchable';
 import GoalCardComp from '../../Components/GoalCardComp';
 import useAllGoalsScreen from './useAllGoalScreen';
+import NavigationService from '../../Services/NavigationService';
 
-const AllGoalScreen = ({ navigation }) => {
+const AllGoalScreen = ({ navigation, route }) => {
   const { goalList, deleteGoal } = useAllGoalsScreen(navigation);
 
   const actions = [
@@ -80,11 +81,14 @@ const AllGoalScreen = ({ navigation }) => {
 
   const listArry = [1];
 
+  const getNameFunc = NavigationService.getCurrentRoute();
+  const screenName = getNameFunc?.getCurrentRoute()?.name;
+
   return (
     <ImageBackground source={LoginBg} style={styles.container}>
       <HeaderComponent
         headerTitle="My Goals"
-        isBack
+        isBack={Boolean(screenName != 'AllBottomGoalScreen')}
         rightIconImg={plusBlue}
         onRightPress={() => navigation.navigate('AddGoalScreen')}
       />
@@ -94,7 +98,7 @@ const AllGoalScreen = ({ navigation }) => {
           <TextComponent
             text={'Select goal to add income and expenses'}
             family={'500'}
-            size={'1.8'}
+            size={'2'}
             styles={{ marginLeft: wp('2') }}
           />
           <TextComponent
@@ -102,7 +106,7 @@ const AllGoalScreen = ({ navigation }) => {
               'Choose the goal below to add your income and expenses in to complete your goal on time.'
             }
             family={'500'}
-            size={'1.5'}
+            size={'1.6'}
             fade
             styles={{ marginLeft: wp('2'), marginVertical: hp('1') }}
           />

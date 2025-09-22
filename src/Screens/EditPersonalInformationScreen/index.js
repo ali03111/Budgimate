@@ -36,10 +36,10 @@ const EditPersonalInformationScreen = ({ navigation }) => {
             getValues,
             placeholder: 'John Mayer',
             defaultValue: __DEV__ ? 'John Mayer' : '',
-            viewStyle: { height: hp('4') },
+            viewStyle: { height: hp('5') },
             inputIconStyle: { flex: 0.4 },
-            headingStyles: { fontSize: hp('1.5') },
-            textStyle: { fontSize: hp('1.3') },
+            headingStyles: { fontSize: hp('2') },
+            textStyle: { fontSize: hp('1.8') },
           }}
         />
         <InputComponent
@@ -53,10 +53,10 @@ const EditPersonalInformationScreen = ({ navigation }) => {
             getValues,
             placeholder: 'Email',
             defaultValue: __DEV__ ? 'iphonexr@gmail.com' : '',
-            viewStyle: { height: hp('4') },
+            viewStyle: { height: hp('5') },
             inputIconStyle: { flex: 0.4 },
-            headingStyles: { fontSize: hp('1.5') },
-            textStyle: { fontSize: hp('1.3') },
+            headingStyles: { fontSize: hp('2') },
+            textStyle: { fontSize: hp('1.8') },
             editable: false,
           }}
         />

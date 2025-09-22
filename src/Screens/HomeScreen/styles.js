@@ -93,15 +93,19 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
     width: wp('100'),
     marginTop: hp('2'),
+    justifyContent: 'space-between',
   },
   multiViewDivider: {
     marginLeft: wp('8'),
   },
   categoryTitle: {
-    fontSize: hp('1.5'),
+    fontSize: hp('1.8'),
   },
   categoryRightText: {
     color: 'red',
+    fontSize: hp('1.8'),
+    marginLeft: 'auto',
+    marginRight: wp('3'),
   },
   detailsContainer: {
     flexDirection: 'row',

@@ -1,8 +1,11 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import {
+  createExpenseCategoryUrl,
   createExpenseinCategoryUrl,
+  deleteCategoryLimitUrl,
   getTraceDetailUrl,
+  updateCategoryLimitUrl,
   updateTraceUrl,
 } from '../../Utils/Urls';
 import API from '../../Utils/helperFunc';
@@ -24,6 +27,7 @@ const useAddExpenseToTraceScreen = ({ navigate }, { params }) => {
 
   const [inputWidth, setInputWidth] = useState(20);
   const [inputPrice, setInputPrice] = useState(0);
+  const [catIndex, setCatIndex] = useState(null);
 
   const [formState, setFormState] = useState({
     selectedDate: null,
@@ -37,16 +41,21 @@ const useAddExpenseToTraceScreen = ({ navigate }, { params }) => {
 
   const onChangeVal = (key, val) => updateState({ [key]: val });
 
-  const [categoryArry, setCategoryArry] = useState([]);
-
   const { data, refetch } = useQuery({
     queryKey: ['getTraceDetailUrl'],
     queryFn: () => API.get(getTraceDetailUrl + params?.catVal?.id),
+    cacheTime: 0, // 👈 Don't cache the data
   });
   console.log('sjkdbvkjlsdbvklbsdkvbkjsdbvdjkbvkljsdbvksdjbvsd', data?.data);
 
   const { mutateAsync } = useMutation({
-    mutationFn: body => API.post(updateTraceUrl + data?.data?.trace?.id, body),
+    mutationFn: body => {
+      console.log(
+        'dlkvbklsdbvklsdbvklsdbklvbklsdbvlksdvbklsdbvklsdblvsd',
+        body,
+      );
+      return API.post(updateTraceUrl + data?.data?.trace?.id, body);
+    },
     onSuccess: ({ ok, data }) => {
       console.log('skldbvklbsdklvbklsdbvkbsdkvbsdbvklsdbvksd', data);
       if (ok) {
@@ -59,9 +68,58 @@ const useAddExpenseToTraceScreen = ({ navigate }, { params }) => {
   });
 
   const { mutate } = useMutation({
-    mutationFn: data => API.post(createExpenseinCategoryUrl, data),
+    mutationFn: data =>
+      API.post(
+        catIndex != null
+          ? updateCategoryLimitUrl + catIndex
+          : createExpenseCategoryUrl,
+        data,
+      ),
     onSuccess: ({ ok, data }) => {
       console.log('skldbvklbsdklvbklsdbvkbsdkvbsdbvklsdbvksd', data);
+      if (ok) {
+        successMessage(data?.message);
+        setFormState({
+          selectedDate: null,
+          selectedImg: null,
+          comment: null,
+          inputPrice: null,
+        });
+        setCatIndex(null);
+        setCatName(null);
+        setExpenceAmount(null);
+        refetch();
+        // queryClient.invalidateQueries([`getTraceDetailUrl`]);
+      } else errorMessage(data?.message);
+    },
+    onError: e => errorMessage(e),
+  });
+  const deleteTraceCategory = useMutation({
+    mutationFn: data => API.post(deleteCategoryLimitUrl + data?.id, {}),
+    onSuccess: ({ ok, data }) => {
+      console.log('skldbvklbsdklvbklsdbvkbsdkvbsdbvklsdbvksd', data);
+      if (ok) {
+        successMessage(data?.message);
+        setFormState({
+          selectedDate: null,
+          selectedImg: null,
+          comment: null,
+          inputPrice: null,
+        });
+        setCatIndex(null);
+        setCatName(null);
+        setExpenceAmount(null);
+        refetch();
+        // queryClient.invalidateQueries([`getTraceDetailUrl`]);
+      } else errorMessage(data?.message);
+    },
+    onError: e => errorMessage(e),
+  });
+
+  const addExpenseInCat = useMutation({
+    mutationFn: data => API.post(createExpenseinCategoryUrl, data),
+    onSuccess: ({ ok, data }) => {
+      console.log('skldbvklbsdklvbklsdbvkbsdkvbsddfdfdfbvklsdbvksd', data);
       if (ok) {
         successMessage(data?.message);
         setFormState({
@@ -85,7 +143,6 @@ const useAddExpenseToTraceScreen = ({ navigate }, { params }) => {
     catName,
     setCatName,
     categoryArry: data?.data?.categories ?? [],
-    setCategoryArry,
     limit: data?.data?.trace?.budget,
     spend: data?.data?.trace?.spent,
     setInputWidth,
@@ -98,23 +155,67 @@ const useAddExpenseToTraceScreen = ({ navigate }, { params }) => {
     selectedImg,
     comment,
     inputExpensePrice,
-    addExpense: () =>
-      mutate({
+    setCatIndex,
+    deleteTraceCat: id =>
+      deleteTraceCategory.mutate({
+        id,
+      }),
+    traceId: data?.data?.trace?.id,
+    traceType: Boolean(data?.data?.trace?.type != 'basic'),
+    addExpenseToCategory: formState =>
+      addExpenseInCat.mutate({
         source: '',
-        amount: inputPrice,
-        start_date: formatDate(new Date()),
+        amount: formState?.inputPrice,
+        start_date: formatDate(formState?.selectedDate),
         frequency: 'one-time',
         module_type: 'trace',
         module_id: data?.data?.trace?.id,
-        expense_category_id: catName?.id,
-        name: catName?.name,
+        expense_category_id:
+          data?.data?.categories[catIndex]?.expense_category_id,
+        name:
+          formState?.comment ?? data?.data?.categories[catIndex]?.category_name,
       }),
-    updateLimit: () =>
-      mutateAsync({
-        name: data?.data?.trace?.name,
-        type: params?.traceType,
-        budget: expenceAmount,
-      }),
+    addExpense: () => {
+      if (data?.data?.trace?.type == 'basic' && catName?.id != null) {
+        mutate({
+          source: '',
+          limit_amount: 0,
+          start_date: formatDate(new Date()),
+          frequency: 'one-time',
+          module_type: 'trace',
+          module_id: data?.data?.trace?.id,
+          expense_category_id: catName?.id,
+          name: catName?.name,
+        });
+      } else if (
+        data?.data?.trace?.type != 'basic' &&
+        catName?.id != null &&
+        expenceAmount != null &&
+        expenceAmount != ''
+      ) {
+        mutate({
+          source: '',
+          limit_amount: expenceAmount,
+          start_date: formatDate(new Date()),
+          frequency: 'one-time',
+          module_type: 'trace',
+          module_id: data?.data?.trace?.id,
+          expense_category_id: catName?.id,
+          name: catName?.name,
+        });
+      } else errorMessage('Please complete fileds');
+    },
+    updateLimit: () => {
+      if (inputPrice != '' && inputPrice != null) {
+        mutateAsync({
+          name: data?.data?.trace?.name,
+          type: params?.traceType,
+          budget: inputPrice,
+        });
+      } else errorMessage('Limit is required');
+    },
+    catIndex,
+    setFormState,
   };
 };
 

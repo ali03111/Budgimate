@@ -152,6 +152,7 @@ const BtnModalComponent = ({
                 onSelectVal={(objId, item) => {
                   onChangeVal('selectedBtn', item);
                 }}
+                textStyle={{ fontSize: hp('1.5') }}
               />
             </ScrollView>
             {/* {firstHit && ( */}
@@ -164,7 +165,7 @@ const BtnModalComponent = ({
                   onSelect(selectedBtn);
                 }}
                 isYellowTheme
-                textStyle={{ fontSize: hp('1.5') }}
+                textStyle={{ fontSize: hp('1.8') }}
               />
             )}
             {/* )} */}
@@ -245,6 +246,7 @@ const styles = StyleSheet.create({
   inputStyle: {
     width: wp('73'),
     color: 'black',
+    fontSize: hp('1.8'),
   },
   addIcon: {
     position: 'absolute',
@@ -287,7 +289,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: hp('2'),
     marginBottom: hp('5'),
-    height: hp('4'),
+    height: hp('5'),
   },
   textStyle: {
     fontSize: hp('1.5'),

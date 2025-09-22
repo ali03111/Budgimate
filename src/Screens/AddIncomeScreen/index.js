@@ -105,6 +105,9 @@ const AddIncomeScreen = ({ navigation, route }) => {
       </View>
     );
   };
+
+  console.log('errorserrorserrorserrorserrorserrorserrorserrorserrors', errors);
+
   return (
     <ImageBackground source={LoginBg} style={styles.ImgBg}>
       <HeaderComponent isBack headerTitle={'Add Income'} />
@@ -160,7 +163,7 @@ const AddIncomeScreen = ({ navigation, route }) => {
           />
         </View>
         <TitleInputView
-          title={'Income source'}
+          title={'Income source*'}
           errorName={errors['incomeSource']}
           innerLeftView={
             <Controller
@@ -180,59 +183,71 @@ const AddIncomeScreen = ({ navigation, route }) => {
           }
         />
         <TitleInputView
-          title={'Starting period'}
+          title={'Starting period*'}
           errorName={errors['startingPeriod']}
           centerInnerView={
-            <Controller
-              control={control}
-              name="startingPeriod"
-              render={({ field: { onChange, value } }) => (
-                <Touchable
-                  style={styles.textTouchBtn}
-                  onPress={() => toggleDate('startingPeriod')}
-                >
-                  <TextComponent
-                    // text={'DD / MM / YYYY'}
-                    text={formatDateToLong(value) ?? 'DD / MM / YYYY'}
-                    styles={styles.textStyle}
-                    size={'1.2'}
-                  />
-                  <Image
-                    source={calendar}
-                    resizeMode="contain"
-                    style={styles.calenderIcon}
-                  />
-                </Touchable>
-              )}
-            />
+            <>
+              <Controller
+                control={control}
+                name="startingPeriod"
+                render={({ field: { onChange, value } }) => (
+                  <Touchable
+                    style={styles.textTouchBtn}
+                    onPress={() => toggleDate('startingPeriod')}
+                  >
+                    <TextComponent
+                      // text={'DD / MM / YYYY'}
+                      text={formatDateToLong(value) ?? 'DD / MM / YYYY'}
+                      styles={styles.textStyle}
+                      size={'1.2'}
+                    />
+                    <Image
+                      source={calendar}
+                      resizeMode="contain"
+                      style={styles.calenderIcon}
+                    />
+                  </Touchable>
+                )}
+              />
+              <TextComponent
+                text={errors['startingPeriod']?.message}
+                styles={styles.errorText}
+              />
+            </>
           }
         />
         <TitleInputView
-          title={'Ending period'}
+          title={'Ending period*'}
           errorName={errors['endingPeriod']}
           centerInnerView={
-            <Controller
-              control={control}
-              name="endingPeriod"
-              render={({ field: { onChange, value } }) => (
-                <Touchable
-                  style={styles.textTouchBtn}
-                  onPress={() => toggleDate('endingPeriod')}
-                >
-                  <TextComponent
-                    text={formatDateToLong(value) ?? 'DD / MM / YYYY'}
-                    // text={formatDateToLong(value ?? currentDate)}
-                    styles={styles.textStyle}
-                    size={'1.2'}
-                  />
-                  <Image
-                    source={calendar}
-                    resizeMode="contain"
-                    style={styles.calenderIcon}
-                  />
-                </Touchable>
-              )}
-            />
+            <>
+              <Controller
+                control={control}
+                name="endingPeriod"
+                render={({ field: { onChange, value } }) => (
+                  <Touchable
+                    style={styles.textTouchBtn}
+                    onPress={() => toggleDate('endingPeriod')}
+                  >
+                    <TextComponent
+                      text={formatDateToLong(value) ?? 'DD / MM / YYYY'}
+                      // text={formatDateToLong(value ?? currentDate)}
+                      styles={styles.textStyle}
+                      size={'1.2'}
+                    />
+                    <Image
+                      source={calendar}
+                      resizeMode="contain"
+                      style={styles.calenderIcon}
+                    />
+                  </Touchable>
+                )}
+              />
+              <TextComponent
+                text={errors['endingPeriod']?.message}
+                styles={styles.errorText}
+              />
+            </>
           }
         />
         <ThemeButton

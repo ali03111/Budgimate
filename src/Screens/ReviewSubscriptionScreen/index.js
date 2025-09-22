@@ -24,13 +24,13 @@ const ReviewSubscriptionScreen = ({ navigation }) => {
         <TextComponent
           text="Unlock full access to features that simplify money management and help you stay in control."
           fade
-          size="1.5"
+          size="2.2"
           styles={styles.descriptionText}
         />
         <TextComponent
           text="Here's what you'll get:"
           isWhite
-          size="1.8"
+          size="2"
           styles={styles.sectionHeader}
         />
         {subscriptionPoints.map((res, index) => (
@@ -38,7 +38,7 @@ const ReviewSubscriptionScreen = ({ navigation }) => {
             key={index}
             text={res}
             fade
-            size="1.2"
+            size="1.8"
             styles={styles.bulletPoint}
           />
         ))}
@@ -50,7 +50,7 @@ const ReviewSubscriptionScreen = ({ navigation }) => {
         <TextComponent
           text="Individual Plan"
           fade
-          size="1.5"
+          size="2"
           styles={{ ...styles.descriptionText, textAlign: 'center' }}
         />
         <TextComponent
@@ -64,8 +64,8 @@ const ReviewSubscriptionScreen = ({ navigation }) => {
           }}
         />
         <View style={styles.totalView}>
-          <TextComponent fade text={'Total'} size={'1.5'} />
-          <TextComponent text={'$2.99/month'} size={'1.5'} isWhite />
+          <TextComponent fade text={'Total'} size={'1.8'} />
+          <TextComponent text={'$2.99/month'} size={'1.8'} isWhite />
         </View>
         <ThemeButton
           title="Proceed to Payment"
@@ -76,7 +76,7 @@ const ReviewSubscriptionScreen = ({ navigation }) => {
         <TextComponent
           text="Payments renew monthly. Cancel anytime from settings."
           fade
-          size="1.2"
+          size="1.8"
           styles={styles.footerNote}
         />
       </ScrollView>

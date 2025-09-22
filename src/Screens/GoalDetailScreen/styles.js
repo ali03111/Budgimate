@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
     marginTop: hp('2'),
   },
   infoText: {
-    fontSize: hp('1.8'),
+    fontSize: hp('2'),
     color: Colors.textGray,
   },
   bold: {
@@ -56,13 +56,13 @@ export const styles = StyleSheet.create({
     marginTop: hp('3'),
   },
   goalDescription: {
-    fontSize: hp('1.6'),
+    fontSize: hp('1.8'),
     color: Colors.textGray,
     marginTop: hp('1'),
     lineHeight: hp('2.2'),
   },
   targetDateLabel: {
-    fontSize: hp('1.6'),
+    fontSize: hp('2'),
     color: Colors.textGray,
     marginTop: hp('3'),
   },
@@ -86,7 +86,7 @@ export const styles = StyleSheet.create({
     elevation: 2,
   },
   statLabel: {
-    fontSize: hp('1.5'),
+    fontSize: hp('1.8'),
     color: Colors.textGray,
     marginBottom: hp('1'),
   },
@@ -102,17 +102,17 @@ export const styles = StyleSheet.create({
   },
   transactionRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     alignItems: 'center',
     marginTop: hp('3'),
   },
   transactionText: {
-    fontSize: hp('1.7'),
+    fontSize: hp('1.8'),
     color: Colors.primaryColor,
   },
   arrowRight: {
-    width: wp('3'),
-    height: wp('3'),
+    width: wp('5'),
+    height: wp('5'),
     resizeMode: 'contain',
     tintColor: Colors.primaryColor,
   },

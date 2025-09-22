@@ -5,6 +5,7 @@ import {
   Image,
   TextInput,
   FlatList,
+  TouchableOpacity,
 } from 'react-native';
 import React, { memo, useCallback } from 'react';
 import {
@@ -13,9 +14,11 @@ import {
   arrRightPurple,
   edit2,
   editIcon,
+  editWhiteIcon,
   LoginBg,
   plusBlue,
   plusWhite,
+  trashWhite,
 } from '../../Assets';
 import { styles } from './styles';
 import { HeaderComponent } from '../../Components/HeaderComp';
@@ -34,6 +37,8 @@ import {
 } from '../../Services/GlobalFunctions';
 import ModalReciptComp from '../../Components/ModalReciptComp';
 import { createExpenseCategoryUrl, getCategoryUrl } from '../../Utils/Urls';
+import { SwipeListView } from 'react-native-swipe-list-view';
+import { errorMessage } from '../../Config/NotificationMessage';
 
 const AddExpenseToTraceScreen = ({ navigation, route }) => {
   const {
@@ -44,7 +49,6 @@ const AddExpenseToTraceScreen = ({ navigation, route }) => {
     catName,
     setCatName,
     categoryArry,
-    setCategoryArry,
     limit,
     spend,
     setInputWidth,
@@ -59,32 +63,125 @@ const AddExpenseToTraceScreen = ({ navigation, route }) => {
     comment,
     inputExpensePrice,
     addExpense,
+    addExpenseToCategory,
+    setCatIndex,
+    catIndex,
+    traceType,
+    setFormState,
+    traceId,
+    deleteTraceCat,
   } = useAddExpenseToTraceScreen(navigation, route);
 
-  const renderItem = useCallback(({ item }) => {
-    return (
-      <View style={styles.cardStyle}>
-        <View>
-          <TextComponent text={'House holds'} size={'1.5'} family={'bold'} />
-          <View style={styles.innerView}>
-            <TextComponent text={'Spent: '} fade size={'1.2'} />
-            <TextComponent text={'$120'} size={'1.2'} isThemeColor />
+  const renderItem = useCallback(
+    ({ item, index }) => {
+      return (
+        <View style={styles.cardStyle}>
+          <View>
+            <TextComponent
+              text={item?.category_name}
+              size={'1.8'}
+              family={'bold'}
+            />
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              <View style={styles.innerView}>
+                <TextComponent text={'Spent: '} fade size={'1.5'} />
+                <TextComponent
+                  text={formatPrice(item?.spent)}
+                  size={'1.5'}
+                  styles={{
+                    color:
+                      calculatePercentage(item?.spent, item?.limit) >= 100 &&
+                      traceType
+                        ? Colors.themeRed
+                        : Colors.primaryColor,
+                  }}
+                />
+              </View>
+              {traceType && (
+                <View style={styles.innerView}>
+                  <TextComponent text={'Limit: '} fade size={'1.5'} />
+                  <TextComponent
+                    text={formatPrice(item?.limit)}
+                    size={'1.5'}
+                    fade
+                  />
+                </View>
+              )}
+            </View>
+            {traceType && (
+              <View style={{ ...styles.progressBackground, width: wp('70') }}>
+                <View
+                  style={[
+                    styles.progressFill(
+                      calculatePercentage(item?.spent, item?.limit),
+                    ),
+                  ]}
+                />
+              </View>
+            )}
           </View>
+          <Touchable
+            onPress={() => {
+              setCatIndex(index);
+              setModalState('addExpense');
+            }}
+          >
+            <Image
+              source={plusBlue}
+              resizeMode="contain"
+              style={styles.plusIcon}
+            />
+          </Touchable>
         </View>
-        <Touchable onPress={() => setModalState('addExpense')}>
-          <Image
-            source={plusBlue}
-            resizeMode="contain"
-            style={styles.plusIcon}
-          />
-        </Touchable>
-      </View>
-    );
-  }, []);
+      );
+    },
+    [traceType, categoryArry],
+  );
+
+  const renderHiddenItem = ({ item, index }) => (
+    <View style={styles.rowBack}>
+      <TouchableOpacity
+        style={[styles.backRightBtn, styles.backRightBtnRight]}
+        onPress={() => deleteTraceCat(item.module_category_id)} // Assuming item has an id
+      >
+        <Image
+          source={trashWhite}
+          style={styles.trashIcon}
+          tintColor={'#EA4335'}
+        />
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.backRightBtn, styles.backRightBtnLeft]}
+        onPress={() => {
+          if (traceType) {
+            setCatName({
+              name: item?.category_name,
+              id: item?.expense_category_id,
+            });
+            setExpenceAmount(item?.limit.toString());
+            setCatIndex(item?.module_category_id);
+            setModalState('newCategory');
+          } else errorMessage('To update limit you need to a pro trace!');
+        }}
+      >
+        <Image
+          source={editWhiteIcon}
+          style={styles.trashIcon}
+          tintColor={'#1877F2'}
+        />
+      </TouchableOpacity>
+    </View>
+  );
 
   return (
     <ImageBackground source={LoginBg} style={styles.bgImage}>
-      <HeaderComponent headerTitle={'Add Expense to Trace'} isBack />
+      <HeaderComponent headerTitle={'Add Expense To Trace'} isBack />
 
       {/* Expense Card */}
       <View style={styles.expenseCard}>
@@ -108,32 +205,37 @@ const AddExpenseToTraceScreen = ({ navigation, route }) => {
         </View>
 
         <View style={styles.limitSpentRow}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <TextComponent text={`Spent: `} fade size={'1.6'} />
+            <TextComponent
+              text={`${formatPrice(parseInt(spend))}`}
+              styles={{
+                color:
+                  calculatePercentage(spend, limit) >= 100
+                    ? Colors.themeRed
+                    : Colors.primaryColor,
+              }}
+              size={'1.6'}
+            />
+          </View>
           <TextComponent
             text={`Trace Limit: ${formatPrice(parseInt(limit))}`}
             fade
-            size={'1.5'}
-          />
-          <TextComponent
-            text={`Spent: ${formatPrice(parseInt(spend))}`}
-            fade
-            size={'1.5'}
+            size={'1.6'}
           />
         </View>
 
         <View style={styles.progressBackground}>
           <View
-            style={[
-              styles.progressFill,
-              { width: calculatePercentage(spend, limit) },
-            ]}
+            style={[styles.progressFill(calculatePercentage(spend, limit))]}
           />
         </View>
       </View>
 
       {/* Description */}
-      <TextComponent
+      {/* <TextComponent
         text={'Description'}
-        size={'1.5'}
+        size={'1.8'}
         isDarkTheme
         styles={styles.descriptionLabel}
       />
@@ -145,14 +247,14 @@ const AddExpenseToTraceScreen = ({ navigation, route }) => {
           style={styles.descriptionInput}
           multiline
         />
-      </View>
+      </View> */}
 
       {/* Category */}
       <View style={styles.categoryHeader}>
-        <TextComponent text={'Category'} size={'1.5'} isDarkTheme />
+        <TextComponent text={'Category'} size={'1.8'} isDarkTheme />
         <TextComponent
           text={'+ Add new'}
-          size={'1.5'}
+          size={'1.8'}
           onPress={() => setModalState('newCategory')}
         />
       </View>
@@ -162,49 +264,62 @@ const AddExpenseToTraceScreen = ({ navigation, route }) => {
           'Choosing a category first helps you keep your spending organized and easy to track.'
         }
         fade
-        size={'1.2'}
+        size={'1.5'}
         styles={styles.categoryHelperText}
       />
 
-      {/* <View style={styles.cardStyle}>
-        <TextComponent text={'House holds'} size={'1.5'} family={'bold'} />
-        <View style={styles.innerView}>
-          <TextComponent text={'Spent: '} fade size={'1.2'} />
-          <TextComponent text={'$120'} size={'1.2'} isThemeColor />
-        </View>
-      </View> */}
-
-      <FlatList
+      <SwipeListView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: hp(10) }}
+        useFlatList
+        data={categoryArry} // Use filterData or fallback to traceList
+        renderItem={renderItem}
+        renderHiddenItem={renderHiddenItem}
+        leftOpenValue={75}
+        rightOpenValue={-75}
+        previewRowKey={'0'}
+        previewOpenDelay={3000}
+        closeOnRowPress
+        refreshing={false}
+        scrollEnabled
+      />
+      {/* <FlatList
         data={categoryArry}
         keyExtractor={keyExtractor}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: hp(10) }}
-      />
+      /> */}
 
-      {categoryArry.length > 0 && (
+      {/* {categoryArry.length > 0 && (
         <ThemeButton
-          title={'Create trace'}
+          title={'Generate report'}
           isTheme
           style={styles.createBtn}
           onPress={() => {
-            navigation.goBack();
-            navigation.goBack();
+            navigation.navigate('ReportScreen', { id: traceId });
           }}
         />
-      )}
+      )} */}
       {/* Modal */}
       <ModalViewComp
         isModal={modalState}
         heading={
           (modalState == 'editLimit' && 'Edit Trace Limit') ||
-          (modalState == 'newCategory' && 'Add new category') ||
+          (modalState == 'newCategory' &&
+            (catIndex != null
+              ? 'Update Category Limit'
+              : 'Add New Category')) ||
           (modalState == 'addExpense' && 'Add Expense')
         }
         btnTitle={'Save'}
         subtitle={
           modalState == 'newCategory' &&
-          'You’ve left $1650 from the total budget of $2500 from the “Monthly grocery” trace.'
+          `You’ve left ${formatPrice(
+            parseInt(spend),
+          )} from the total budget of ${formatPrice(
+            parseInt(limit),
+          )} from the ${traceName} trace.`
         }
         childrenComp={
           (modalState == 'editLimit' && (
@@ -240,9 +355,10 @@ const AddExpenseToTraceScreen = ({ navigation, route }) => {
           )) ||
           (modalState == 'newCategory' && (
             <View style={styles.modalContent}>
-              <TextComponent text={'Category'} size={'1.5'} />
+              <TextComponent text={'Category'} size={'1.8'} />
               <Touchable
                 style={styles.modalInputBox}
+                disabled={Boolean(catIndex != null)}
                 onPress={() => {
                   setModalState(null);
                   navigation.navigate('ListViewScreen', {
@@ -273,28 +389,49 @@ const AddExpenseToTraceScreen = ({ navigation, route }) => {
                   onChangeText={setCatName}
                 /> */}
               </Touchable>
-
-              <TextComponent text={'Expense amount'} size={'1.5'} />
-              <View style={styles.modalInputBox}>
-                <TextInput
-                  placeholder="Spending amount"
-                  placeholderTextColor={'gray'}
-                  style={styles.modalInput}
-                  value={expenceAmount}
-                  onChangeText={setExpenceAmount}
-                  keyboardType="numeric"
-                />
-              </View>
+              {traceType && (
+                <>
+                  <TextComponent text={'Spending limit'} size={'1.8'} />
+                  <View style={styles.modalInputBox}>
+                    <TextInput
+                      placeholder="Spending limit"
+                      placeholderTextColor={'gray'}
+                      style={styles.modalInput}
+                      value={expenceAmount}
+                      onChangeText={e => setExpenceAmount(e)}
+                      keyboardType="numeric"
+                    />
+                  </View>
+                </>
+              )}
             </View>
           )) ||
-          (modalState == 'addExpense' && <ModalReciptComp />)
+          (modalState == 'addExpense' && (
+            <ModalReciptComp
+              onPress={data => {
+                setModalState(null);
+                addExpenseToCategory(data);
+              }}
+            />
+          ))
         }
-        onBackPress={() => setModalState(null)}
+        onBackPress={() => {
+          setFormState({
+            selectedDate: null,
+            selectedImg: null,
+            comment: null,
+            inputPrice: null,
+          });
+          setCatIndex(null);
+          setCatName(null);
+          setExpenceAmount(null);
+          setModalState(null);
+        }}
+        hideBtn={Boolean(modalState == 'addExpense')}
         onPress={() => {
           setModalState(null);
           if (modalState == 'editLimit') updateLimit();
           else if (modalState == 'newCategory') addExpense();
-          else setCategoryArry([...categoryArry, { catName, expenceAmount }]);
         }}
       />
     </ImageBackground>

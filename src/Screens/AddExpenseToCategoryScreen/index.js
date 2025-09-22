@@ -204,20 +204,32 @@ const AddExpenseToCategoryScreen = ({ navigation, route }) => {
         <View style={styles.progressContainer}>
           <View
             style={styles.progressBar(
-              calculatePercentage(catDataFromAPi?.spent, price),
+              calculatePercentage(
+                catDataFromAPi?.spent,
+                catDataFromAPi?.limit ?? price,
+              ),
             )}
           />
         </View>
         <View style={styles.limitContainer}>
           <TextComponent
-            text={`Limit: ${price ?? 0}$`}
-            family={'400'}
-            size={'1.5'}
-          />
-          <TextComponent
             text={`Spent: ${catDataFromAPi?.spent ?? 0}$`}
             family={'400'}
-            size={'1.5'}
+            size={'1.8'}
+            styles={{
+              color:
+                calculatePercentage(
+                  catDataFromAPi?.spent,
+                  catDataFromAPi?.limit,
+                ) >= 100
+                  ? Colors.themeRed
+                  : Colors.primaryColor,
+            }}
+          />
+          <TextComponent
+            text={`Limit: ${catDataFromAPi?.limit ?? price ?? 0}$`}
+            family={'400'}
+            size={'1.8'}
           />
         </View>
         <View style={styles.expensesSection}>
@@ -237,7 +249,7 @@ const AddExpenseToCategoryScreen = ({ navigation, route }) => {
             <TextComponent
               text="+ Add new"
               family={'600'}
-              size={'1.5'}
+              size={'1.8'}
               styles={styles.addText}
               isThemeColor
             />
@@ -246,7 +258,7 @@ const AddExpenseToCategoryScreen = ({ navigation, route }) => {
         <TextComponent
           text="Choose an expense first helps you keep your spending organized and easy to track."
           family={'300'}
-          size={'1.5'}
+          size={'1.8'}
           styles={styles.expenseDescription}
         />
         <FlatList
@@ -269,12 +281,12 @@ const AddExpenseToCategoryScreen = ({ navigation, route }) => {
                   text={'Select date'}
                   family={'400'}
                   isThemeColor
-                  size={'1.5'}
+                  size={'1.8'}
                 />
                 <View style={styles.categoryContainer}>
                   <TextComponent
                     text={formatDateToLong(selectedDate ?? currentDate)}
-                    size={'1.5'}
+                    size={'1.8'}
                     onPress={() => {
                       setDatePickerState(selectedDate ?? currentDate);
                     }}
@@ -338,7 +350,7 @@ const AddExpenseToCategoryScreen = ({ navigation, route }) => {
                 text={'Add comments'}
                 family={'400'}
                 isThemeColor
-                size={'1.5'}
+                size={'1.8'}
               />
               <View
                 style={{
@@ -358,7 +370,7 @@ const AddExpenseToCategoryScreen = ({ navigation, route }) => {
                 text={'Price'}
                 family={'400'}
                 isThemeColor
-                size={'1.5'}
+                size={'1.8'}
               />
               <View style={styles.priceMainView}>
                 <View style={styles.priceInnerView}>

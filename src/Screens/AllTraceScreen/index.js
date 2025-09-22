@@ -26,6 +26,7 @@ import { Colors } from '../../Theme/Variables';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { Touchable } from '../../Components/Touchable';
 import useAllTraceScreen from './useAllTraceScreen';
+import NavigationService from '../../Services/NavigationService';
 
 const AllTraceScreen = ({ navigation }) => {
   const { deleteTrace, traceList, searchFun, text, setText, filterData } =
@@ -86,11 +87,14 @@ const AllTraceScreen = ({ navigation }) => {
     </View>
   );
 
+  const getNameFunc = NavigationService.getCurrentRoute();
+  const screenName = getNameFunc?.getCurrentRoute()?.name;
+
   return (
     <ImageBackground source={LoginBg} style={styles.container}>
       <HeaderComponent
         headerTitle="Traces"
-        isBack
+        isBack={Boolean(screenName != 'AllBottomTraceScreen')}
         rightIconImg={plusBlue}
         onRightPress={() => navigation.navigate('CreateNewTraceScreen')}
       />
@@ -113,7 +117,7 @@ const AllTraceScreen = ({ navigation }) => {
               />
               <TextInput
                 style={styles.searchInput}
-                placeholder="Search categories"
+                placeholder="Search traces"
                 placeholderTextColor={Colors.grayFaded}
                 value={text}
                 onChangeText={e => searchFun(e)} // Call searchFun on text change

@@ -20,12 +20,12 @@ const PlusCardComp = ({
         <TextComponent
           text={category ?? 'Food and grocery'}
           family={'600'}
-          size={'1.5'}
+          size={'1.8'}
         />
         <TextComponent
           text={remaining ?? 'Remaining : $120 of $230'}
           family={'400'}
-          size={'1.5'}
+          size={'1.8'}
           styles={styles.remainingText}
         />
       </View>
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
     alignItems: 'center',
-    width: wp('95'),
+    width: wp('96'),
     paddingVertical: hp('1.5'),
     paddingHorizontal: wp('3'),
     backgroundColor: Colors.white,

@@ -68,6 +68,10 @@ function MainNavigator() {
               component={Screens.TranscritionHistoryScreen}
             />
             <Stack.Screen
+              name="ReportScreen"
+              component={Screens.ReportScreen}
+            />
+            <Stack.Screen
               name="AllocateToExpenseScreen"
               component={Screens.AllocateToExpenseScreen}
             />

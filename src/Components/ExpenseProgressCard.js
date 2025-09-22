@@ -5,6 +5,7 @@ import { hp, wp } from '../Hooks/useResponsive';
 import { Colors } from '../Theme/Variables';
 import { calculatePercentage, formatPrice } from '../Services/GlobalFunctions';
 import { Touchable } from './Touchable';
+import { imageUrl } from '../Utils/Urls';
 
 const ExpenseProgressCard = ({
   icon,
@@ -20,28 +21,34 @@ const ExpenseProgressCard = ({
 
   return (
     <Pressable style={styles.container} onPress={onPres} disabled={isDisable}>
-      {/* <View style={styles.iconContainer}>
-        <Image source={icon} style={styles.iconStyle} resizeMode="contain" />
-      </View> */}
+      {item?.icon && (
+        <View style={styles.iconContainer}>
+          <Image
+            source={{ uri: imageUrl(item?.icon) }}
+            style={styles.iconStyle}
+            resizeMode="contain"
+          />
+        </View>
+      )}
 
       <View style={styles.detailsContainer}>
         <View style={styles.headerRow}>
           <TextComponent
             text={item?.category_name ?? item?.name ?? title}
             styles={styles.titleText}
-            size={'1.5'}
+            size={'2'}
           />
           <View style={styles.amountRow}>
             <TextComponent
               text={`${formatPrice(item?.spent ?? item?.budget) ?? remaining}`}
               isThemeColor
               styles={styles.amountText}
-              size={'1.2'}
+              size={'1.8'}
             />
             <TextComponent
               text={'Remaining'}
               styles={styles.remainingLabel}
-              size={'1.2'}
+              size={'1.5'}
             />
           </View>
         </View>
@@ -54,7 +61,7 @@ const ExpenseProgressCard = ({
             }% of total expense spent`
           }
           styles={[styles.spentText, { color: spentColor }]}
-          size={'1.2'}
+          size={'1.5'}
         />
 
         <View style={styles.progressBackground}>
@@ -93,8 +100,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   iconContainer: {
-    width: wp('12'),
-    height: wp('12'),
+    // width: wp('12'),
+    // height: wp('12'),
     backgroundColor: '#E7F2FF',
     borderRadius: wp('3'),
     alignItems: 'center',
@@ -102,8 +109,9 @@ const styles = StyleSheet.create({
     marginRight: wp('3'),
   },
   iconStyle: {
-    width: wp('6'),
-    height: wp('6'),
+    width: wp('12'),
+    height: wp('12'),
+    borderRadius: 10,
   },
   detailsContainer: {
     flex: 1,

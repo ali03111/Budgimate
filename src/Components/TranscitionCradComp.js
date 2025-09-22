@@ -14,10 +14,10 @@ const TranscitionCradComp = ({ type, amount, description, date, isCredit }) => {
         style={styles.icon}
       />
       <View>
-        <TextComponent text={`${formatPrice(amount)}$`} size={'1.5'} />
-        <TextComponent text={'Credited from leftover'} fade size={'1.2'} />
+        <TextComponent text={`${formatPrice(amount)}`} size={'2'} />
+        <TextComponent text={'Credited from leftover'} fade size={'1.5'} />
       </View>
-      <TextComponent text={date} fade size={'1.3'} styles={styles.dateText} />
+      <TextComponent text={date} fade size={'1.5'} styles={styles.dateText} />
     </View>
   );
 };

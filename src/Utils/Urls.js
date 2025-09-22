@@ -55,6 +55,7 @@ export const getTraceReportUrl = '/traces/report/';
 export const getTraceExpenseUrl = '/traces/expense-report/';
 export const updateTraceUrl = '/traces/update/';
 export const deleteTraceUrl = '/traces/delete/';
+export const getTraceReportByExpenseUrl = '/traces/expense-report/';
 
 export const updateCategoryLimitUrl = '/module-categories/update/';
 export const deleteCategoryLimitUrl = '/module-categories/delete/';

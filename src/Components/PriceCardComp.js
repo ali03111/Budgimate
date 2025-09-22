@@ -10,11 +10,11 @@ const PriceCardComp = ({ title, img, price, priceBgColor }) => {
     <View style={styles.cardContainer}>
       <View style={styles.rowContainer}>
         <Image source={img} resizeMode="contain" style={styles.icon} />
-        <TextComponent text={title} size="1.5" styles={styles.labelText} />
+        <TextComponent text={title} size="2" styles={styles.labelText} />
       </View>
       <TextComponent
         text={price}
-        size="1.5"
+        size="2"
         styles={{
           ...styles.amountText,
           backgroundColor: priceBgColor ?? Colors.lightGreen,

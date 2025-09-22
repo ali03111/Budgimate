@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     top: hp('3'),
   },
   HeaderTitle: {
-    fontSize: hp('2'),
+    fontSize: hp('2.5'),
     fontWeight: 'bold',
     // width: wp('60'),
     textAlignVertical: 'center',

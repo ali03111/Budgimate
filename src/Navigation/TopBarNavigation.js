@@ -3,6 +3,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { StyleSheet } from 'react-native';
 import { Color } from 'react-native/types_generated/Libraries/Animated/AnimatedExports';
 import { Colors } from '../Theme/Variables';
+import { hp } from '../Hooks/useResponsive';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
     // shadowRadius: 2,
   },
   tabBarLabel: {
-    fontSize: 16,
+    fontSize: hp('2'),
     fontWeight: '500',
     // textTransform: 'none',
   },

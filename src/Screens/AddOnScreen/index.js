@@ -32,10 +32,10 @@ const AddOnScreen = ({ navigation }) => {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.upperView}>
-          <TextComponent text="Current Plan:" fade size="1.5" />
+          <TextComponent text="Current Plan:" fade size="2" />
           <TextComponent
             text="Individual"
-            size="1.5"
+            size="1.8"
             styles={styles.upperGreenText}
           />
         </View>
@@ -48,23 +48,23 @@ const AddOnScreen = ({ navigation }) => {
         <TextComponent
           text="Unlock full access to features that simplify money management and help you stay in control."
           fade
-          size="1.5"
+          size="2.2"
           styles={styles.descriptionText}
         />
-        <Touchable style={styles.planContainer}>
+        <Touchable style={{ ...styles.planContainer, marginTop: hp('5') }}>
           <Image
             source={travelMode}
             resizeMode="contain"
             style={styles.planIcon}
           />
           <View style={styles.planDetails}>
-            <TextComponent text="Travel Mode" size="1.8" isWhite />
+            <TextComponent text="Travel Mode" size="2" isWhite />
             <TextComponent
               text="Track expenses in multiple currencies automatically"
               fade
-              size="1.5"
+              size="1.8"
             />
-            <TextComponent text="$2.99/month" size="1.5" isWhite />
+            <TextComponent text="$2.99/month" size="1.8" isWhite />
           </View>
           <Image
             source={grayCircleEmpty}
@@ -79,13 +79,13 @@ const AddOnScreen = ({ navigation }) => {
             style={styles.planIcon}
           />
           <View style={styles.planDetails}>
-            <TextComponent text="Goals & Roll-Over" size="1.8" isWhite />
+            <TextComponent text="Goals & Roll-Over" size="2" isWhite />
             <TextComponent
               text="Set financial goals & roll over unused budgets"
               fade
-              size="1.5"
+              size="1.8"
             />
-            <TextComponent text="$2.99/month" size="1.5" isWhite />
+            <TextComponent text="$2.99/month" size="1.8" isWhite />
           </View>
           <Image
             source={grayCircleEmpty}
@@ -100,13 +100,13 @@ const AddOnScreen = ({ navigation }) => {
             style={styles.planIcon}
           />
           <View style={styles.planDetails}>
-            <TextComponent text="Traces" size="1.8" isWhite />
+            <TextComponent text="Traces" size="2" isWhite />
             <TextComponent
               text="Track one-time events like trips or weddings"
               fade
-              size="1.5"
+              size="1.8"
             />
-            <TextComponent text="$2.99/month" size="1.5" isWhite />
+            <TextComponent text="$2.99/month" size="1.8" isWhite />
           </View>
           <Image
             source={grayCircleEmpty}

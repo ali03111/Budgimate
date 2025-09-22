@@ -25,13 +25,13 @@ prepare_react_native_project!
 # pod 'RNCPushNotificationIOS', :path => '../node_modules/@react-native-community/push-notification-ios'
  
 setup_permissions([
-  'LocationAccuracy',
-  'LocationAlways',
-  'LocationWhenInUse',
-    'Calendars',
-    "CalendarsWriteOnly",
+  # 'LocationAccuracy',
+  # 'LocationAlways',
+  # 'LocationWhenInUse',
+  #   'Calendars',
+  #   "CalendarsWriteOnly",
     'Notifications',
-    "Contacts"
+    # "Contacts"
 ])
  
  
