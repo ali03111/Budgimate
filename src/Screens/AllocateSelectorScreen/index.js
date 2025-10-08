@@ -13,21 +13,22 @@ import { hp, wp } from '../../Hooks/useResponsive';
 import { TextComponent } from '../../Components/TextComponent';
 import ActiveAndInactiveCardComp from '../../Components/ActiveAndInactiveCardComp';
 import { styles } from './styles';
+import { formatPrice } from '../../Services/GlobalFunctions';
 
-const AllocateSelectorScreen = ({ navigation }) => {
+const AllocateSelectorScreen = ({ navigation, route }) => {
   return (
     <ImageBackground style={styles.container} source={LoginBg}>
       <HeaderComponent headerTitle={'Allocate Leftover'} isBack />
       <ThemeButton
-        title={'Leftover: $250'}
+        title={`Leftover: ${formatPrice(route?.params)}`}
         isTransparent
         style={styles.themeButton}
         textStyle={styles.themeButtonText}
       />
       <TextComponent
-        text={
-          'Your leftover amount is $250, from “Last cycle”. You can allocate this or less amount to:'
-        }
+        text={`Your leftover amount is ${formatPrice(
+          route?.params,
+        )}, from “Last cycle”. You can allocate this or less amount to:`}
         fade
         styles={styles.textComponent}
         size={'1.3'}
@@ -37,33 +38,42 @@ const AllocateSelectorScreen = ({ navigation }) => {
         showsVerticalScrollIndicator={false}
       >
         <ActiveAndInactiveCardComp
-          onPress={() => navigation.navigate('AllocateToIncome')}
+          onPress={() => navigation.navigate('AllocateToIncome', route?.params)}
           title="Allocate to current cycle income"
           subtitle="Allocate funds to income and expense more"
           image={incomeCircle}
         />
         <ActiveAndInactiveCardComp
-          onPress={() => navigation.navigate('AllocateToGoalsScreen')}
+          onPress={() =>
+            navigation.navigate('AllocateToGoalsScreen', route?.params)
+          }
           title="Allocate to goals"
           subtitle="Add your expenses to manage"
           image={targetCircle}
         />
         <ActiveAndInactiveCardComp
-          onPress={() => navigation.navigate('AllocateTraceScreen')}
+          onPress={() =>
+            navigation.navigate('AllocateTraceScreen', route?.params)
+          }
           title="Allocate to trace"
           subtitle="Trace your budget by adding income"
           image={noteCircle}
         />
         <ActiveAndInactiveCardComp
           onPress={() =>
-            navigation.navigate('AllocateTraceScreen', { isPro: true })
+            navigation.navigate('AllocateTraceScreen', {
+              isPro: true,
+              leftOver: route?.params,
+            })
           }
           title="Allocate to pro trace"
           subtitle="Trace your budget by adding income"
           image={noteCircle}
         />
         <ActiveAndInactiveCardComp
-          onPress={() => navigation.navigate('AllocateToExpenseScreen')}
+          onPress={() =>
+            navigation.navigate('AllocateToExpenseScreen', route?.params)
+          }
           title="Rollover to current cycle categories"
           subtitle="Add your expenses to manage"
           image={targetCircle}

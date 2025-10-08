@@ -12,6 +12,10 @@ const { default: Schemas } = require('../../Utils/Validation');
  * @returns The `useLogin` function is returning an object with the following properties and methods:
  */
 const useEditPersonalInformationScreen = ({ navigate, goBack }) => {
+  const { getState } = useReduxStore();
+
+  const { userData } = getState('Auth');
+
   const { handleSubmit, errors, reset, control, getValues } = useFormHook(
     Schemas.logIn,
   );
@@ -48,6 +52,7 @@ const useEditPersonalInformationScreen = ({ navigate, goBack }) => {
     onPress,
     loginUser: loginUserFun,
     socialLoginFun,
+    userData,
   };
 };
 

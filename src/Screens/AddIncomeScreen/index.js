@@ -114,7 +114,7 @@ const AddIncomeScreen = ({ navigation, route }) => {
       <KeyBoardWrapper styles={{ paddingBottom: hp('10') }}>
         <View style={styles.priceMainView}>
           <View style={styles.priceInnerView}>
-            <TextComponent text={'$'} size={'2.5'} />
+            {/* <TextComponent text={'$'} size={'2.5'} /> */}
             <Controller
               control={control}
               name="incomePrice"
@@ -122,12 +122,15 @@ const AddIncomeScreen = ({ navigation, route }) => {
                 <TextInput
                   placeholder="0"
                   onChangeText={text => {
-                    onChange(Math.max(20, text.length * 14)); // increase width based on content
+                    onChange(text); // increase width based on content
                   }}
                   style={{
-                    fontSize: hp('2.5'),
+                    fontSize: hp('3.5'),
                     color: 'black',
-                    width: value,
+                    width: wp('85'),
+                    alignSelf: 'center',
+                    textAlign: 'center',
+                    // backgroundColor: 'red',
                   }}
                   value={value}
                   placeholderTextColor={'gray'}
@@ -139,7 +142,7 @@ const AddIncomeScreen = ({ navigation, route }) => {
           <TextComponent
             text={'Add income amount'}
             fade
-            size={'1.5'}
+            size={'2'}
             styles={styles.addIncomeText}
           />
           <Controller
@@ -199,7 +202,7 @@ const AddIncomeScreen = ({ navigation, route }) => {
                       // text={'DD / MM / YYYY'}
                       text={formatDateToLong(value) ?? 'DD / MM / YYYY'}
                       styles={styles.textStyle}
-                      size={'1.2'}
+                      size={'1.5'}
                     />
                     <Image
                       source={calendar}
@@ -209,10 +212,12 @@ const AddIncomeScreen = ({ navigation, route }) => {
                   </Touchable>
                 )}
               />
-              <TextComponent
-                text={errors['startingPeriod']?.message}
-                styles={styles.errorText}
-              />
+              {errors['startingPeriod']?.message && (
+                <TextComponent
+                  text={errors['startingPeriod']?.message}
+                  styles={styles.errorText}
+                />
+              )}
             </>
           }
         />
@@ -233,7 +238,7 @@ const AddIncomeScreen = ({ navigation, route }) => {
                       text={formatDateToLong(value) ?? 'DD / MM / YYYY'}
                       // text={formatDateToLong(value ?? currentDate)}
                       styles={styles.textStyle}
-                      size={'1.2'}
+                      size={'1.5'}
                     />
                     <Image
                       source={calendar}

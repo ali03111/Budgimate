@@ -27,7 +27,12 @@ import { styles } from './styles';
 import { HeaderComponent } from '../../Components/HeaderComp';
 import useReportScreen from './useReportScreen';
 import { imageUrl } from '../../Utils/Urls';
-import { formatPrice } from '../../Services/GlobalFunctions';
+import {
+  currentDate,
+  formatDateToCustomFormat,
+  formatPrice,
+} from '../../Services/GlobalFunctions';
+import DatePicker from 'react-native-date-picker';
 
 const expenses = [
   { icon: fuel, amount: '$260', title: 'Fuel', bg: '#E6F2FF' },
@@ -37,46 +42,95 @@ const expenses = [
 ];
 
 const ReportScreen = ({ navigation, route }) => {
-  const { categoryArry, summary, traceObj } = useReportScreen(
-    navigation,
-    route,
-  );
+  const {
+    categoryArry,
+    summary,
+    traceObj,
+    datePickerState,
+    setDatePickerState,
+    onChangeVal,
+    startDate,
+    endDate,
+    dateSelector,
+    refetch,
+  } = useReportScreen(navigation, route);
 
   return (
     <View style={styles.container}>
       <HeaderComponent headerTitle={'Report'} isBack />
-      {/* Date Range */}
-      <TextComponent
-        text="Date Range"
-        family="600"
-        size={2}
-        styles={styles.sectionTitle}
-      />
+      <ScrollView contentContainerStyle={{ paddingBottom: hp('10') }}>
+        {/* Date Range */}
+        <TextComponent
+          text="Date Range"
+          family="600"
+          size={2}
+          styles={styles.sectionTitle}
+        />
 
-      <View style={styles.dateRow}>
-        <Touchable style={styles.dateBox}>
-          <Text style={styles.dateText}>Select</Text>
-        </Touchable>
-        <Touchable style={styles.dateBox}>
-          <Text style={styles.dateText}>Select</Text>
-        </Touchable>
-      </View>
+        <View style={styles.dateRow}>
+          <Touchable
+            style={styles.dateBox}
+            onPress={() => setDatePickerState('startDate')}
+          >
+            <Text style={styles.dateText}>
+              {formatDateToCustomFormat(startDate ?? currentDate)}
+            </Text>
+          </Touchable>
+          <Touchable
+            style={styles.dateBox}
+            onPress={() => setDatePickerState('endDate')}
+          >
+            <Text style={styles.dateText}>
+              {formatDateToCustomFormat(endDate ?? currentDate)}
+            </Text>
+          </Touchable>
+        </View>
 
-      {/* Expenses */}
-      <TextComponent
-        text="Expenses"
-        family="600"
-        size={2}
-        styles={styles.sectionTitle}
-      />
+        {/* Summary */}
+        <TextComponent
+          text="Summary"
+          family="600"
+          size={2}
+          styles={styles.sectionTitle}
+        />
 
-      <ScrollView
-        contentContainerStyle={{ backgroundColor: 'red' }}
-        style={{
-          height: hp('21'),
-          backgroundColor: 'yellow',
-        }}
-      >
+        <View style={styles.summaryRow}>
+          <View style={[styles.summaryBox, { backgroundColor: '#FFE6E6' }]}>
+            <Image
+              source={debitIcon}
+              resizeMode="contain"
+              style={styles.summaryIcon}
+            />
+            <TextComponent
+              text={formatPrice(summary?.total_spent)}
+              family="600"
+              size={2}
+            />
+            <TextComponent text="Total spent" size={1.5} />
+          </View>
+
+          <View style={[styles.summaryBox, { backgroundColor: '#E6FFE9' }]}>
+            <Image
+              source={creditIcon}
+              resizeMode="contain"
+              style={styles.summaryIcon}
+            />
+            <TextComponent
+              text={formatPrice(summary?.total_limit)}
+              family="600"
+              size={2}
+            />
+            <TextComponent text="Remaining limit" size={1.5} />
+          </View>
+        </View>
+        {/* Expenses */}
+        <TextComponent
+          text="Expenses"
+          family="600"
+          size={2}
+          styles={styles.sectionTitle}
+        />
+
         {categoryArry.map((item, index) => (
           <View key={index} style={styles.expenseCard}>
             <View style={[styles.iconBox, { backgroundColor: item.bg }]}>
@@ -97,43 +151,43 @@ const ReportScreen = ({ navigation, route }) => {
           </View>
         ))}
       </ScrollView>
-      {/* Summary */}
-      <TextComponent
-        text="Summary"
-        family="600"
-        size={2}
-        styles={styles.sectionTitle}
+
+      <DatePicker
+        // mode={'datetime'}
+        mode={'date'}
+        open={Boolean(datePickerState)}
+        date={dateSelector[datePickerState] ?? currentDate}
+        is24hourSource="locale"
+        locale="en"
+        onCancel={() => setDatePickerState(null)}
+        modal
+        onConfirm={e => {
+          console.log(
+            'lksdbvlksbdlkvbsdlkbvlsdblvkbsdlvbsdkvsd',
+            e,
+            new Date(e.getTime() + 24 * 60 * 60 * 1000),
+            e.toDateString(),
+          );
+          // if (datePicker.stateName == 'perfEventList') {
+          //   datePicker.onChange();
+          //   onSelectValueInList(
+          //     datePicker?.index,
+          //     datePicker.modalType ?? 'date',
+          //     e,
+          //   );
+          //   toggleDate(null);
+          // } else {
+          onChangeVal([datePickerState], e);
+          // onChange(new Date(e.getTime() + 24 * 60 * 60 * 1000));
+          // datePicker.onChange(e);
+          // onSelectValue(datePicker.stateName, e);
+          setDatePickerState(null);
+          setTimeout(() => {
+            refetch();
+          }, 1000);
+          // }
+        }}
       />
-
-      <View style={styles.summaryRow}>
-        <View style={[styles.summaryBox, { backgroundColor: '#FFE6E6' }]}>
-          <Image
-            source={debitIcon}
-            resizeMode="contain"
-            style={styles.summaryIcon}
-          />
-          <TextComponent
-            text={formatPrice(summary?.total_spent)}
-            family="600"
-            size={2}
-          />
-          <TextComponent text="Total spent" size={1.5} />
-        </View>
-
-        <View style={[styles.summaryBox, { backgroundColor: '#E6FFE9' }]}>
-          <Image
-            source={creditIcon}
-            resizeMode="contain"
-            style={styles.summaryIcon}
-          />
-          <TextComponent
-            text={formatPrice(summary?.total_limit)}
-            family="600"
-            size={2}
-          />
-          <TextComponent text="Remaining limit" size={1.5} />
-        </View>
-      </View>
 
       {/* Button */}
       {/* <TouchableOpacity style={styles.button}>

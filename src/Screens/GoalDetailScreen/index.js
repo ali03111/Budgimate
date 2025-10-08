@@ -137,7 +137,7 @@ const GoalDetailScreen = ({ navigation, route }) => {
         </Touchable>
 
         {/* Action Buttons */}
-        <View style={{ ...styles.rowBetween, marginTop: hp('32') }}>
+        <View style={{ ...styles.rowBetween, marginTop: hp('25') }}>
           <Touchable
             style={styles.addButton}
             onPress={() => setModalState('addIncome')}

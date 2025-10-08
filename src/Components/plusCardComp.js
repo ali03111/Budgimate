@@ -4,6 +4,7 @@ import { groceryIcon } from '../../Assets'; // Replace with your grocery icon as
 import { wp, hp } from '../Hooks/useResponsive';
 import { TextComponent } from './TextComponent';
 import { Colors } from '../Theme/Variables';
+import { editIcon } from '../Assets';
 
 const PlusCardComp = ({
   category,
@@ -30,15 +31,23 @@ const PlusCardComp = ({
         />
       </View>
       <TouchableOpacity style={styles.addButton} onPress={onPlusPress}>
-        <TextComponent
-          text={rightText ?? '+'}
-          family={'600'}
-          size={'3'}
-          styles={{
-            ...styles.addText,
-            fontSize: rightText ? hp('1.2') : hp('3'),
-          }}
-        />
+        {rightText ? (
+          <TextComponent
+            text={rightText ?? '+'}
+            family={'600'}
+            size={'3'}
+            styles={{
+              ...styles.addText,
+              fontSize: rightText ? hp('1.2') : hp('3'),
+            }}
+          />
+        ) : (
+          <Image
+            source={editIcon}
+            resizeMode="contain"
+            style={{ width: wp('4'), height: hp('3') }}
+          />
+        )}
       </TouchableOpacity>
     </TouchableOpacity>
   );

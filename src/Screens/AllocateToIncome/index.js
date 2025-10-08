@@ -6,21 +6,25 @@ import ThemeButton from '../../Components/ThemeButton';
 import { TextComponent } from '../../Components/TextComponent';
 import { styles } from './styles';
 import { hp, wp } from '../../Hooks/useResponsive';
+import { formatPrice } from '../../Services/GlobalFunctions';
+import useAllocateToIncomeScreen from './useAllocateToIncome';
 
-const AllocateToIncome = ({ navigation }) => {
+const AllocateToIncome = ({ navigation, route }) => {
+  const { onChangeVal, inputPrice, inputWidth, setInputWidth, addAllocate } =
+    useAllocateToIncomeScreen(navigation, route);
   return (
     <ImageBackground source={LoginBg} style={{ flex: 1 }}>
       <HeaderComponent headerTitle={'Allocate Leftover to Income'} isBack />
       <ThemeButton
-        title={'Leftover: $250'}
+        title={`Leftover: ${formatPrice(route?.params)}`}
         isTransparent
         style={styles.themeButton}
         textStyle={styles.themeButtonText}
       />
       <TextComponent
-        text={
-          'Add leftover amount of $250 or less, from “Last cycle” to your “Current Cycle” income $5,460'
-        }
+        text={`Add leftover amount of ${formatPrice(
+          route?.params,
+        )} or less, from “Last cycle” to your “Current Cycle” income`}
         fade
         styles={styles.textComponent}
         size={'1.3'}
@@ -32,14 +36,15 @@ const AllocateToIncome = ({ navigation }) => {
           <TextInput
             placeholder="0"
             onChangeText={text => {
-              // onChange(Math.max(20, text.length * 14)); // increase width based on content
+              onChangeVal('inputPrice', text);
+              setInputWidth(Math.max(20, text.length * 22)); // dynamic width
             }}
             style={{
               fontSize: hp('4.5'),
               color: 'black',
-              width: 30,
+              width: inputWidth,
             }}
-            // value={value}
+            value={inputPrice}
             placeholderTextColor={'gray'}
             keyboardType="numeric"
           />
@@ -55,7 +60,7 @@ const AllocateToIncome = ({ navigation }) => {
         title={'Allocate'}
         isTheme
         style={{ width: wp('95'), marginTop: hp('10'), alignSelf: 'center' }}
-        onPress={() => navigation.goBack()}
+        onPress={addAllocate}
       />
     </ImageBackground>
   );

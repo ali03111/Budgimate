@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     marginLeft: wp('2'),
   },
   themeButtonText: {
-    fontSize: hp('1.3'),
+    fontSize: hp('1.8'),
   },
   textComponent: {
     marginLeft: wp('2'),

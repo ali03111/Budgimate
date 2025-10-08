@@ -1,12 +1,21 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import useReduxStore from '../../Hooks/UseReduxStore';
 import API from '../../Utils/helperFunc';
-import { deleteTraceUrl, getAllTraceUrl } from '../../Utils/Urls';
+import {
+  createIncomeUrl,
+  deleteTraceUrl,
+  getAllTraceUrl,
+} from '../../Utils/Urls';
 import { errorMessage, successMessage } from '../../Config/NotificationMessage';
 import { useState, useEffect } from 'react';
+import { formatDate } from '../../Services/GlobalFunctions';
+import NavigationService from '../../Services/NavigationService';
 
-const useAllTraceScreen = () => {
+const useAllTraceScreen = ({ params }, { addListener }) => {
   const { queryClient } = useReduxStore();
+
+  const [modalState, setModalState] = useState(null);
+  const [screenName, setScreenName] = useState(false);
 
   const { data } = useQuery({
     queryKey: ['getTraceUrl'],
@@ -32,6 +41,21 @@ const useAllTraceScreen = () => {
     },
   });
 
+  const [formState, setFormState] = useState({
+    comment: null,
+    inputPrice: null,
+  });
+
+  const [inputWidth, setInputWidth] = useState(20); // starting small
+
+  const [datePickerState, setDatePickerState] = useState(null);
+
+  const { comment, inputPrice } = formState;
+
+  const updateState = data => setFormState(prev => ({ ...formState, ...data }));
+
+  const onChangeVal = (key, val) => updateState({ [key]: val });
+
   const [filterData, setFilterData] = useState([]);
   const [text, setText] = useState('');
 
@@ -56,6 +80,34 @@ const useAllTraceScreen = () => {
     setText(searchText);
   };
 
+  const { mutateAsync } = useMutation({
+    mutationFn: data => {
+      console.log('sl;dnvl;sdnlvnsdl;vnl;sd', data);
+      return API.post(createIncomeUrl, data);
+    },
+    onSuccess: ({ ok, data }) => {
+      console.log('skldbvklbsdklvbklsdbvkbsdkvbsdbvklsdbvksd', data);
+      if (ok) {
+        successMessage(data?.message);
+        setFormState({
+          comment: null,
+          inputPrice: null,
+        });
+        queryClient.invalidateQueries([`getTraceUrl`]);
+      } else errorMessage(data?.message);
+    },
+    onError: e => errorMessage(e),
+  });
+
+  useEffect(() => {
+    const unsubscribe = addListener('focus', () => {
+      const getNameFunc = NavigationService.getCurrentRoute();
+      const screenName = getNameFunc?.getCurrentRoute()?.name;
+      setScreenName(screenName);
+    });
+    return unsubscribe;
+  }, []);
+
   console.log('datadatadatadatadatadatadatadatadatadatadata', data?.data);
 
   return {
@@ -65,6 +117,24 @@ const useAllTraceScreen = () => {
     text,
     setText,
     filterData,
+    modalState,
+    setModalState,
+    inputWidth,
+    setInputWidth,
+    comment,
+    inputPrice,
+    screenName,
+    onChangeVal,
+    onAddIncome: data =>
+      mutateAsync({
+        source: comment ?? '',
+        amount: inputPrice,
+        start_date: formatDate(new Date()),
+        frequency: 'one-time',
+        module_type: 'trace',
+        module_id: data,
+        isIncome: true,
+      }),
   };
 };
 

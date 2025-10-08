@@ -34,6 +34,11 @@ export const MapAPIKey = 'AIzaSyAu-nEBbiOahfUyeMc8Lc1gTTKfete_wnQ';
 export const registerUrl = '/signup';
 export const loginUrl = '/login';
 
+export const getModuleCatBasicUrl = 'module-categories/basic';
+
+export const homeDataUrl = '/dashboard';
+export const incomeVsExpenseUrl = '/dashboard/income-vs-expense?filter=';
+
 export const createIncomeUrl = '/income/store';
 export const createExpenseinCategoryUrl = '/expense/store';
 export const updateExpenseinCategoryUrl = '/expense/update/';
@@ -66,6 +71,9 @@ export const getExpenseCategoryUrl = '/basic/categories/';
 export const getExpenseByCategoryUrl = '/basic/categories/'; // this api ha more url /{id}/expenses
 
 export const getCategoryUrl = 'module-categories/categories';
+
+export const getLeftOverUrl = 'leftover/';
+export const postLeftOverUrl = 'leftover/allocate';
 
 export const VerifyUserUrl = '/verify';
 export const allAssociatesUrl = '/setup/associations';

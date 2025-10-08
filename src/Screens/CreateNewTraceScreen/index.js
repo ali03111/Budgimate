@@ -30,10 +30,15 @@ const CreateNewTraceScreen = ({ navigation }) => {
           style={styles.basicTraceBox(Boolean(isSelected == 'basic'))}
           onPress={() => setSelectedTrace('basic')}
         >
-          <TextComponent text={'Basic trace'} size={'1.5'} family={'500'} />
+          <TextComponent
+            text={'Basic trace'}
+            size={'2'}
+            family={'600'}
+            fade={Boolean(isSelected != 'basic')}
+          />
           <TextComponent
             text={'Simple limit-based tracking'}
-            size={'1.2'}
+            size={'1.5'}
             fade
             styles={styles.textCenter}
           />
@@ -42,10 +47,15 @@ const CreateNewTraceScreen = ({ navigation }) => {
           style={styles.proTraceBox(Boolean(isSelected == 'pro'))}
           onPress={() => setSelectedTrace('pro')}
         >
-          <TextComponent text={'Pro trace'} size={'1.5'} family={'500'} />
+          <TextComponent
+            text={'Pro trace'}
+            size={'2'}
+            family={'600'}
+            fade={Boolean(isSelected != 'pro')}
+          />
           <TextComponent
             text={'Advanced category-based tracking'}
-            size={'1.2'}
+            size={'1.5'}
             fade
             styles={styles.textCenter}
           />
@@ -54,14 +64,18 @@ const CreateNewTraceScreen = ({ navigation }) => {
 
       <View style={styles.priceMainView}>
         <View style={styles.priceInnerView}>
-          <TextComponent text={'$'} size={'2.5'} />
+          <TextComponent text={'$'} size={'3.5'} />
           <TextInput
             placeholder="0"
             onChangeText={text => {
-              setInputWidth(Math.max(20, text.length * 14)); // increase width based on content
+              setInputWidth(Math.max(20, text.length * 18)); // increase width based on content
               onChangeVal('inputPrice', text);
             }}
-            style={[styles.priceInput, { width: inputWidth }]}
+            style={[
+              styles.priceInput,
+              { width: inputWidth },
+              // { width: wp('85'), textAlign: 'center' },
+            ]}
             placeholderTextColor={'gray'}
             keyboardType="numeric"
             value={inputPrice}
@@ -70,7 +84,7 @@ const CreateNewTraceScreen = ({ navigation }) => {
         <TextComponent
           text={'Set a total spending limit (e.g., $1,000)'}
           fade
-          size={'1.5'}
+          size={'1.8'}
           styles={styles.addIncomeText}
         />
       </View>
@@ -78,7 +92,7 @@ const CreateNewTraceScreen = ({ navigation }) => {
       <TextComponent
         text={'Name the trace'}
         isLightThemeColor
-        size={'1.5'}
+        size={'1.8'}
         styles={styles.traceLabel}
       />
 

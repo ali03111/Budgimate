@@ -1,10 +1,105 @@
-import { useState } from 'react';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+import { getModuleCatBasicUrl, postLeftOverUrl } from '../../Utils/Urls';
+import API from '../../Utils/helperFunc';
+import useReduxStore from '../../Hooks/UseReduxStore';
+import { errorMessage, successMessage } from '../../Config/NotificationMessage';
 
-const useAllocateToExpenseScreen = () => {
-  const [modalVisible, setModalVisible] = useState(false);
+const useAllocateToExpenseScreen = ({ goBack }) => {
+  const { data, refetch } = useQuery({
+    queryKey: ['expenseByCategoryData'],
+    queryFn: () => API.get(getModuleCatBasicUrl),
+  });
+
+  const [modalVisible, setModalVisible] = useState(null);
+
+  const { queryClient } = useReduxStore();
+
+  const [formState, setFormState] = useState({
+    inputPrice: null,
+  });
+
+  const [inputWidth, setInputWidth] = useState(20); // starting small
+
+  const { inputPrice } = formState;
+
+  const updateState = data => setFormState(prev => ({ ...formState, ...data }));
+
+  const onChangeVal = (key, val) => updateState({ [key]: val });
+
+  const { mutateAsync } = useMutation({
+    mutationFn: data => {
+      console.log('sl;dnvl;sdnlvnsdl;vnl;sd', data);
+      return API.post(postLeftOverUrl, {
+        amount: inputPrice,
+        module_type: 'expense_category',
+        module_id: data?.expenseCatId,
+      });
+    },
+    onSuccess: ({ ok, data }) => {
+      setFormState({
+        inputPrice: null,
+      });
+      setInputWidth(20);
+      if (ok) {
+        console.log('hjhjvhjvhjvhjvvhjvhjvhvjvhvjh', data);
+        successMessage(data?.message);
+        queryClient.invalidateQueries([`getLeftOverUrl`]);
+        goBack();
+      } else errorMessage(data?.error);
+    },
+    onError: e => errorMessage(e),
+  });
+
+  const [filterData, setFilterData] = useState([]);
+  const [text, setText] = useState('');
+
+  // Initialize filterData with traces when data is available
+  useEffect(() => {
+    if (data?.data) {
+      setFilterData(data.data);
+    }
+  }, [data]);
+
+  const searchFun = searchText => {
+    if (searchText && data?.data?.length > 0) {
+      const newData = data.data.filter(item => {
+        const itemData = (
+          item.name ||
+          item?.category_name ||
+          item?.expense_category?.name ||
+          ''
+        ).toUpperCase();
+        const textData = searchText.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setFilterData(newData);
+    } else {
+      setFilterData(data?.data ?? []);
+    }
+    setText(searchText);
+  };
+
+  const [dateRangeModal, setDateRangeModal] = useState(false);
+  const [dateRange, setDateRange] = useState('current_month');
   return {
+    onChangeVal,
+    inputPrice,
+    inputWidth,
+    setInputWidth,
     modalVisible,
     setModalVisible,
+    addAllocate: expenseCatId => mutateAsync({ expenseCatId }),
+    catList: data?.data,
+    refetch,
+    searchFun,
+    dateRangeModal,
+    setDateRangeModal,
+    text,
+    setText,
+    dateRange,
+    setDateRange,
+    filterData,
   };
 };
 

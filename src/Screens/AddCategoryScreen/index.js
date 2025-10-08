@@ -20,6 +20,7 @@ import ThemeButton from '../../Components/ThemeButton';
 import ListViewScreen from '../../Components/ListViewComp';
 import BtnModalComponent from '../../Components/BtnModalComp';
 import { Touchable } from '../../Components/Touchable';
+import { getCategoryUrl } from '../../Utils/Urls';
 
 const AddCategoryScreen = ({ navigation, route }) => {
   const {
@@ -92,7 +93,14 @@ const AddCategoryScreen = ({ navigation, route }) => {
         />
         <Touchable
           style={styles.categoryContainer}
-          onPress={() => setModalState(true)}
+          onPress={() =>
+            navigation.navigate('CatViewScreen', {
+              urlName:
+                getCategoryUrl + `?module_type=${route?.params?.module_type}`,
+              onSelectValue: e => onChangeVal('selectedCat', e),
+              selectedValue: [selectedCat],
+            })
+          }
         >
           <TextComponent
             text={selectedCat?.name ?? 'Please select category'}

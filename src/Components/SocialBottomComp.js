@@ -17,7 +17,11 @@ const SocialBottomComp = ({ onSocialPress, isGuest }) => {
       </Touchable>
 
       <Touchable onPress={() => onSocialPress('appleID')} style={styles.button}>
-        <Image source={apple} resizeMode="contain" style={styles.imageStyle} />
+        <Image
+          source={apple}
+          resizeMode="contain"
+          style={{ ...styles.imageStyle, marginLeft: wp('-7') }}
+        />
         <TextComponent
           text="Continue with Apple"
           styles={styles.textStyle}
@@ -56,11 +60,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginVertical: hp('1'),
     borderRadius: wp('2'),
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+
+    elevation: 4,
   },
   imageStyle: {
     width: wp('12'),
     height: hp('5'),
-    marginRight: wp('3'),
+    marginLeft: wp('-5'),
+    // marginRight: wp('3'),
   },
   textStyle: {
     fontSize: hp('1.8'),

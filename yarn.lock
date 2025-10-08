@@ -1430,6 +1430,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@boindahood/react-native-biometrics@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "@boindahood/react-native-biometrics@npm:1.0.5"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 136a9681f3680fed7f01905165c36a723b8cb4c6b4264347e738dc9df93121e30d0e8b07527c6247ae8c82223f8130a9b83d27e6eea116c582b5419b399da787
+  languageName: node
+  linkType: hard
+
 "@eslint-community/eslint-utils@npm:^4.2.0, @eslint-community/eslint-utils@npm:^4.4.0":
   version: 4.7.0
   resolution: "@eslint-community/eslint-utils@npm:4.7.0"
@@ -4248,6 +4258,7 @@ __metadata:
     "@babel/core": ^7.25.2
     "@babel/preset-env": ^7.25.3
     "@babel/runtime": ^7.25.0
+    "@boindahood/react-native-biometrics": ^1.0.5
     "@hookform/resolvers": ^5.1.1
     "@invertase/react-native-apple-authentication": ^2.4.1
     "@react-native-async-storage/async-storage": ^2.2.0

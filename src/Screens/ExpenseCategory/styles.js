@@ -42,7 +42,7 @@ export const styles = StyleSheet.create({
     fontSize: hp('1.8'),
   },
   upComingFlatlistView: {
-    paddingBottom: hp('15'),
+    paddingBottom: hp('23'),
     flexGrow: 1,
     // paddingTop: hp('2'),
     // paddingTop: hp('1'),

@@ -89,4 +89,45 @@ export const styles = StyleSheet.create({
     width: wp('6'),
     resizeMode: 'contain',
   },
+
+  // Modal style
+  categoryContainer: {
+    width: wp('90'),
+    paddingVertical: hp('1.2'),
+    paddingHorizontal: wp('1.5'),
+    flexDirection: 'row',
+    alignSelf: 'center',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderRadius: 10,
+    borderWidth: 0.5,
+    borderColor: Colors.dkBorderColor,
+    backgroundColor: Colors.white,
+    marginVertical: hp('2'),
+  },
+  commentInput: {
+    flex: 1,
+    fontSize: hp('1.8'),
+  },
+  priceMainView: {
+    width: wp('90'),
+    alignSelf: 'center',
+    backgroundColor: 'white',
+    paddingVertical: hp('3'),
+    borderRadius: 10,
+    marginVertical: hp('2'),
+    gap: hp('1'),
+    borderWidth: 0.5,
+    borderColor: Colors.dkBorderColor,
+  },
+  priceInnerView: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  addIncomeText: { textAlign: 'center', marginTop: hp('1') },
+  priceInput: {
+    fontSize: hp('3.5'),
+    color: 'black',
+  },
 });

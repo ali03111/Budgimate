@@ -8,17 +8,16 @@ import { InputComponent } from '../../Components/InputComponent';
 import useEditPersonalInformationScreen from './useEditPersonalInformationScreen';
 import KeyBoardWrapper from '../../Components/KeyBoardWrapper';
 import ThemeButton from '../../Components/ThemeButton';
+import { imageUrl } from '../../Utils/Urls';
 
 const EditPersonalInformationScreen = ({ navigation }) => {
-  const { control, errors, reset, getValues, handleSubmit } =
+  const { control, errors, reset, getValues, handleSubmit, userData } =
     useEditPersonalInformationScreen(navigation);
   return (
     <ImageBackground style={{ flex: 1 }} source={LoginBg}>
       <HeaderComponent headerTitle={'Personal Information'} isBack />
       <CircleImage
-        image={
-          'https://images.pexels.com/photos/32891318/pexels-photo-32891318.jpeg'
-        }
+        image={imageUrl(userData?.profile_image)}
         uri={true}
         size={0.35}
         styles={{ alignSelf: 'center', marginTop: hp('2') }}
@@ -34,8 +33,8 @@ const EditPersonalInformationScreen = ({ navigation }) => {
             reset,
             control,
             getValues,
-            placeholder: 'John Mayer',
-            defaultValue: __DEV__ ? 'John Mayer' : '',
+            defaultValue: `${userData?.first_name} ${userData?.last_name}`,
+            placeholder: 'Please enter your name',
             viewStyle: { height: hp('5') },
             inputIconStyle: { flex: 0.4 },
             headingStyles: { fontSize: hp('2') },
@@ -52,7 +51,7 @@ const EditPersonalInformationScreen = ({ navigation }) => {
             control,
             getValues,
             placeholder: 'Email',
-            defaultValue: __DEV__ ? 'iphonexr@gmail.com' : '',
+            defaultValue: userData?.email,
             viewStyle: { height: hp('5') },
             inputIconStyle: { flex: 0.4 },
             headingStyles: { fontSize: hp('2') },

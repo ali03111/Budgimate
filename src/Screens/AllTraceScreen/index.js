@@ -10,6 +10,7 @@ import React, { memo, useCallback } from 'react';
 import ExpenseProgressCard from '../../Components/ExpenseProgressCard';
 import {
   calender,
+  createText,
   editWhiteIcon,
   LoginBg,
   plusBlue,
@@ -27,10 +28,26 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 import { Touchable } from '../../Components/Touchable';
 import useAllTraceScreen from './useAllTraceScreen';
 import NavigationService from '../../Services/NavigationService';
+import ModalViewComp from '../../Components/ModalViewComp';
 
-const AllTraceScreen = ({ navigation }) => {
-  const { deleteTrace, traceList, searchFun, text, setText, filterData } =
-    useAllTraceScreen();
+const AllTraceScreen = ({ navigation, route }) => {
+  const {
+    deleteTrace,
+    traceList,
+    searchFun,
+    text,
+    setText,
+    filterData,
+    setModalState,
+    modalState,
+    inputWidth,
+    setInputWidth,
+    comment,
+    inputPrice,
+    onChangeVal,
+    onAddIncome,
+    screenName,
+  } = useAllTraceScreen(route, navigation);
 
   const actions = [
     {
@@ -48,13 +65,16 @@ const AllTraceScreen = ({ navigation }) => {
           key={index}
           item={item}
           onPres={() => {
-            navigation.navigate('AddExpenseToTraceScreen', {
-              catVal: { id: item?.id },
-              price: parseInt(item?.budget),
-              module_type: 'trace',
-              module_id: 3,
-              traceType: item?.type,
-            });
+            if (route?.params?.type == 'income') setModalState(item?.id);
+            else {
+              navigation.navigate('AddExpenseToTraceScreen', {
+                catVal: { id: item?.id },
+                price: parseInt(item?.budget),
+                module_type: 'trace',
+                module_id: 3,
+                traceType: item?.type,
+              });
+            }
           }}
         />
       );
@@ -76,7 +96,15 @@ const AllTraceScreen = ({ navigation }) => {
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnLeft]}
-        onPress={() => console.log('Edit pressed', item)}
+        onPress={() =>
+          navigation.navigate('AddExpenseToTraceScreen', {
+            catVal: { id: item?.id },
+            price: parseInt(item?.budget),
+            module_type: 'trace',
+            module_id: 3,
+            traceType: item?.type,
+          })
+        }
       >
         <Image
           source={editWhiteIcon}
@@ -87,16 +115,24 @@ const AllTraceScreen = ({ navigation }) => {
     </View>
   );
 
-  const getNameFunc = NavigationService.getCurrentRoute();
-  const screenName = getNameFunc?.getCurrentRoute()?.name;
-
   return (
     <ImageBackground source={LoginBg} style={styles.container}>
       <HeaderComponent
         headerTitle="Traces"
         isBack={Boolean(screenName != 'AllBottomTraceScreen')}
-        rightIconImg={plusBlue}
+        rightIconImg={createText}
         onRightPress={() => navigation.navigate('CreateNewTraceScreen')}
+        rightIconStyle={{
+          width: wp('10'),
+          height: hp('3'),
+        }}
+        // isAnotherRightChildern={
+        //   <TextComponent
+        //     text={'Create'}
+        //     isThemeColor
+        //     styles={{ backgroundColor: 'red' }}
+        //   />
+        // }
       />
 
       {traceList && traceList.length > 0 ? (
@@ -175,6 +211,69 @@ const AllTraceScreen = ({ navigation }) => {
             onPress={() => navigation.navigate('CreateNewTraceScreen')}
           />
         </View>
+      )}
+      {modalState != null && (
+        <ModalViewComp
+          isModal={Boolean(modalState != null)}
+          heading={'Add Income'}
+          btnTitle={'Add Income'}
+          // subtitle={
+          //   modalState == 'newCategory' &&
+          //   `You’ve left ${formatPrice(
+          //     parseInt(spend),
+          //   )} from the total budget of ${formatPrice(
+          //     parseInt(limit),
+          //   )} from the ${traceName} trace.`
+          // }
+          childrenComp={
+            <View>
+              <TextComponent
+                text={'Add comments'}
+                family={'400'}
+                isThemeColor
+                size={'2'}
+              />
+              <View style={styles.categoryContainer}>
+                <TextInput
+                  style={styles.commentInput}
+                  placeholder="Type comment"
+                  placeholderTextColor={'gray'}
+                  value={comment}
+                  onChangeText={e => onChangeVal('comment', e)}
+                />
+              </View>
+              <TextComponent
+                text={'Add amount*'}
+                family={'400'}
+                isThemeColor
+                size={'2'}
+              />
+              <View style={styles.priceMainView}>
+                <View style={styles.priceInnerView}>
+                  <TextComponent text={'$'} size={'3.5'} />
+                  <TextInput
+                    placeholder="0"
+                    onChangeText={text => {
+                      onChangeVal('inputPrice', text);
+                      setInputWidth(Math.max(20, text.length * 18)); // dynamic width
+                    }}
+                    style={[styles.priceInput, { width: inputWidth }]}
+                    value={inputPrice}
+                    placeholderTextColor={'gray'}
+                    keyboardType="numeric"
+                  />
+                </View>
+              </View>
+            </View>
+          }
+          onBackPress={() => {
+            setModalState(null);
+          }}
+          onPress={() => {
+            onAddIncome(modalState);
+            setModalState(null);
+          }}
+        />
       )}
     </ImageBackground>
   );

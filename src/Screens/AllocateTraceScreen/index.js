@@ -18,28 +18,41 @@ import { styles } from './styles';
 import ExpenseProgressCard from '../../Components/ExpenseProgressCard';
 import useAllocateTraceScreen from './useAllocateTraceScreen';
 import ModalViewComp from '../../Components/ModalViewComp';
+import { formatPrice } from '../../Services/GlobalFunctions';
 
 const AllocateTraceScreen = ({ navigation, route }) => {
-  const { modalVisible, setModalVisible, isProTrace } = useAllocateTraceScreen(
-    navigation,
-    route,
-  );
+  const {
+    modalVisible,
+    setModalVisible,
+    isProTrace,
+    traceList,
+    onChangeVal,
+    inputPrice,
+    inputWidth,
+    setInputWidth,
+    addAllocate,
+  } = useAllocateTraceScreen(navigation, route);
 
-  const renderItem = useCallback((item, index) => {
+  const renderItem = useCallback(({ item, index }) => {
     return (
       <Pressable
         onPress={() => {
           if (isProTrace) {
             navigation.navigate('AddExpenseToTraceScreen', {
+              catVal: { id: item?.id },
+              price: parseInt(item?.budget),
               module_type: 'trace',
+              module_id: 3,
+              traceType: item?.type,
             });
-          } else setModalVisible(true);
+          } else setModalVisible(item?.id);
         }}
       >
         <ExpenseProgressCard
           key={index}
           mainView={{ marginVertical: hp('1') }}
           isDisable
+          item={item}
         />
       </Pressable>
     );
@@ -48,32 +61,35 @@ const AllocateTraceScreen = ({ navigation, route }) => {
     <ImageBackground source={LoginBg} style={{ flex: 1 }}>
       <HeaderComponent headerTitle={'Allocate Leftover to Trace'} isBack />
       <ThemeButton
-        title={'Total Leftover: $250'}
+        title={`Total Leftover: ${formatPrice(
+          route?.params?.leftOver ?? route?.params,
+        )}`}
         isTransparent
         style={styles.themeButton}
         textStyle={styles.themeButtonText}
       />
       <TextComponent
-        text={
-          'Add leftover amount of $250 or less, from “Last cycle” to your “Goals”.'
-        }
+        text={`Add leftover amount of ${formatPrice(
+          route?.params?.leftOver ?? route?.params,
+        )} or less, from “Last cycle” to your “Trace”.`}
         fade
         styles={styles.textComponent}
         size={'1.3'}
       />
       <FlatList
-        data={[1, 2, 3]}
+        data={traceList}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
+        contentContainerStyle={{ paddingBottom: hp('10') }}
       />
-      {modalVisible && (
+      {Boolean(modalVisible != null) && (
         <ModalViewComp
-          isModal={modalVisible}
-          heading={'Allocate Funds to Goal'}
+          isModal={Boolean(modalVisible != null)}
+          heading={'Allocate Leftover to Trace'}
           childrenComp={
             <View>
               <TextComponent text={'Emergency fund'} />
-              <View
+              {/* <View
                 style={{
                   flexDirection: 'row',
                   alignItems: 'center',
@@ -92,7 +108,7 @@ const AllocateTraceScreen = ({ navigation, route }) => {
                   size={'1.3'}
                   family={'500'}
                 />
-              </View>
+              </View> */}
               <View style={styles.priceMainView}>
                 <View style={styles.priceInnerView}>
                   <TextComponent text={'$'} size={'4.5'} />
@@ -100,14 +116,15 @@ const AllocateTraceScreen = ({ navigation, route }) => {
                   <TextInput
                     placeholder="0"
                     onChangeText={text => {
-                      // onChange(Math.max(20, text.length * 14)); // increase width based on content
+                      onChangeVal('inputPrice', text);
+                      setInputWidth(Math.max(20, text.length * 22)); // dynamic width
                     }}
                     style={{
                       fontSize: hp('4.5'),
                       color: 'black',
-                      width: 30,
+                      width: inputWidth,
                     }}
-                    // value={value}
+                    value={inputPrice}
                     placeholderTextColor={'gray'}
                     keyboardType="numeric"
                   />
@@ -122,8 +139,11 @@ const AllocateTraceScreen = ({ navigation, route }) => {
             </View>
           }
           btnTitle={'Add funds'}
-          onBackPress={() => setModalVisible(false)}
-          onPress={() => setModalVisible(false)}
+          onBackPress={() => setModalVisible(null)}
+          onPress={() => {
+            setModalVisible(null);
+            addAllocate(modalVisible);
+          }}
           // onBackPress={}
         />
       )}

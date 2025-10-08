@@ -18,17 +18,30 @@ import { hp, wp } from '../../Hooks/useResponsive';
 import useAllocateToGoalsScreen from './useAllocateToGoalsScreen';
 import BtnModalComponent from '../../Components/BtnModalComp';
 import ModalViewComp from '../../Components/ModalViewComp';
+import { formatPrice } from '../../Services/GlobalFunctions';
 
-const AllocateToGoalsScreen = () => {
-  const { modalVisible, setModalVisible } = useAllocateToGoalsScreen();
+const AllocateToGoalsScreen = ({ navigation, route }) => {
+  const {
+    modalVisible,
+    setModalVisible,
+    onChangeVal,
+    inputPrice,
+    inputWidth,
+    setInputWidth,
+    addAllocate,
+    goalList,
+  } = useAllocateToGoalsScreen();
 
-  const renderItem = useCallback((item, index) => {
+  const renderItem = useCallback(({ item, index }) => {
     return (
-      <Pressable onPress={() => setModalVisible(true)}>
+      <Pressable onPress={() => setModalVisible(item?.id)}>
         <GoalCardComp
           key={index}
+          item={item}
           mainView={{ marginVertical: hp('1') }}
+          type={route?.params?.type}
           isDisable
+          onViewDetail={true}
         />
       </Pressable>
     );
@@ -38,32 +51,33 @@ const AllocateToGoalsScreen = () => {
     <ImageBackground source={LoginBg} style={{ flex: 1 }}>
       <HeaderComponent headerTitle={'Allocate Leftover to Goal'} isBack />
       <ThemeButton
-        title={'Total Leftover: $250'}
+        title={`Total Leftover: ${formatPrice(route?.params)}`}
         isTransparent
         style={styles.themeButton}
         textStyle={styles.themeButtonText}
       />
       <TextComponent
-        text={
-          'Add leftover amount of $250 or less, from “Last cycle” to your “Goals”.'
-        }
+        text={`Add leftover amount of ${formatPrice(
+          route?.params,
+        )} or less, from “Last cycle” to your “Goals”.`}
         fade
         styles={styles.textComponent}
         size={'1.3'}
       />
       <FlatList
-        data={[1, 2, 3]}
+        data={goalList}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
+        contentContainerStyle={{ paddingBottom: hp('10') }}
       />
-      {modalVisible && (
+      {Boolean(modalVisible != null) && (
         <ModalViewComp
-          isModal={modalVisible}
+          isModal={Boolean(modalVisible != null)}
           heading={'Allocate Funds to Goal'}
           childrenComp={
             <View>
               <TextComponent text={'Emergency fund'} />
-              <View
+              {/* <View
                 style={{
                   flexDirection: 'row',
                   alignItems: 'center',
@@ -82,7 +96,7 @@ const AllocateToGoalsScreen = () => {
                   size={'1.3'}
                   family={'500'}
                 />
-              </View>
+              </View> */}
               <View style={styles.priceMainView}>
                 <View style={styles.priceInnerView}>
                   <TextComponent text={'$'} size={'4.5'} />
@@ -90,14 +104,15 @@ const AllocateToGoalsScreen = () => {
                   <TextInput
                     placeholder="0"
                     onChangeText={text => {
-                      // onChange(Math.max(20, text.length * 14)); // increase width based on content
+                      onChangeVal('inputPrice', text);
+                      setInputWidth(Math.max(20, text.length * 22)); // dynamic width
                     }}
                     style={{
                       fontSize: hp('4.5'),
                       color: 'black',
-                      width: 30,
+                      width: inputWidth,
                     }}
-                    // value={value}
+                    value={inputPrice}
                     placeholderTextColor={'gray'}
                     keyboardType="numeric"
                   />
@@ -112,8 +127,11 @@ const AllocateToGoalsScreen = () => {
             </View>
           }
           btnTitle={'Add funds'}
-          onBackPress={() => setModalVisible(false)}
-          onPress={() => setModalVisible(false)}
+          onBackPress={() => setModalVisible(null)}
+          onPress={() => {
+            addAllocate(modalVisible);
+            setModalVisible(null);
+          }}
           // onBackPress={}
         />
       )}

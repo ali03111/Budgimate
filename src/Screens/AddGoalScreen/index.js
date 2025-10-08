@@ -157,7 +157,7 @@ const AddGoalScreen = ({ navigation, route }) => {
       <KeyBoardWrapper styles={{ paddingBottom: hp('10') }}>
         <View style={styles.priceMainView}>
           <View style={styles.priceInnerView}>
-            <TextComponent text={'$'} size={'2.5'} />
+            <TextComponent text={'$'} size={'3.5'} />
             <Controller
               control={control}
               name="goalPrice"

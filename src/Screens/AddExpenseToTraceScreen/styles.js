@@ -135,7 +135,7 @@ export const styles = StyleSheet.create({
     width: wp('90'),
     alignSelf: 'center',
     position: 'absolute',
-    bottom: hp('3'),
+    bottom: hp('5'),
     // marginVertical: hp('10'),
   },
 

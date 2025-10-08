@@ -30,7 +30,7 @@ import useAllGoalsScreen from './useAllGoalScreen';
 import NavigationService from '../../Services/NavigationService';
 
 const AllGoalScreen = ({ navigation, route }) => {
-  const { goalList, deleteGoal } = useAllGoalsScreen(navigation);
+  const { goalList, deleteGoal, screenName } = useAllGoalsScreen(navigation);
 
   const actions = [
     {
@@ -48,6 +48,7 @@ const AllGoalScreen = ({ navigation, route }) => {
           key={index}
           item={item}
           mainView={{ marginVertical: hp('1') }}
+          type={route?.params?.type}
         />
       );
     },
@@ -80,9 +81,6 @@ const AllGoalScreen = ({ navigation, route }) => {
   );
 
   const listArry = [1];
-
-  const getNameFunc = NavigationService.getCurrentRoute();
-  const screenName = getNameFunc?.getCurrentRoute()?.name;
 
   return (
     <ImageBackground source={LoginBg} style={styles.container}>

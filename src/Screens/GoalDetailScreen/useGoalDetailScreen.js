@@ -11,7 +11,10 @@ import { errorMessage, successMessage } from '../../Config/NotificationMessage';
 import { formatDate } from '../../Services/GlobalFunctions';
 
 const useGoalDetailScreen = ({ navigate }, { params }) => {
-  const [modalState, setModalState] = useState(false);
+  const [modalState, setModalState] = useState(
+    (params?.type == 'income' && 'addIncome') ||
+      (params?.type == 'expense' && 'withdrawFunds'),
+  );
   const [datePickerState, setDatePickerState] = useState(false);
   const [inputWidth, setInputWidth] = useState(20);
 
@@ -23,8 +26,8 @@ const useGoalDetailScreen = ({ navigate }, { params }) => {
   });
 
   const { data } = useQuery({
-    queryKey: [`getGoalsDetailUrl${params?.id}`],
-    queryFn: () => API.get(getGoalsDetailUrl + params?.id),
+    queryKey: [`getGoalsDetailUrl${params?.item?.id}`],
+    queryFn: () => API.get(getGoalsDetailUrl + params?.item?.id),
   });
 
   const { comment, inputPrice, selectedDate, selectedImg } = formState;
@@ -53,7 +56,7 @@ const useGoalDetailScreen = ({ navigate }, { params }) => {
           comment: null,
           inputPrice: null,
         });
-        queryClient.invalidateQueries([`getGoalsDetailUrl${params?.id}`]);
+        queryClient.invalidateQueries([`getGoalsDetailUrl${params?.item?.id}`]);
       } else errorMessage(data?.message);
     },
     onError: e => errorMessage(e),

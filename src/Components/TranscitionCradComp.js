@@ -13,9 +13,9 @@ const TranscitionCradComp = ({ type, amount, description, date, isCredit }) => {
         resizeMode="contain"
         style={styles.icon}
       />
-      <View>
+      <View style={styles.content}>
         <TextComponent text={`${formatPrice(amount)}`} size={'2'} />
-        <TextComponent text={'Credited from leftover'} fade size={'1.5'} />
+        {/* <TextComponent text={'Credited from leftover'} fade size={'1.5'} /> */}
       </View>
       <TextComponent text={date} fade size={'1.5'} styles={styles.dateText} />
     </View>
@@ -32,14 +32,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginVertical: hp('0.5'),
+    justifyContent: 'space-between', // Distribute space between elements
   },
   icon: {
     width: wp('10'),
     height: hp('5'),
     marginRight: wp('2'),
   },
+  content: {
+    flex: 1, // Allows the content to take available space
+  },
   dateText: {
-    marginLeft: wp('26'),
+    marginLeft: wp('2'), // Reduced margin to avoid pushing it out
+    textAlign: 'right',
+    flexShrink: 0, // Prevents the text from shrinking
   },
 });
 

@@ -83,6 +83,10 @@ export { default as cardSend } from './Icons/cardSend.png';
 export { default as cardReceive } from './Icons/cardReceive.png';
 export { default as arrowRight } from './Icons/arrowRight.png';
 
+export { default as createText } from './Icons/createText.png';
+
+export { default as bottomTopBar } from './Icons/bottomTopBar.png';
+
 export { default as deleteBlueBg } from './Icons/deleteBlueBg.png';
 export { default as logoutBlueBg } from './Icons/logoutBlueBg.png';
 

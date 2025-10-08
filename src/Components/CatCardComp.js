@@ -16,7 +16,7 @@ const CatCardComp = ({ icon, title, remaining, color }) => {
           style={{ width: wp('5'), height: hp('3') }}
         />
         <View style={styles.amountBox}>
-          <Text style={[styles.amount, { color: color }]}>${remaining}</Text>
+          <Text style={[styles.amount, { color: color }]}>{remaining}</Text>
           <Text style={styles.remainingText}>Remaining</Text>
         </View>
       </View>

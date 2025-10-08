@@ -33,29 +33,26 @@ import { MultiView } from '../../Components/MultiView';
 import DonutChartComp from '../../Components/DonutChartComp';
 import WeeklyFinanceChartComp from '../../Components/WeeklyFinanceChartComp';
 import ThemeButton from '../../Components/ThemeButton';
-
-const categoryItem = [
-  {
-    title: `Fuel`,
-    leftIcon: station,
-    rightText: '$358.30',
-  },
-  {
-    title: 'House holds',
-    leftIcon: building,
-    rightText: '$358.30',
-  },
-  {
-    title: 'Food and grocery',
-    leftIcon: basket,
-    rightText: '$358.30',
-  },
-];
+import useHomeScreen from './useHomeScreen';
+import {
+  calculatePercentage,
+  formatPrice,
+} from '../../Services/GlobalFunctions';
+import { imageUrl } from '../../Utils/Urls';
 
 const HomeScreen = ({ navigation }) => {
+  const { totalExpense, totalIncome, recentExpenses, expenseData, chartData } =
+    useHomeScreen(navigation);
+  const categoryItem = recentExpenses.map(res => ({
+    title: res?.category?.name,
+    leftIcon: { uri: imageUrl(res?.category?.icon) },
+    rightText: formatPrice(res?.amount),
+    // leftStyle: { width: wp('5'), height: hp('3') },
+  }));
+
   return (
     <ImageBackground source={HomeBg} style={globalStyles.ImgBg}>
-      <HomeHeaderComp />
+      <HomeHeaderComp totalExpense={totalExpense} totalIncome={totalIncome} />
 
       {/* <View style={styles.budgetRow}>
         <Image source={wallet} resizeMode="contain" style={styles.walletIcon} />
@@ -70,20 +67,29 @@ const HomeScreen = ({ navigation }) => {
         <PriceCardComp
           title="Total income:"
           img={cardReceive}
-          price="$25000.00"
+          price={formatPrice(totalIncome)}
         />
         <PriceCardComp
           title="Total expenses:"
           img={cardSend}
-          price="$6324.20"
+          price={formatPrice(totalExpense)}
           priceBgColor="rgba(255, 222, 222, 1)"
         />
       </View>
       <View style={styles.budgetContainer}>
-        <TextComponent text="$18675.80" isGreen styles={styles.budgetAmount} />
+        <TextComponent
+          text={formatPrice(totalIncome - totalExpense)}
+          isGreen
+          styles={styles.budgetAmount}
+        />
       </View>
       <View style={styles.progressBackground}>
-        <View style={[styles.progressFill, { width: 20 }]} />
+        <View
+          style={[
+            styles.progressFill,
+            { width: calculatePercentage(totalExpense, totalIncome) },
+          ]}
+        />
       </View>
 
       <View
@@ -107,38 +113,38 @@ const HomeScreen = ({ navigation }) => {
           <TextComponent
             text={'💰Surplus Success!'}
             family={'600'}
-            size={'1.8'}
+            size={'2'}
           />
           <Touchable>
             <Image
               source={crossWhite}
               resizeMode="contain"
-              style={{ width: wp('4'), height: hp('1.5') }}
+              style={{ width: wp('4'), height: hp('1.8') }}
               tintColor={'black'}
             />
           </Touchable>
         </View>
         <TextComponent
           text={'You’ve got $235 left unspent — that’s money working for you.'}
-          size={'1.5'}
+          size={'1.8'}
           styles={{ marginTop: hp('1') }}
         />
         <TextComponent
           text={
             'Smart spending leads to smarter choices. Ready to save, invest, or treat yourself?'
           }
-          size={'1.5'}
+          size={'1.8'}
           styles={{ marginTop: hp('1') }}
         />
         <ThemeButton
           title={'Allocate funds'}
           style={{
-            width: wp('30'),
+            width: wp('32'),
             height: hp('4'),
             alignSelf: 'flex-end',
             backgroundColor: 'white',
           }}
-          textStyle={{ fontSize: hp('1.5'), color: 'black' }}
+          textStyle={{ fontSize: hp('1.8'), color: 'black' }}
           image={arrRightPurple}
           isRight
           imageStyle={{
@@ -151,7 +157,7 @@ const HomeScreen = ({ navigation }) => {
       </View>
       <View style={styles.scrollContent}>
         <ScrollView
-          contentContainerStyle={{ flexGrow: 1, paddingBottom: hp('50') }}
+          contentContainerStyle={{ flexGrow: 1, paddingBottom: hp('60') }}
           showsVerticalScrollIndicator={false}
         >
           <View style={styles.sectionHeader}>
@@ -174,8 +180,6 @@ const HomeScreen = ({ navigation }) => {
               />
             </View>
           </View>
-
-          <TextComponent text="May 2025" isDarkFade size="1.6" />
 
           <MultiView
             data={categoryItem}
@@ -203,7 +207,7 @@ const HomeScreen = ({ navigation }) => {
             </View>
           </View>
 
-          <DonutChartComp />
+          <DonutChartComp expenseData={expenseData} />
 
           <View style={styles.sectionHeader}>
             <TextComponent
@@ -225,8 +229,9 @@ const HomeScreen = ({ navigation }) => {
               />
             </View>
           </View>
-
-          <WeeklyFinanceChartComp />
+          {chartData && chartData.length > 0 && (
+            <WeeklyFinanceChartComp chartDataArry={chartData} />
+          )}
         </ScrollView>
       </View>
     </ImageBackground>

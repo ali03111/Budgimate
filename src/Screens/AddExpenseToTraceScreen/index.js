@@ -291,7 +291,7 @@ const AddExpenseToTraceScreen = ({ navigation, route }) => {
         contentContainerStyle={{ paddingBottom: hp(10) }}
       /> */}
 
-      {/* {categoryArry.length > 0 && (
+      {categoryArry.length > 0 && (
         <ThemeButton
           title={'Generate report'}
           isTheme
@@ -300,7 +300,7 @@ const AddExpenseToTraceScreen = ({ navigation, route }) => {
             navigation.navigate('ReportScreen', { id: traceId });
           }}
         />
-      )} */}
+      )}
       {/* Modal */}
       <ModalViewComp
         isModal={modalState}
@@ -361,7 +361,7 @@ const AddExpenseToTraceScreen = ({ navigation, route }) => {
                 disabled={Boolean(catIndex != null)}
                 onPress={() => {
                   setModalState(null);
-                  navigation.navigate('ListViewScreen', {
+                  navigation.navigate('CatViewScreen', {
                     onSelectValue: e => {
                       setCatName(e);
                       setModalState('newCategory');

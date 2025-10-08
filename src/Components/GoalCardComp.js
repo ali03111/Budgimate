@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { Touchable } from '../Components/Touchable';
 import { hp, wp } from '../Hooks/useResponsive';
 import { Colors } from '../Theme/Variables';
@@ -8,20 +8,28 @@ import { Image } from 'react-native';
 import NavigationService from '../Services/NavigationService';
 import { calculatePercentage } from '../Services/GlobalFunctions';
 
-const GoalCardComp = ({ mainView, isDisable, item }) => {
+const GoalCardComp = ({ mainView, isDisable, item, type, onViewDetail }) => {
   const total = 80000;
   const achieved = 34700;
   const left = total - achieved;
   const progress = (achieved / total) * 100;
 
   return (
-    <View style={{ ...styles.card, ...mainView }}>
+    <Pressable
+      style={{ ...styles.card, ...mainView }}
+      onPress={() =>
+        NavigationService.navigate('GoalDetailScreen', { item, type })
+      }
+      disabled={isDisable}
+    >
       {/* Top Row */}
       <View style={styles.headerRow}>
         <Text style={styles.title}>{item?.name}</Text>
         <Touchable
-          disabled={isDisable}
-          onPress={() => NavigationService.navigate('GoalDetailScreen', item)}
+          onPress={() => {
+            if (onViewDetail)
+              NavigationService.navigate('GoalDetailScreen', { item, type });
+          }}
         >
           <View style={styles.detailsRow}>
             <Text style={styles.details}>View details</Text>
@@ -65,7 +73,7 @@ const GoalCardComp = ({ mainView, isDisable, item }) => {
           ]}
         />
       </View>
-    </View>
+    </Pressable>
   );
 };
 

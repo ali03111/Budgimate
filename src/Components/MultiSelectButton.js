@@ -104,7 +104,7 @@ export const styles = StyleSheet.create({
     borderColor: Colors.primaryColor,
   }),
   primaryColorStye: isSelected => ({
-    fontSize: hp('1.2'),
+    fontSize: hp('1.5'),
     color: isSelected ? 'white' : Colors.primaryColor,
   }),
 });

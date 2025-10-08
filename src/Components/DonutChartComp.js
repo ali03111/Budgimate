@@ -6,21 +6,36 @@ import { hp, wp } from '../Hooks/useResponsive';
 import { TextComponent } from './TextComponent';
 import LegendItem from './DotWithText';
 
-const DonutChartComp = () => {
-  const data = [
-    { key: 1, value: 50, svg: { fill: '#00CFFF' } },
-    { key: 2, value: 30, svg: { fill: '#4A4A64' } },
-    { key: 3, value: 20, svg: { fill: '#A100FF' } },
-    { key: 4, value: 10, svg: { fill: '#FF0000' } },
-    { key: 5, value: 10, svg: { fill: '#6E57E0' } },
-    { key: 6, value: 5, svg: { fill: '#6DEFA3' } },
-    { key: 7, value: 5, svg: { fill: '#FF8F72' } },
-  ];
+const DonutChartComp = ({ expenseData }) => {
+  // const expenseData = [
+  //   { category: 'Childcare', total: '124.00' },
+  //   { category: 'Travel', total: '250.00' },
+  //   { category: 'Dining Out', total: '1400.00' },
+  // ];
+
+  // Simple color generator for each category
+  const getColor = index => {
+    const colors = [
+      '#00CFFF',
+      '#4A4A64',
+      '#A100FF',
+      '#FF0000',
+      '#6E57E0',
+      '#6DEFA3',
+      '#FF8F72',
+    ];
+    return colors[index % colors.length];
+  };
+
+  const data = expenseData.map((item, index) => ({
+    key: index + 1,
+    value: parseFloat(item.total), // Convert string to number
+    svg: { fill: getColor(index) }, // Use a color function
+  }));
 
   return (
     <View
       style={{
-        // height: hp('30'),
         justifyContent: 'center',
         alignItems: 'center',
       }}
@@ -29,7 +44,7 @@ const DonutChartComp = () => {
         style={{ height: hp('20'), width: wp('50') }}
         data={data}
         outerRadius={'100%'}
-        innerRadius={'70%'} // This creates the donut shape
+        innerRadius={'70%'}
       >
         {/* Optional: add center white circle manually if needed */}
         {/* <G>
@@ -54,12 +69,13 @@ const DonutChartComp = () => {
           width: wp('80'),
         }}
       >
-        <LegendItem text={'Traveling'} />
-        <LegendItem text={'Grocery'} dotColor={'#00CFFF'} />
-        <LegendItem text={'Rent'} dotColor={'#A100FF'} />
-        <LegendItem text={'Entertainment'} dotColor={'#FF0000'} />
-        <LegendItem text={'Clothing'} dotColor={'#6DEFA3'} />
-        <LegendItem text={'Others'} dotColor={'#6E57E0'} />
+        {expenseData.map((item, index) => (
+          <LegendItem
+            key={index}
+            text={item.category}
+            dotColor={getColor(index)}
+          />
+        ))}
       </View>
     </View>
   );

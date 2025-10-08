@@ -7,8 +7,11 @@ import { TextComponent } from '../../Components/TextComponent';
 import ThemeButton from '../../Components/ThemeButton';
 import PlusCardComp from '../../Components/plusCardComp';
 import { keyExtractor } from '../../Utils';
+import useAllocateFundScreen from './useAllocateFundScreen';
+import { formatPrice } from '../../Services/GlobalFunctions';
 
 const AllocateFundScreen = ({ navigation }) => {
+  const { leftover } = useAllocateFundScreen(navigation);
   const renderData = useCallback(() => {
     return (
       <PlusCardComp
@@ -34,14 +37,14 @@ const AllocateFundScreen = ({ navigation }) => {
         }}
       >
         <TextComponent
-          text={'Total Leftover Amount $250'}
+          text={`Total Leftover Amount ${formatPrice(leftover)}`}
           size={'1.8'}
           family={'bold'}
         />
         <TextComponent
-          text={
-            'Your leftover amount is $250, from last cycle. You can allocate all funds to your income, goals, traces and increase spending limits.'
-          }
+          text={`Your leftover amount is ${formatPrice(
+            leftover,
+          )}, from last cycle. You can allocate all funds to your income, goals, traces and increase spending limits.`}
           fade
           size={'1.3'}
           styles={{ width: wp('75'), textAlign: 'center', marginTop: hp('1') }}
@@ -51,7 +54,9 @@ const AllocateFundScreen = ({ navigation }) => {
           isTheme
           style={{ width: wp('40'), marginTop: hp('3'), height: hp('4') }}
           textStyle={{ fontSize: hp('1.5') }}
-          onPress={() => navigation.navigate('AllocateSelectorScreen')}
+          onPress={() =>
+            navigation.navigate('AllocateSelectorScreen', leftover)
+          }
         />
       </View>
       <TextComponent

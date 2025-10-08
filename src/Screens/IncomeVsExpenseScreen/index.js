@@ -5,7 +5,7 @@ import {
   FlatList,
   ScrollView,
 } from 'react-native';
-import React, { memo, useState } from 'react';
+import React, { memo, useCallback, useState } from 'react';
 import { HeaderComponent } from '../../Components/HeaderComp';
 import { LoginBg } from '../../Assets';
 import { MultiSelectButton } from '../../Components/MultiSelectButton';
@@ -17,59 +17,33 @@ import DonutChartComp from '../../Components/DonutChartComp';
 import { TextComponent } from '../../Components/TextComponent';
 import { hp, wp } from '../../Hooks/useResponsive';
 import CatCardComp from '../../Components/CatCardComp';
+import useIncomeVsExpenseScreen from './useIncomeVsExpenseScreen';
+import { keyExtractor } from '../../Utils';
+import { imageUrl } from '../../Utils/Urls';
+import { formatPrice } from '../../Services/GlobalFunctions';
 
-const IncomeVsExpenseScreen = () => {
-  const [activeTab, setActiveTab] = useState('graph');
+const IncomeVsExpenseScreen = ({ navigation }) => {
+  const {
+    totalExpense,
+    totalIncome,
+    expensesByCategory,
+    expenseData,
+    chartData,
+    setDateType,
+    refetch,
+    dataType,
+    activeTab,
+    setActiveTab,
+  } = useIncomeVsExpenseScreen(navigation);
 
   const tabs = [
     { key: 'graph', title: 'Graph' },
     { key: 'chart', title: 'Chart' },
   ];
 
-  const categories = [
-    {
-      id: 1,
-      icon: 'fuel',
-      title: 'Vehicle fuel',
-      remaining: 800,
-      color: '#2E86DE',
-    },
-    {
-      id: 2,
-      icon: 'home',
-      title: 'House holds',
-      remaining: 243,
-      color: '#E67E22',
-    },
-    {
-      id: 3,
-      icon: 'basket',
-      title: 'Food and grocery',
-      remaining: 235,
-      color: '#8E44AD',
-    },
-    {
-      id: 4,
-      icon: 'silverware-fork-knife',
-      title: 'Dining Out',
-      remaining: 243,
-      color: '#E74C3C',
-    },
-    {
-      id: 5,
-      icon: 'home',
-      title: 'House holds',
-      remaining: 243,
-      color: '#E67E22',
-    },
-    {
-      id: 6,
-      icon: 'fuel',
-      title: 'Vehicle fuel',
-      remaining: 800,
-      color: '#2E86DE',
-    },
-  ];
+  const renderLineChart = useCallback(() => {
+    return <WeeklyFinanceChartComp chartDataArry={chartData} />;
+  }, [chartData, dataType, activeTab, refetch]);
 
   return (
     <ImageBackground source={LoginBg} style={{ flex: 1 }}>
@@ -78,7 +52,7 @@ const IncomeVsExpenseScreen = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: hp('10') }}
       >
-        <View
+        {/* <View
           style={{
             flexDirection: 'row',
             alignItems: 'center',
@@ -88,28 +62,34 @@ const IncomeVsExpenseScreen = () => {
           <MultiSelectButton
             items={[
               {
-                id: 'Day',
+                id: 'day',
                 title: 'Day',
               },
               {
-                id: 'Week',
+                id: 'week',
                 title: 'Week',
               },
               {
-                id: 'Month',
+                id: 'month',
                 title: 'Month',
               },
-              {
-                id: 'Year',
-                title: 'Year',
-              },
             ]}
-            isDisable
-            selectedAlter={{ id: 'Month', title: 'Month' }}
+            // isDisable
+            selectedAlter={dataType}
             isPrimaryColorStyle
+            onSelectVal={(_, e) => {
+              setDateType(e);
+              setTimeout(() => {
+                refetch();
+                setActiveTab(activeTab);
+              }, 1000);
+            }}
           />
-        </View>
-        <IncomeExpensePriceComp />
+        </View> */}
+        <IncomeExpensePriceComp
+          totalExpense={totalExpense}
+          totalIncome={totalIncome}
+        />
         <TopTabComp
           tabs={tabs}
           activeTab={activeTab}
@@ -117,31 +97,29 @@ const IncomeVsExpenseScreen = () => {
         />
         {/* Content Area */}
         {activeTab === 'graph' ? (
-          <View style={{ alignSelf: 'center' }}>
-            <WeeklyFinanceChartComp />
-          </View>
+          chartData && chartData.length > 0 && renderLineChart()
         ) : (
-          <DonutChartComp />
+          <DonutChartComp expenseData={expenseData} />
         )}
 
         <TextComponent
           text={'Spending categories'}
           size={'1.8'}
           family={'bold'}
-          styles={{ marginLeft: wp('2') }}
+          styles={{ marginLeft: wp('2'), marginTop: hp('2') }}
         />
 
         <FlatList
-          data={categories}
+          data={expensesByCategory}
           renderItem={({ item }) => (
             <CatCardComp
-              icon={item.icon}
-              title={item.title}
-              remaining={item.remaining}
-              color={item.color}
+              icon={imageUrl(item.category_icon)}
+              title={item.category_name}
+              remaining={formatPrice(item.total_amount)}
+              // color={item.color}
             />
           )}
-          keyExtractor={item => item.id.toString()}
+          keyExtractor={keyExtractor}
           numColumns={2}
           scrollEnabled={false}
           columnWrapperStyle={styles.row}

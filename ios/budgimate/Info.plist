@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>budgimate</string>
+	<string>BudgiMate</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -130,5 +130,7 @@
 			</array>
 		</dict>
 	</array>
+	<key>NSFaceIDUsageDescription</key>
+	<string>This app uses Face/Touch ID for secure authentication</string>
 </dict>
 </plist>

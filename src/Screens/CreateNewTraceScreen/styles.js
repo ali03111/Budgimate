@@ -62,7 +62,7 @@ export const styles = StyleSheet.create({
   },
 
   priceInput: {
-    fontSize: hp('2.5'),
+    fontSize: hp('3.5'),
     color: 'black',
   },
 
@@ -87,7 +87,7 @@ export const styles = StyleSheet.create({
   },
 
   traceNameInput: {
-    fontSize: hp('1.5'),
+    fontSize: hp('1.8'),
     color: 'black',
     flex: 1,
   },

@@ -2,19 +2,20 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { hp, wp } from '../Hooks/useResponsive'; // adjust path if needed
 import { Colors } from '../Theme/Variables'; // adjust path if needed
+import { formatPrice } from '../Services/GlobalFunctions';
 
-const IncomeExpensePriceComp = ({ income = 5000, expense = 3080 }) => {
+const IncomeExpensePriceComp = ({ totalExpense, totalIncome }) => {
   return (
     <View style={styles.container}>
       {/* Income Card */}
       <View style={styles.incomeCard}>
-        <Text style={styles.amountText}>${income.toFixed(2)}</Text>
+        <Text style={styles.amountText}>{formatPrice(totalIncome)}</Text>
         <Text style={styles.labelText}>Total income</Text>
       </View>
 
       {/* Expense Card */}
       <View style={styles.expenseCard}>
-        <Text style={styles.amountText}>${expense.toFixed(2)}</Text>
+        <Text style={styles.amountText}>{formatPrice(totalExpense)}</Text>
         <Text style={styles.labelText}>Total expenses</Text>
       </View>
     </View>

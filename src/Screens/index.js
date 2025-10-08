@@ -34,3 +34,4 @@ export { default as BiometricAuthScreen } from './BiometricAuthScreen';
 export { default as NotificationScreen } from './NotificationScreen';
 export { default as TranscritionHistoryScreen } from './TranscritionHistoryScreen';
 export { default as ReportScreen } from './ReportScreen';
+export { default as CatViewScreen } from './CatViewScreen';

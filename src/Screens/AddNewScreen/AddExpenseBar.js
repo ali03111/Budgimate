@@ -31,13 +31,17 @@ const AddExpenseBar = ({ navigation }) => {
           image={incomeCircle}
         />
         <ActiveAndInactiveCardComp
-          onPress={() => navigation.navigate('AllGoalScreen')}
+          onPress={() =>
+            navigation.navigate('AllGoalScreen', { type: 'expense' })
+          }
           title="Add expense to goals"
           subtitle="Contribute income to complete goals"
           image={targetCircle}
         />
         <ActiveAndInactiveCardComp
-          onPress={() => navigation.navigate('AllTraceScreen')}
+          onPress={() =>
+            navigation.navigate('AllTraceScreen', { type: 'expense' })
+          }
           title="Add expense to trace"
           subtitle="Trace your budget by adding income"
           image={noteCircle}

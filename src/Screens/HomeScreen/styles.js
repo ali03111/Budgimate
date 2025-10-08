@@ -70,13 +70,14 @@ export const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
     marginTop: hp('2'),
-    paddingHorizontal: wp('2.5'),
+    // paddingHorizontal: wp('2.5'),
   },
   sectionHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     marginTop: hp('1'),
+    paddingHorizontal: wp('2.5'),
   },
   sectionTitle: {
     fontWeight: 'bold',

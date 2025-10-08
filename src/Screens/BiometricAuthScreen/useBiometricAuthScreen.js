@@ -1,36 +1,51 @@
 import { useState, useEffect } from 'react';
 import { Alert } from 'react-native';
-import ReactNativeBiometrics, { BiometryTypes } from 'react-native-biometrics';
+import ReactNativeBiometrics, {
+  BiometricOtherwayMode,
+  BiometricErrorCode,
+} from '@boindahood/react-native-biometrics';
 
 const useBiometricAuthScreen = () => {
   const [isBiometricSupported, setIsBiometricSupported] = useState(false);
+  const [biometricType, setBiometricType] = useState(null);
   const [authResult, setAuthResult] = useState(null);
-
-  // Initialize biometric sensor
-  const rnBiometrics = new ReactNativeBiometrics();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isToggle, setIsToggle] = useState(false);
 
   useEffect(() => {
     // Check if biometric authentication is available
     const checkBiometricSupport = async () => {
       try {
-        const { available, biometryType } =
-          await rnBiometrics.isSensorAvailable();
+        const result = await ReactNativeBiometrics.checkBiometricAvailability();
 
-        if (available && biometryType === BiometryTypes.TouchID) {
+        if (result.isAvailable && result.allowAccess) {
           setIsBiometricSupported(true);
-          console.log('TouchID is supported');
-        } else if (available && biometryType === BiometryTypes.FaceID) {
-          setIsBiometricSupported(true);
-          console.log('FaceID is supported');
-        } else if (available && biometryType === BiometryTypes.Biometrics) {
-          setIsBiometricSupported(true);
-          console.log('Generic Biometrics is supported');
+          setBiometricType(result.biometricType);
+          let typeMessage = '';
+          switch (result.biometricType) {
+            case 'touchId':
+              typeMessage = 'TouchID is supported';
+              break;
+            case 'faceId':
+              typeMessage = 'FaceID is supported';
+              break;
+            case 'fingerprint':
+              typeMessage = 'Fingerprint is supported';
+              break;
+            case 'iris':
+              typeMessage = 'Iris recognition is supported';
+              break;
+            default:
+              typeMessage = 'Biometrics are supported';
+          }
+          console.log(typeMessage);
         } else {
           setIsBiometricSupported(false);
-          console.log('Biometrics not supported');
+          console.log(`Biometrics not supported: ${result.errorMessage}`);
         }
       } catch (error) {
         console.error('Error checking biometric support:', error);
+        setIsBiometricSupported(false);
         Alert.alert('Error', 'Failed to check biometric support');
       }
     };
@@ -48,30 +63,76 @@ const useBiometricAuthScreen = () => {
       return;
     }
 
+    setIsLoading(true);
+    setAuthResult(null);
+
     try {
-      const result = await rnBiometrics.simplePrompt({
-        promptMessage: 'Authenticate to continue',
-        fallbackPromptMessage: 'Use device passcode',
-        cancelButtonText: 'Cancel',
+      const result = await ReactNativeBiometrics.authenticateBiometric({
+        titlePrompt: 'Authenticate to continue',
+        otherwayWith: BiometricOtherwayMode.PIN,
+        otherwayText: 'Use PIN',
       });
 
-      const { success, error } = result;
-
-      if (success) {
+      if (result.success) {
         setAuthResult('Authentication successful!');
         Alert.alert('Success', 'Biometric authentication successful!');
+      } else if (result.pressedOtherway) {
+        setAuthResult('User chose PIN authentication');
+        Alert.alert('Fallback', 'Using PIN authentication');
+        // Optionally trigger PIN auth here
+        // const pinResult = await ReactNativeBiometrics.authenticatePIN();
       } else {
-        setAuthResult(`Authentication failed: ${error}`);
-        Alert.alert('Error', `Authentication failed: ${error}`);
+        handleAuthError(result);
       }
     } catch (error) {
-      setAuthResult('Authentication error');
       console.error('Biometric authentication error:', error);
+      setAuthResult('Authentication error');
       Alert.alert('Error', 'An error occurred during authentication');
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  return { isBiometricSupported, authResult, handleBiometricAuth };
+  const handleAuthError = result => {
+    let errorMessage = result.errorMessage || 'Authentication failed';
+
+    switch (result.errorCode) {
+      case BiometricErrorCode.BIOMETRIC_USER_CANCEL:
+        errorMessage = 'Authentication was cancelled by user';
+        break;
+      case BiometricErrorCode.BIOMETRIC_NOT_ENROLLED:
+        errorMessage =
+          'No biometric credentials enrolled. Please set up biometrics in device settings.';
+        break;
+      case BiometricErrorCode.BIOMETRIC_LOCKOUT:
+        errorMessage = 'Too many failed attempts. Try again later.';
+        break;
+      case BiometricErrorCode.BIOMETRIC_LOCKOUT_PERMANENT:
+        errorMessage = 'Biometrics temporarily locked. Unlock device first.';
+        break;
+      case BiometricErrorCode.BIOMETRIC_AUTH_FAILED:
+        errorMessage = 'Authentication failed. Please try again.';
+        break;
+      case BiometricErrorCode.BIOMETRIC_PRESSED_OTHER_WAY:
+        errorMessage = 'User chose alternative authentication';
+        break;
+      default:
+        errorMessage = `Authentication failed: ${errorMessage}`;
+    }
+
+    setAuthResult(errorMessage);
+    Alert.alert('Error', errorMessage);
+  };
+
+  return {
+    isBiometricSupported,
+    biometricType,
+    authResult,
+    isLoading,
+    handleBiometricAuth,
+    isToggle,
+    setIsToggle,
+  };
 };
 
 export default useBiometricAuthScreen;
