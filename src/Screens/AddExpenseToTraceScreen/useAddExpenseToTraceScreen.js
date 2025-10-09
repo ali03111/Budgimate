@@ -5,6 +5,7 @@ import {
   createExpenseinCategoryUrl,
   deleteCategoryLimitUrl,
   getTraceDetailUrl,
+  postLeftOverUrl,
   updateCategoryLimitUrl,
   updateTraceUrl,
 } from '../../Utils/Urls';
@@ -48,16 +49,35 @@ const useAddExpenseToTraceScreen = ({ navigate }, { params }) => {
   });
   console.log('sjkdbvkjlsdbvklbsdkvbkjsdbvdjkbvkljsdbvksdjbvsd', data?.data);
 
+  const allocateToTrace = useMutation({
+    mutationFn: data => {
+      console.log('sl;dnvl;sdnlvnsdl;vnl;sd', data);
+      return API.post(postLeftOverUrl, {
+        amount: inputPrice,
+        module_type: 'trace',
+        ...data,
+      });
+    },
+    onSuccess: ({ ok, data }) => {
+      console.log('sjdbvklsdbklsdbsdklvbsdklbvsdlkvbksdbvsdklv', data);
+      setFormState({
+        inputPrice: null,
+      });
+      setInputWidth(20);
+      if (ok) {
+        successMessage(data?.message);
+        queryClient.invalidateQueries([`getLeftOverUrl`]);
+        refetch();
+      } else errorMessage(data?.error);
+    },
+    onError: e => errorMessage(e),
+  });
+
   const { mutateAsync } = useMutation({
     mutationFn: body => {
-      console.log(
-        'dlkvbklsdbvklsdbvklsdbklvbklsdbvlksdvbklsdbvklsdblvsd',
-        body,
-      );
       return API.post(updateTraceUrl + data?.data?.trace?.id, body);
     },
     onSuccess: ({ ok, data }) => {
-      console.log('skldbvklbsdklvbklsdbvkbsdkvbsdbvklsdbvksd', data);
       if (ok) {
         successMessage(data?.message);
         refetch();
@@ -76,7 +96,6 @@ const useAddExpenseToTraceScreen = ({ navigate }, { params }) => {
         data,
       ),
     onSuccess: ({ ok, data }) => {
-      console.log('skldbvklbsdklvbklsdbvkbsdkvbsdbvklsdbvksd', data);
       if (ok) {
         successMessage(data?.message);
         setFormState({
@@ -97,7 +116,6 @@ const useAddExpenseToTraceScreen = ({ navigate }, { params }) => {
   const deleteTraceCategory = useMutation({
     mutationFn: data => API.post(deleteCategoryLimitUrl + data?.id, {}),
     onSuccess: ({ ok, data }) => {
-      console.log('skldbvklbsdklvbklsdbvkbsdkvbsdbvklsdbvksd', data);
       if (ok) {
         successMessage(data?.message);
         setFormState({
@@ -119,7 +137,6 @@ const useAddExpenseToTraceScreen = ({ navigate }, { params }) => {
   const addExpenseInCat = useMutation({
     mutationFn: data => API.post(createExpenseinCategoryUrl, data),
     onSuccess: ({ ok, data }) => {
-      console.log('skldbvklbsdklvbklsdbvkbsdkvbsddfdfdfbvklsdbvksd', data);
       if (ok) {
         successMessage(data?.message);
         setFormState({
@@ -216,6 +233,17 @@ const useAddExpenseToTraceScreen = ({ navigate }, { params }) => {
     },
     catIndex,
     setFormState,
+    allocateToTrace: () => {
+      allocateToTrace.mutate({
+        module_id: data?.data?.trace?.id,
+      });
+    },
+    allocateToTraceExpense: () => {
+      allocateToTrace.mutate({
+        module_id: data?.data?.trace?.id,
+        module_category_id: catName?.id,
+      });
+    },
   };
 };
 

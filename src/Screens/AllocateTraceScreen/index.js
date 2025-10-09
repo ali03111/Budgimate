@@ -44,6 +44,8 @@ const AllocateTraceScreen = ({ navigation, route }) => {
               module_type: 'trace',
               module_id: 3,
               traceType: item?.type,
+              allocate: true,
+              leftOver: route?.params?.leftOver ?? route?.params,
             });
           } else setModalVisible(item?.id);
         }}

@@ -7,6 +7,7 @@ import { errorMessage, successMessage } from '../../Config/NotificationMessage';
 
 const useAllocateToIncomeScreen = ({ goBack }) => {
   const { queryClient } = useReduxStore();
+  const [afterAdd, setAfterAdd] = useState(false);
 
   const [formState, setFormState] = useState({
     inputPrice: null,
@@ -31,7 +32,7 @@ const useAllocateToIncomeScreen = ({ goBack }) => {
     },
     onSuccess: ({ ok, data }) => {
       if (ok) {
-        successMessage(data?.message);
+        setAfterAdd(true);
         queryClient.invalidateQueries([`getLeftOverUrl`]);
         goBack();
       } else errorMessage(data?.error);
@@ -45,6 +46,8 @@ const useAllocateToIncomeScreen = ({ goBack }) => {
     inputWidth,
     setInputWidth,
     addAllocate: () => mutateAsync(),
+    afterAdd,
+    setAfterAdd,
   };
 };
 

@@ -9,6 +9,7 @@ import PlusCardComp from '../../Components/plusCardComp';
 import { keyExtractor } from '../../Utils';
 import useAllocateFundScreen from './useAllocateFundScreen';
 import { formatPrice } from '../../Services/GlobalFunctions';
+import AllocateCompleteModal from '../../Components/AllocateCompleteModal';
 
 const AllocateFundScreen = ({ navigation }) => {
   const { leftover } = useAllocateFundScreen(navigation);

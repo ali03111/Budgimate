@@ -12,6 +12,7 @@ const useAllocateToExpenseScreen = ({ goBack }) => {
   });
 
   const [modalVisible, setModalVisible] = useState(null);
+  const [afterAdd, setAfterAdd] = useState(false);
 
   const { queryClient } = useReduxStore();
 
@@ -43,7 +44,7 @@ const useAllocateToExpenseScreen = ({ goBack }) => {
       setInputWidth(20);
       if (ok) {
         console.log('hjhjvhjvhjvhjvvhjvhjvhvjvhvjh', data);
-        successMessage(data?.message);
+        setAfterAdd(true);
         queryClient.invalidateQueries([`getLeftOverUrl`]);
         goBack();
       } else errorMessage(data?.error);
@@ -100,6 +101,8 @@ const useAllocateToExpenseScreen = ({ goBack }) => {
     dateRange,
     setDateRange,
     filterData,
+    afterAdd,
+    setAfterAdd,
   };
 };
 

@@ -19,6 +19,7 @@ import useAllocateToGoalsScreen from './useAllocateToGoalsScreen';
 import BtnModalComponent from '../../Components/BtnModalComp';
 import ModalViewComp from '../../Components/ModalViewComp';
 import { formatPrice } from '../../Services/GlobalFunctions';
+import AllocateCompleteModal from '../../Components/AllocateCompleteModal';
 
 const AllocateToGoalsScreen = ({ navigation, route }) => {
   const {
@@ -30,6 +31,8 @@ const AllocateToGoalsScreen = ({ navigation, route }) => {
     setInputWidth,
     addAllocate,
     goalList,
+    afterAdd,
+    setAfterAdd,
   } = useAllocateToGoalsScreen();
 
   const renderItem = useCallback(({ item, index }) => {
@@ -135,6 +138,10 @@ const AllocateToGoalsScreen = ({ navigation, route }) => {
           // onBackPress={}
         />
       )}
+      <AllocateCompleteModal
+        isModal={afterAdd}
+        onClose={() => setAfterAdd(false)}
+      />
     </ImageBackground>
   );
 };

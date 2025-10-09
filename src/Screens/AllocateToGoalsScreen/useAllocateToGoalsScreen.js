@@ -4,9 +4,11 @@ import API from '../../Utils/helperFunc';
 import { getGoalsUrl, postLeftOverUrl } from '../../Utils/Urls';
 import { errorMessage, successMessage } from '../../Config/NotificationMessage';
 import useReduxStore from '../../Hooks/UseReduxStore';
+import { set } from 'react-hook-form';
 
 const useAllocateToGoalsScreen = () => {
   const [modalVisible, setModalVisible] = useState(null);
+  const [afterAdd, setAfterAdd] = useState(false);
 
   const { queryClient } = useReduxStore();
 
@@ -43,7 +45,7 @@ const useAllocateToGoalsScreen = () => {
       setInputWidth(20);
       if (ok) {
         console.log('hjhjvhjvhjvhjvvhjvhjvhvjvhvjh', data);
-        successMessage(data?.message);
+        setAfterAdd(true);
         queryClient.invalidateQueries([`getLeftOverUrl`]);
         goBack();
       } else errorMessage(data?.error);
@@ -60,6 +62,8 @@ const useAllocateToGoalsScreen = () => {
     setModalVisible,
     goalList: data?.data ?? [],
     addAllocate: goalId => mutateAsync({ goalId }),
+    afterAdd,
+    setAfterAdd,
   };
 };
 export default useAllocateToGoalsScreen;

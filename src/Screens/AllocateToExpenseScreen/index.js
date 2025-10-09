@@ -22,6 +22,7 @@ import { Colors } from '../../Theme/Variables';
 import { formatPrice } from '../../Services/GlobalFunctions';
 import DateRangeModalComp from '../../Components/DateRangeModalComp';
 import { Touchable } from '../../Components/Touchable';
+import AllocateCompleteModal from '../../Components/AllocateCompleteModal';
 
 const AllocateToExpenseScreen = ({ navigation, route }) => {
   const {
@@ -41,6 +42,8 @@ const AllocateToExpenseScreen = ({ navigation, route }) => {
     dateRange,
     setDateRange,
     filterData,
+    afterAdd,
+    setAfterAdd,
   } = useAllocateToExpenseScreen(navigation);
   const renderItem = useCallback(
     ({ item, index }) => {
@@ -203,6 +206,10 @@ const AllocateToExpenseScreen = ({ navigation, route }) => {
           selectedRange={dateRange}
         />
       )}
+      <AllocateCompleteModal
+        isModal={afterAdd}
+        onClose={() => setAfterAdd(false)}
+      />
     </ImageBackground>
   );
 };

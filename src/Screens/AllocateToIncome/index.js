@@ -8,10 +8,24 @@ import { styles } from './styles';
 import { hp, wp } from '../../Hooks/useResponsive';
 import { formatPrice } from '../../Services/GlobalFunctions';
 import useAllocateToIncomeScreen from './useAllocateToIncome';
+import AllocateCompleteModal from '../../Components/AllocateCompleteModal';
 
 const AllocateToIncome = ({ navigation, route }) => {
-  const { onChangeVal, inputPrice, inputWidth, setInputWidth, addAllocate } =
-    useAllocateToIncomeScreen(navigation, route);
+  const {
+    onChangeVal,
+    inputPrice,
+    inputWidth,
+    setInputWidth,
+    addAllocate,
+    afterAdd,
+    setAfterAdd,
+  } = useAllocateToIncomeScreen(navigation, route);
+
+  const input = Number((inputPrice || '').replace(/[^0-9.-]/g, ''));
+  const target = Number((route?.params || '').replace(/[^0-9.-]/g, ''));
+
+  console.log('sdnskndvsdnvsnovndosvnsdnvd', input, target);
+
   return (
     <ImageBackground source={LoginBg} style={{ flex: 1 }}>
       <HeaderComponent headerTitle={'Allocate Leftover to Income'} isBack />
@@ -31,7 +45,13 @@ const AllocateToIncome = ({ navigation, route }) => {
       />
       <View style={styles.priceMainView}>
         <View style={styles.priceInnerView}>
-          <TextComponent text={'$'} size={'4.5'} />
+          <TextComponent
+            text={'$'}
+            size={'4.5'}
+            styles={{
+              color: target < input ? 'red' : 'black',
+            }}
+          />
 
           <TextInput
             placeholder="0"
@@ -41,7 +61,7 @@ const AllocateToIncome = ({ navigation, route }) => {
             }}
             style={{
               fontSize: hp('4.5'),
-              color: 'black',
+              color: target < input ? 'red' : 'black',
               width: inputWidth,
             }}
             value={inputPrice}
@@ -56,11 +76,24 @@ const AllocateToIncome = ({ navigation, route }) => {
           styles={styles.addIncomeText}
         />
       </View>
+      {target < input && (
+        <TextComponent
+          text={`Leftover amount is ${formatPrice(
+            route?.params,
+          )}, please do not exceed!`}
+          styles={{ color: 'red', marginLeft: wp('3'), marginTop: hp('1') }}
+        />
+      )}
       <ThemeButton
         title={'Allocate'}
         isTheme
         style={{ width: wp('95'), marginTop: hp('10'), alignSelf: 'center' }}
         onPress={addAllocate}
+        isDisable={!inputPrice || target < input}
+      />
+      <AllocateCompleteModal
+        isModal={afterAdd}
+        onClose={() => setAfterAdd(false)}
       />
     </ImageBackground>
   );

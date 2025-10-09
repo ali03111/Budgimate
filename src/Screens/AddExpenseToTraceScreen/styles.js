@@ -7,6 +7,18 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
 
+  themeButton: {
+    width: 'auto',
+    paddingHorizontal: wp('2'),
+    alignSelf: 'flex-start',
+    height: hp('3.5'),
+    marginLeft: wp('2'),
+    marginBottom: hp('1'),
+  },
+  themeButtonText: {
+    fontSize: hp('1.8'),
+  },
+
   // Expense Card
   expenseCard: {
     width: wp('95'),

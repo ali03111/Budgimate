@@ -78,6 +78,12 @@ const AllocateSelectorScreen = ({ navigation, route }) => {
           subtitle="Add your expenses to manage"
           image={targetCircle}
         />
+
+        <TextComponent
+          text={'Do Nothing'}
+          styles={{ textAlign: 'center', marginTop: hp('3') }}
+          onPress={() => navigation.goBack()}
+        />
       </ScrollView>
     </ImageBackground>
   );

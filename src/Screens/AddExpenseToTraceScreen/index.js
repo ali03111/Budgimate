@@ -70,6 +70,8 @@ const AddExpenseToTraceScreen = ({ navigation, route }) => {
     setFormState,
     traceId,
     deleteTraceCat,
+    allocateToTrace,
+    allocateToTraceExpense,
   } = useAddExpenseToTraceScreen(navigation, route);
 
   const renderItem = useCallback(
@@ -164,7 +166,9 @@ const AddExpenseToTraceScreen = ({ navigation, route }) => {
               name: item?.category_name,
               id: item?.expense_category_id,
             });
-            setExpenceAmount(item?.limit.toString());
+            if (!route?.params?.allocate) {
+              setExpenceAmount(item?.limit.toString());
+            }
             setCatIndex(item?.module_category_id);
             setModalState('newCategory');
           } else errorMessage('To update limit you need to a pro trace!');
@@ -181,7 +185,24 @@ const AddExpenseToTraceScreen = ({ navigation, route }) => {
 
   return (
     <ImageBackground source={LoginBg} style={styles.bgImage}>
-      <HeaderComponent headerTitle={'Add Expense To Trace'} isBack />
+      <HeaderComponent
+        headerTitle={
+          route?.params?.allocate
+            ? 'Allocate Leftover to Trace'
+            : 'Add Expense To Trace'
+        }
+        isBack
+      />
+      {Boolean(route?.params?.allocate) && (
+        <ThemeButton
+          title={`Total Leftover: ${formatPrice(
+            route?.params?.leftOver ?? route?.params,
+          )}`}
+          isTransparent
+          style={styles.themeButton}
+          textStyle={styles.themeButtonText}
+        />
+      )}
 
       {/* Expense Card */}
       <View style={styles.expenseCard}>
@@ -191,8 +212,10 @@ const AddExpenseToTraceScreen = ({ navigation, route }) => {
           </View>
           <Touchable
             onPress={() => {
-              setInputPrice(limit.toString());
-              setInputWidth(Math.max(20, limit.length * 14));
+              if (!route?.params?.allocate) {
+                setInputPrice(limit.toString());
+                setInputWidth(Math.max(20, limit.length * 14));
+              }
               setModalState('editLimit');
             }}
           >
@@ -305,10 +328,15 @@ const AddExpenseToTraceScreen = ({ navigation, route }) => {
       <ModalViewComp
         isModal={modalState}
         heading={
-          (modalState == 'editLimit' && 'Edit Trace Limit') ||
+          (modalState == 'editLimit' &&
+            (route?.params?.allocate
+              ? 'Allocate Leftover to Trace'
+              : 'Edit Trace Limit')) ||
           (modalState == 'newCategory' &&
             (catIndex != null
-              ? 'Update Category Limit'
+              ? route?.params?.allocate
+                ? 'Allocate Leftover to Category'
+                : 'Update Category Limit'
               : 'Add New Category')) ||
           (modalState == 'addExpense' && 'Add Expense')
         }
@@ -430,8 +458,13 @@ const AddExpenseToTraceScreen = ({ navigation, route }) => {
         hideBtn={Boolean(modalState == 'addExpense')}
         onPress={() => {
           setModalState(null);
-          if (modalState == 'editLimit') updateLimit();
-          else if (modalState == 'newCategory') addExpense();
+          if (modalState == 'editLimit') {
+            if (route?.params?.allocate) allocateToTrace();
+            else updateLimit();
+          } else if (modalState == 'newCategory') {
+            if (route?.params?.allocate) allocateToTraceExpense();
+            else addExpense();
+          }
         }}
       />
     </ImageBackground>
