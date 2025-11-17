@@ -13,6 +13,7 @@ import { LoginBg } from '../../Assets';
 import { HeaderComponent } from '../../Components/HeaderComp';
 import { TextComponent } from '../../Components/TextComponent';
 import { Colors } from '../../Theme/Variables';
+import { biomatricFalse } from '../../Redux/Action/BiomatricAction';
 
 const BiometricAuthScreen = () => {
   const {
@@ -23,6 +24,7 @@ const BiometricAuthScreen = () => {
     isToggle,
     setIsToggle,
     handleBiometricAuth,
+    dispatch,
   } = useBiometricAuthScreen();
 
   const getBiometricIcon = () => {
@@ -75,111 +77,116 @@ const BiometricAuthScreen = () => {
             ios_backgroundColor="#EAF6ED"
             value={isToggle}
             onValueChange={() => {
-              setIsToggle(!isToggle);
+              if (isToggle) dispatch(biomatricFalse());
+              else handleBiometricAuth();
             }}
           />
         </View>
 
-        {/* Biometric Type Display */}
-        <View style={styles.biometricInfo}>
-          <Text style={styles.biometricIcon}>{getBiometricIcon()}</Text>
-          <Text style={styles.biometricLabel}>
-            {isBiometricSupported ? getBiometricLabel() : 'Not Supported'}
-          </Text>
-        </View>
-
-        {/* Status and Result Display */}
-        <View style={styles.statusSection}>
-          <Text style={styles.title}>Biometric Authentication</Text>
-
-          <Text
-            style={[
-              styles.status,
-              { color: isBiometricSupported ? '#4CAF50' : '#f44336' },
-            ]}
-          >
-            {isBiometricSupported
-              ? `Biometric authentication is available (${getBiometricLabel()})`
-              : 'Biometric authentication is not supported on this device'}
-          </Text>
-
-          {authResult && (
-            <View
-              style={[
-                styles.resultContainer,
-                {
-                  backgroundColor: authResult.includes('successful')
-                    ? '#d4edda'
-                    : '#f8d7da',
-                },
-              ]}
-            >
-              <Text
-                style={[
-                  styles.result,
-                  {
-                    color: authResult.includes('successful')
-                      ? '#155724'
-                      : '#721c24',
-                  },
-                ]}
-              >
-                {authResult}
+        {isToggle && (
+          <>
+            {/* Biometric Type Display */}
+            <View style={styles.biometricInfo}>
+              <Text style={styles.biometricIcon}>{getBiometricIcon()}</Text>
+              <Text style={styles.biometricLabel}>
+                {isBiometricSupported ? getBiometricLabel() : 'Not Supported'}
               </Text>
             </View>
-          )}
-        </View>
 
-        {/* Authentication Button */}
-        <TouchableOpacity
-          style={[
-            styles.authButton,
-            (!isBiometricSupported || isLoading) && styles.disabledButton,
-          ]}
-          onPress={handleBiometricAuth}
-          disabled={!isBiometricSupported || isLoading}
-          activeOpacity={0.7}
-        >
-          {isLoading ? (
-            <ActivityIndicator size="small" color="#fff" />
-          ) : (
-            <>
-              <Text style={styles.buttonText}>
-                {biometricType === 'faceId'
-                  ? 'Use Face ID'
-                  : 'Authenticate with Biometrics'}
+            {/* Status and Result Display */}
+            {/* <View style={styles.statusSection}>
+              <Text style={styles.title}>Biometric Authentication</Text>
+
+              <Text
+                style={[
+                  styles.status,
+                  { color: isBiometricSupported ? '#4CAF50' : '#f44336' },
+                ]}
+              >
+                {isBiometricSupported
+                  ? `Biometric authentication is available (${getBiometricLabel()})`
+                  : 'Biometric authentication is not supported on this device'}
               </Text>
-            </>
-          )}
-        </TouchableOpacity>
 
-        {/* Additional Actions */}
-        <TouchableOpacity
-          style={styles.secondaryButton}
-          onPress={async () => {
-            if (isBiometricSupported) {
-              try {
-                const result =
-                  await ReactNativeBiometrics.requestBiometricPermission();
-                if (result.success) {
-                  Alert.alert('Success', 'Biometric permission granted');
-                } else {
-                  Alert.alert(
-                    'Error',
-                    `Permission failed: ${result.errorMessage}`,
-                  );
+              {authResult && (
+                <View
+                  style={[
+                    styles.resultContainer,
+                    {
+                      backgroundColor: authResult.includes('successful')
+                        ? '#d4edda'
+                        : '#f8d7da',
+                    },
+                  ]}
+                >
+                  <Text
+                    style={[
+                      styles.result,
+                      {
+                        color: authResult.includes('successful')
+                          ? '#155724'
+                          : '#721c24',
+                      },
+                    ]}
+                  >
+                    {authResult}
+                  </Text>
+                </View>
+              )}
+            </View> */}
+
+            {/* Authentication Button */}
+            <TouchableOpacity
+              style={[
+                styles.authButton,
+                (!isBiometricSupported || isLoading) && styles.disabledButton,
+              ]}
+              onPress={handleBiometricAuth}
+              disabled={!isBiometricSupported || isLoading}
+              activeOpacity={0.7}
+            >
+              {isLoading ? (
+                <ActivityIndicator size="small" color="#fff" />
+              ) : (
+                <>
+                  <Text style={styles.buttonText}>
+                    {biometricType === 'faceId'
+                      ? 'Use Face ID'
+                      : 'Authenticate with Biometrics'}
+                  </Text>
+                </>
+              )}
+            </TouchableOpacity>
+
+            {/* Additional Actions */}
+            <TouchableOpacity
+              style={styles.secondaryButton}
+              onPress={async () => {
+                if (isBiometricSupported) {
+                  try {
+                    const result =
+                      await ReactNativeBiometrics.requestBiometricPermission();
+                    if (result.success) {
+                      Alert.alert('Success', 'Biometric permission granted');
+                    } else {
+                      Alert.alert(
+                        'Error',
+                        `Permission failed: ${result.errorMessage}`,
+                      );
+                    }
+                  } catch (error) {
+                    Alert.alert('Error', 'Failed to request permission');
+                  }
                 }
-              } catch (error) {
-                Alert.alert('Error', 'Failed to request permission');
-              }
-            }
-          }}
-          disabled={!isBiometricSupported}
-        >
-          <Text style={styles.secondaryButtonText}>
-            Request Biometric Permission
-          </Text>
-        </TouchableOpacity>
+              }}
+              disabled={!isBiometricSupported}
+            >
+              <Text style={styles.secondaryButtonText}>
+                Request Biometric Permission
+              </Text>
+            </TouchableOpacity>
+          </>
+        )}
       </View>
     </ImageBackground>
   );

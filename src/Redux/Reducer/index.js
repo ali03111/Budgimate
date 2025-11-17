@@ -10,6 +10,8 @@ console.log('Redux Thunk:', thunk); // 👈 should log: function thunk(...)
 import onboardingReducer from './onboardingReducer';
 import AuthReducer from './AuthReducer';
 import loadingReducer from './loadingReducer';
+import BiomatricReducer from './BiomatricReducer';
+import isShowBioScReducer from './isShowBioScReducer';
 
 const onBoardPersistConfig = {
   key: 'onboarding',
@@ -22,10 +24,17 @@ const AuthPersistConfig = {
   storage: AsyncStorage,
   whitelist: ['userData', 'token', 'isLogin'],
 };
+const BiomatricConfig = {
+  key: 'isBioMatric',
+  storage: AsyncStorage,
+  whitelist: ['isBioMatric'],
+};
 
 const rootReducer = combineReducers({
   onboarding: persistReducer(onBoardPersistConfig, onboardingReducer),
   Auth: persistReducer(AuthPersistConfig, AuthReducer),
+  isBioMatric: persistReducer(BiomatricConfig, BiomatricReducer),
+  isBioMatricScreen: isShowBioScReducer,
   isloading: loadingReducer,
 });
 

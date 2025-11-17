@@ -1,16 +1,42 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, ImageBackground, LogBox, Platform } from 'react-native';
+import {
+  StyleSheet,
+  ImageBackground,
+  LogBox,
+  Platform,
+  AppState,
+} from 'react-native';
 import MainNavigator from './src/Navigation/MainNavigator';
 import { splash2 } from './src/Assets';
 import { hp, wp } from './src/Hooks/useResponsive';
 import useReduxStore from './src/Hooks/UseReduxStore';
 import Overlay from './src/Components/Overlay';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { bioVerifyFalse } from './src/Redux/Action/BioScreenAction';
+import { useFocusEffect } from '@react-navigation/native';
+import useAppState from 'react-native-appstate-hook';
 
 const App = () => {
+  const { getState, dispatch } = useReduxStore();
+
+  const { appState } = useAppState({
+    onChange: newAppState => {
+      if (newAppState != 'active') dispatch(bioVerifyFalse());
+    },
+    onForeground: () => console.warn('App went to Foreground'),
+    onBackground: () => console.warn('App went to background'),
+  });
+
+  // useEffect(() => {
+  //   const subscription = AppState.addEventListener('change', nextAppState => {
+  //     if (nextAppState != 'active') dispatch(bioVerifyFalse());
+  //   });
+
+  //   return () => subscription.remove();
+  // }, [AppState.currentState]);
+
   const [isVisible, setIsVisible] = useState(true);
 
-  const { getState, dispatch } = useReduxStore();
   const { isloading } = getState('isloading');
 
   const Hide_Splash_Screen = () => {

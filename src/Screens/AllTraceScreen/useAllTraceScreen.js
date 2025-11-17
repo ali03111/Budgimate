@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
 import useReduxStore from '../../Hooks/UseReduxStore';
 import API from '../../Utils/helperFunc';
 import {
@@ -17,10 +17,32 @@ const useAllTraceScreen = ({ params }, { addListener }) => {
   const [modalState, setModalState] = useState(null);
   const [screenName, setScreenName] = useState(false);
 
-  const { data } = useQuery({
+  // const { data, refetch } = useQuery({
+  //   queryKey: ['getTraceUrl'],
+  //   queryFn: () => API.get(getAllTraceUrl),
+  //   refetchOnWindowFocus: true,
+  // });
+
+  const {
+    data,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+    isPending,
+    isFetching,
+    isRefetching,
+    refetch,
+  } = useInfiniteQuery({
     queryKey: ['getTraceUrl'],
-    queryFn: () => API.get(getAllTraceUrl),
-    refetchOnWindowFocus: true,
+    queryFn: async ({ pageParam = 1 }) => {
+      // setTimeout(() => {
+      //   dispatch(loadingFalse());
+      // }, 100);
+      return API.get(`${getAllTraceUrl}?page=${pageParam}`);
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, pages) => (pages?.length ?? 0) + 1,
+    cacheTime: 0, // 👈 Don't cache the data
   });
 
   const { mutate } = useMutation({
@@ -108,10 +130,12 @@ const useAllTraceScreen = ({ params }, { addListener }) => {
     return unsubscribe;
   }, []);
 
-  console.log('datadatadatadatadatadatadatadatadatadatadata', data?.data);
+  console.log('datadatadatadatadatadatadatadatadatadatadata', data?.pages);
+
+  const list = data?.pages?.flatMap(page => page.data?.traces) || [];
 
   return {
-    traceList: data?.data?.traces,
+    traceList: list.filter(res => res != undefined) ?? [],
     deleteTrace: id => mutate(id),
     searchFun,
     text,
@@ -125,6 +149,9 @@ const useAllTraceScreen = ({ params }, { addListener }) => {
     inputPrice,
     screenName,
     onChangeVal,
+    refetch,
+    fetchNextPage,
+    isFetchingNextPage,
     onAddIncome: data =>
       mutateAsync({
         source: comment ?? '',

@@ -82,7 +82,7 @@ export const styles = StyleSheet.create({
   inputStyle: {
     flex: 1,
     color: 'black',
-    fontSize: hp('1.8'),
+    fontSize: hp('1.6'),
     height: hp('5.5'),
   },
 

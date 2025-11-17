@@ -5,6 +5,7 @@ import {
   Image,
   TextInput,
   ImageBackground,
+  ActivityIndicator,
 } from 'react-native';
 import React, { memo, useCallback } from 'react';
 import ExpenseProgressCard from '../../Components/ExpenseProgressCard';
@@ -47,6 +48,9 @@ const AllTraceScreen = ({ navigation, route }) => {
     onChangeVal,
     onAddIncome,
     screenName,
+    refetch,
+    fetchNextPage,
+    isFetchingNextPage,
   } = useAllTraceScreen(route, navigation);
 
   const actions = [
@@ -186,6 +190,29 @@ const AllTraceScreen = ({ navigation, route }) => {
             closeOnRowPress
             refreshing={false}
             scrollEnabled
+            onRefresh={refetch}
+            ListFooterComponent={
+              traceList.length >= 9 &&
+              (isFetchingNextPage ? (
+                <ActivityIndicator size="small" color="gray" />
+              ) : (
+                <ThemeButton
+                  title={'Load More'}
+                  style={{
+                    marginTop: hp('2'),
+                    width: wp('30'),
+                    height: hp('4'),
+                    alignSelf: 'center',
+                    marginBottom: hp('5'),
+                  }}
+                  textStyle={{ fontSize: hp('1.5') }}
+                  onPress={async () => {
+                    await fetchNextPage();
+                    // afterFetchNextPage();
+                  }}
+                />
+              ))
+            }
           />
         </>
       ) : (

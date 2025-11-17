@@ -29,4 +29,8 @@ export const types = {
   isNotifyTrue: 'isNotifyTrue',
   isChatNotifyTrue: 'isChatNotifyTrue',
   isChatNotifyFalse: 'isChatNotifyFalse',
+  isBioMatricTrue: 'isBioMatricTrue',
+  isBioMatricFalse: 'isBioMatricFalse',
+  isBioMatricScreenFalse: 'isBioMatricScreenFalse',
+  isBioMatricScreenTrue: 'isBioMatricScreenTrue',
 };

@@ -48,6 +48,14 @@ const SettingScreen = ({ navigation }) => {
           navigation.navigate('SubscriptionScreen');
         },
       },
+      {
+        title: 'Allocate funds',
+        leftIcon: subscriptionSetting,
+        subView: 'Manage your funds allocation',
+        onPress: () => {
+          navigation.navigate('AllocateFundScreen');
+        },
+      },
       // {
       //   title: 'Linked accounts',
       //   leftIcon: linkAccount,

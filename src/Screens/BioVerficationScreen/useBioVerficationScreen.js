@@ -1,22 +1,26 @@
 import { useState, useEffect } from 'react';
-import { Alert } from 'react-native';
+import { Alert, AppState } from 'react-native';
 import ReactNativeBiometrics, {
   BiometricOtherwayMode,
   BiometricErrorCode,
 } from '@boindahood/react-native-biometrics';
 import useReduxStore from '../../Hooks/UseReduxStore';
 import { biomatricTrue } from '../../Redux/Action/BiomatricAction';
+import { bioVerifyTrue } from '../../Redux/Action/BioScreenAction';
+import useAppState from 'react-native-appstate-hook';
 
-const useBiometricAuthScreen = () => {
+const useBioVerficationScreen = ({ addListener }) => {
   const { dispatch, getState } = useReduxStore();
 
+  const { appState } = useAppState();
+
   const { isBioMatric } = getState('isBioMatric');
+  const { isBioMatricScreen } = getState('isBioMatricScreen');
 
   const [isBiometricSupported, setIsBiometricSupported] = useState(false);
   const [biometricType, setBiometricType] = useState(null);
   const [authResult, setAuthResult] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [isToggle, setIsToggle] = useState(false);
 
   useEffect(() => {
     // Check if biometric authentication is available
@@ -26,7 +30,7 @@ const useBiometricAuthScreen = () => {
 
         if (result.isAvailable && result.allowAccess) {
           setIsBiometricSupported(true);
-          setBiometricType(result.biometricType);
+          await handleBiometricAuth();
           let typeMessage = '';
           switch (result.biometricType) {
             case 'touchId':
@@ -56,22 +60,16 @@ const useBiometricAuthScreen = () => {
       }
     };
 
-    checkBiometricSupport();
-  }, []);
+    const unsubscribe = addListener('focus', () => {
+      setTimeout(() => {
+        if (appState == 'active') checkBiometricSupport();
+      }, 1000);
+    });
+    return unsubscribe;
+  }, [appState]);
 
   // Handle biometric authentication
   const handleBiometricAuth = async () => {
-    if (!isBiometricSupported) {
-      Alert.alert(
-        'Error',
-        'Biometric authentication is not supported on this device',
-      );
-      return;
-    }
-
-    setIsLoading(true);
-    setAuthResult(null);
-
     try {
       const result = await ReactNativeBiometrics.authenticateBiometric({
         titlePrompt: 'Authenticate to continue',
@@ -80,11 +78,8 @@ const useBiometricAuthScreen = () => {
       });
       console.log('kkdjkdjkfjfkdjfdjfdkf', result);
       if (result.success) {
-        setAuthResult('Authentication successful!');
-        Alert.alert('Success', 'Biometric authentication successful!');
-        dispatch(biomatricTrue());
+        dispatch(bioVerifyTrue());
       } else if (result.pressedOtherway) {
-        setAuthResult('User chose PIN authentication');
         Alert.alert('Fallback', 'Using PIN authentication');
         // Optionally trigger PIN auth here
         // const pinResult = await ReactNativeBiometrics.authenticatePIN();
@@ -138,9 +133,8 @@ const useBiometricAuthScreen = () => {
     isLoading,
     handleBiometricAuth,
     isToggle: isBioMatric,
-    setIsToggle,
     dispatch,
   };
 };
 
-export default useBiometricAuthScreen;
+export default useBioVerficationScreen;

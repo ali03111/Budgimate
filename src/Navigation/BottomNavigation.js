@@ -23,6 +23,8 @@ const Stack = createNativeStackNavigator();
 export const { width, height } = Dimensions.get('window');
 const isIOS = Platform.OS === 'ios';
 
+const safeWidth = Number.isFinite(width) ? width : 440;
+
 const tabarComponent = (
   activeImage,
   unActiveImage,
@@ -231,6 +233,10 @@ function SettingStack() {
         component={Screens.ReviewSubscriptionScreen}
       />
       <Stack.Screen
+        name="AllocateFundScreen"
+        component={Screens.AllocateFundScreen}
+      />
+      <Stack.Screen
         name="SubscriptionScreen"
         component={Screens.SubscriptionScreen}
       />
@@ -242,6 +248,40 @@ function SettingStack() {
       <Stack.Screen
         name="NotificationScreen"
         component={Screens.NotificationScreen}
+      />
+      <Stack.Screen
+        name="GoalDetailScreen"
+        component={Screens.GoalDetailScreen}
+      />
+      <Stack.Screen
+        name="AddExpenseToTraceScreen"
+        component={Screens.AddExpenseToTraceScreen}
+      />
+      <Stack.Screen
+        name="AllocateTraceScreen"
+        component={Screens.AllocateTraceScreen}
+      />
+      <Stack.Screen
+        name="AllocateToIncome"
+        component={Screens.AllocateToIncome}
+      />
+      <Stack.Screen
+        name="AllocateSelectorScreen"
+        component={Screens.AllocateSelectorScreen}
+      />
+      <Stack.Screen name="ListViewScreen" component={ListViewScreen} />
+      <Stack.Screen
+        name="TranscritionHistoryScreen"
+        component={Screens.TranscritionHistoryScreen}
+      />
+      <Stack.Screen name="ReportScreen" component={Screens.ReportScreen} />
+      <Stack.Screen
+        name="AllocateToExpenseScreen"
+        component={Screens.AllocateToExpenseScreen}
+      />
+      <Stack.Screen
+        name="AllocateToGoalsScreen"
+        component={Screens.AllocateToGoalsScreen}
       />
     </Stack.Navigator>
   );
@@ -275,26 +315,24 @@ function MybottomTabs() {
         tabBarBackground: () => {
           return (
             <Svg
-              width={Dimensions.get('window').width}
-              height="93"
+              width={safeWidth}
+              height={93}
               viewBox="0 0 440 96"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
-              {' '}
               <Mask id="path-1-inside-1_1449_6319" fill="white">
-                {' '}
-                <Path d="M425 0C433.285 0.000228827 440 6.71587 440 15V96H0.000411987V15C0.000411987 6.71573 6.71614 0 15.0004 0H184C184 19.8823 200.118 36 220 36C239.572 35.9998 255.496 20.3816 255.989 0.928711L256 0H425Z" />{' '}
-              </Mask>{' '}
+                <Path d="M425 0C433.285 0.000228827 440 6.71587 440 15V96H0.000411987V15C0.000411987 6.71573 6.71614 0 15.0004 0H184C184 19.8823 200.118 36 220 36C239.572 35.9998 255.496 20.3816 255.989 0.928711L256 0H425Z" />
+              </Mask>
               <Path
                 d="M425 0C433.285 0.000228827 440 6.71587 440 15V96H0.000411987V15C0.000411987 6.71573 6.71614 0 15.0004 0H184C184 19.8823 200.118 36 220 36C239.572 35.9998 255.496 20.3816 255.989 0.928711L256 0H425Z"
                 fill="white"
-              />{' '}
+              />
               <Path
                 d="M425 0L425 -1H425V0ZM440 96V97H441V96H440ZM0.000411987 96H-0.999588V97H0.000411987V96ZM184 0H185V-1H184V0ZM220 36V37H220L220 36ZM255.989 0.928711L256.988 0.954027L256.989 0.941328L255.989 0.928711ZM256 0V-1H255.013L255 -0.0126173L256 0ZM425 0L425 1C432.732 1.00021 439 7.26818 439 15H440H441C441 6.16356 433.837 -0.999756 425 -1L425 0ZM440 15H439V96H440H441V15H440ZM440 96V95H0.000411987V96V97H440V96ZM0.000411987 96H1.00041V15H0.000411987H-0.999588V96H0.000411987ZM0.000411987 15H1.00041C1.00041 7.26801 7.26843 1 15.0004 1V0V-1C6.16386 -1 -0.999588 6.16344 -0.999588 15H0.000411987ZM15.0004 0V1H184V0V-1H15.0004V0ZM184 0H183C183 20.4345 199.566 37 220 37V36V35C200.67 35 185 19.33 185 0H184ZM220 36L220 37C240.116 36.9998 256.482 20.9478 256.988 0.954025L255.989 0.928711L254.989 0.903397C254.51 19.8154 239.028 34.9998 220 35L220 36ZM255.989 0.928711L256.989 0.941328L257 0.0126173L256 0L255 -0.0126173L254.989 0.916094L255.989 0.928711ZM256 0V1H425V0V-1H256V0Z"
                 fill="#E9E9E9"
                 mask="url(#path-1-inside-1_1449_6319)"
-              />{' '}
+              />
             </Svg>
           );
         },

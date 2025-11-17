@@ -50,6 +50,7 @@
     "react": "19.1.0",
     "react-hook-form": "^7.58.1",
     "react-native": "0.80.0",
+    "react-native-appstate-hook": "^1.0.6",
     "react-native-awesome-alerts": "^2.0.0",
     "react-native-biometrics": "^3.0.1",
     "react-native-blurhash": "^2.1.1",
