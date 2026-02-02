@@ -77,7 +77,7 @@ const useGoalDetailScreen = ({ navigate }, { params }) => {
       mutate({
         source: comment,
         amount: inputPrice,
-        start_date: formatDate(new Date()),
+        start_date: formatDate(selectedDate),
         frequency: 'one-time',
         module_type: 'goal',
         module_id: data?.data?.id,
@@ -87,7 +87,7 @@ const useGoalDetailScreen = ({ navigate }, { params }) => {
       mutate({
         source: comment,
         amount: inputPrice,
-        start_date: formatDate(new Date()),
+        start_date: formatDate(selectedDate),
         frequency: 'one-time',
         module_type: 'goal',
         module_id: data?.data?.id,

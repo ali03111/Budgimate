@@ -5,7 +5,7 @@ import useReduxStore from '../../Hooks/UseReduxStore';
 import { postLeftOverUrl } from '../../Utils/Urls';
 import { errorMessage, successMessage } from '../../Config/NotificationMessage';
 
-const useAllocateToIncomeScreen = ({ goBack }) => {
+const useAllocateToIncomeScreen = ({ goBack }, { params }) => {
   const { queryClient } = useReduxStore();
   const [afterAdd, setAfterAdd] = useState(false);
 
@@ -27,11 +27,14 @@ const useAllocateToIncomeScreen = ({ goBack }) => {
       return API.post(postLeftOverUrl, {
         amount: inputPrice,
         module_type: 'basic',
+        leftover_expense_category_id: params?.expCatId,
         // module_id:10,
       });
     },
     onSuccess: ({ ok, data }) => {
+      console.log('hjhjvhjvhjvhjvvhjvhjvhvjvhvjh', data);
       if (ok) {
+        successMessage(data?.message);
         setAfterAdd(true);
         queryClient.invalidateQueries([`getLeftOverUrl`]);
         goBack();

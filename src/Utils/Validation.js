@@ -91,21 +91,25 @@ const addUsernameScheme = yup.object().shape({
 });
 const addIncomeSchema = yup.object().shape({
   incomePrice: yup.string().required('Please add income.'),
-  incomeType: yup
-    .string()
-    // .requiredoneOf(
-    //   [
-    //     { title: 'One-time', id: 'One-time' },
-    //     { title: 'Daily', id: 'Daily' },
-    //     { title: 'Weekly', id: 'Weekly' },
-    //     { title: 'Monthly', id: 'Monthly' },
-    //   ],
-    //   'Please select a valid type.',
-    // )
-    .required('Please select income type.'),
-  incomeSource: yup.string().required('Please income source.'),
+  incomeType: yup.string().required('Please select income type.'),
+  incomeSource: yup.string().required('Please enter income source.'),
+
+  // Required only when incomeType = Weekly
+  weekType: yup.string().when('incomeType', {
+    is: 'Weekly',
+    otherwise: schema => schema.nullable().notRequired(),
+    then: schema => schema.required('Please select week day.'),
+  }),
+
+  // Required when incomeType = Monthly **OR** Bi-weekly
+  dayType: yup.string().when('incomeType', {
+    is: val => val === 'Monthly' || val === 'Bi-weekly',
+    then: schema => schema.required('Please select day type.'),
+    otherwise: schema => schema.nullable().notRequired(),
+  }),
+
   startingPeriod: yup.string().required('Please select starting period.'),
-  endingPeriod: yup.string().required('Please select ending period.'),
+  endingPeriod: yup.string().nullable(),
 });
 const addGoalSchema = yup.object().shape({
   goalPrice: yup.string().required('Please enter goal price.'),

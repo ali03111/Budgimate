@@ -6,13 +6,22 @@ import { Colors } from '../Theme/Variables';
 import { arrowRight } from '../Assets';
 import { Image } from 'react-native';
 import NavigationService from '../Services/NavigationService';
-import { calculatePercentage } from '../Services/GlobalFunctions';
+import { calculatePercentage, formatPrice } from '../Services/GlobalFunctions';
 
 const GoalCardComp = ({ mainView, isDisable, item, type, onViewDetail }) => {
   const total = 80000;
   const achieved = 34700;
   const left = total - achieved;
   const progress = (achieved / total) * 100;
+
+  console.log(
+    'itemitemitemitemitemitemitem',
+    calculatePercentage(
+      parseInt(item?.incomes_sum_amount ?? 0) -
+        parseInt(item?.expenses_sum_amount ?? 0),
+      parseInt(item?.target_amount ?? 0),
+    ),
+  );
 
   return (
     <Pressable
@@ -25,21 +34,23 @@ const GoalCardComp = ({ mainView, isDisable, item, type, onViewDetail }) => {
       {/* Top Row */}
       <View style={styles.headerRow}>
         <Text style={styles.title}>{item?.name}</Text>
-        <Touchable
-          onPress={() => {
-            if (onViewDetail)
-              NavigationService.navigate('GoalDetailScreen', { item, type });
-          }}
-        >
-          <View style={styles.detailsRow}>
-            <Text style={styles.details}>View details</Text>
-            <Image
-              source={arrowRight}
-              style={styles.arrowIcon}
-              resizeMode="contain"
-            />
-          </View>
-        </Touchable>
+        {onViewDetail && (
+          <Touchable
+            onPress={() => {
+              if (onViewDetail)
+                NavigationService.navigate('GoalDetailScreen', { item, type });
+            }}
+          >
+            <View style={styles.detailsRow}>
+              <Text style={styles.details}>View details</Text>
+              <Image
+                source={arrowRight}
+                style={styles.arrowIcon}
+                resizeMode="contain"
+              />
+            </View>
+          </Touchable>
+        )}
       </View>
 
       {/* Subtitle */}
@@ -51,10 +62,20 @@ const GoalCardComp = ({ mainView, isDisable, item, type, onViewDetail }) => {
       <View style={styles.progressInfoRow}>
         <Text style={styles.achieved}>
           Achieved:{' '}
-          <Text style={styles.bold}>${achieved.toLocaleString()}</Text>
+          <Text style={styles.bold}>
+            {formatPrice(
+              parseInt(item?.incomes_sum_amount ?? 0) -
+                parseInt(item?.expenses_sum_amount ?? 0),
+            )}
+          </Text>
         </Text>
         <Text style={styles.left}>
-          ${parseInt(item?.saved_amount)} left of{' '}
+          {formatPrice(
+            parseInt(item?.target_amount ?? 0) +
+              parseInt(item?.expenses_sum_amount ?? 0) -
+              parseInt(item?.incomes_sum_amount ?? 0),
+          )}{' '}
+          left of{' '}
           <Text style={styles.bold}>${parseInt(item?.target_amount)}</Text>
         </Text>
       </View>
@@ -65,10 +86,11 @@ const GoalCardComp = ({ mainView, isDisable, item, type, onViewDetail }) => {
           style={[
             styles.progressFill,
             {
-              width: calculatePercentage(
-                item?.saved_amount,
-                item?.target_amount,
-              ),
+              width: `${calculatePercentage(
+                parseInt(item?.incomes_sum_amount ?? 0) -
+                  parseInt(item?.expenses_sum_amount ?? 0),
+                parseInt(item?.target_amount ?? 0),
+              )}%`,
             },
           ]}
         />
@@ -145,6 +167,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#EDEDED',
     borderRadius: hp('1'),
     overflow: 'hidden',
+    width: '100%',
   },
   progressFill: {
     height: '100%',

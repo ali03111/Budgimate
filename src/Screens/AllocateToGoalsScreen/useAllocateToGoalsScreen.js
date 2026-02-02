@@ -6,7 +6,7 @@ import { errorMessage, successMessage } from '../../Config/NotificationMessage';
 import useReduxStore from '../../Hooks/UseReduxStore';
 import { set } from 'react-hook-form';
 
-const useAllocateToGoalsScreen = () => {
+const useAllocateToGoalsScreen = ({ goBack }, { params }) => {
   const [modalVisible, setModalVisible] = useState(null);
   const [afterAdd, setAfterAdd] = useState(false);
 
@@ -36,6 +36,7 @@ const useAllocateToGoalsScreen = () => {
         amount: inputPrice,
         module_type: 'goal',
         module_id: data?.goalId,
+        leftover_expense_category_id: params?.expCatId,
       });
     },
     onSuccess: ({ ok, data }) => {
@@ -46,6 +47,7 @@ const useAllocateToGoalsScreen = () => {
       if (ok) {
         console.log('hjhjvhjvhjvhjvvhjvhjvhvjvhvjh', data);
         setAfterAdd(true);
+        successMessage(data?.message);
         queryClient.invalidateQueries([`getLeftOverUrl`]);
         goBack();
       } else errorMessage(data?.error);

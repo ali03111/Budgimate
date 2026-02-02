@@ -93,10 +93,11 @@ const GoalDetailScreen = ({ navigation, route }) => {
             style={[
               styles.progressFill,
               {
-                width: calculatePercentage(
-                  goalsDetails?.saved_amount,
-                  goalsDetails?.target_amount,
-                ),
+                width: `${calculatePercentage(
+                  parseInt(goalsDetails?.incomes_sum_amount ?? 0) -
+                    parseInt(goalsDetails?.expenses_sum_amount ?? 0),
+                  parseInt(goalsDetails?.target_amount ?? 0),
+                )}%`,
               },
             ]}
           />
@@ -214,8 +215,10 @@ const GoalDetailScreen = ({ navigation, route }) => {
                     size={'1.3'}
                   />
                   <TextComponent
-                    text={`${parseInt(
-                      goalsDetails?.saved_amount,
+                    text={`${formatPrice(
+                      parseInt(goalsDetails?.target_amount ?? 0) +
+                        parseInt(goalsDetails?.expenses_sum_amount ?? 0) -
+                        parseInt(goalsDetails?.incomes_sum_amount ?? 0),
                     )} left of ${parseInt(goalsDetails?.target_amount)}`}
                     size={'1.3'}
                   />
@@ -226,42 +229,40 @@ const GoalDetailScreen = ({ navigation, route }) => {
                       styles.progressFill,
                       {
                         width: `${calculatePercentage(
-                          goalsDetails?.saved_amount,
-                          goalsDetails?.target_amount,
+                          parseInt(goalsDetails?.incomes_sum_amount ?? 0) -
+                            parseInt(goalsDetails?.expenses_sum_amount ?? 0),
+                          parseInt(goalsDetails?.target_amount ?? 0),
                         )}%`,
                       },
                     ]}
                   />
                 </View>
               </View>
+              <View>
+                <TextComponent
+                  text={'Select date'}
+                  family={'400'}
+                  isThemeColor
+                  size={'1.5'}
+                />
+                <View style={styles.categoryContainer}>
+                  <TextComponent
+                    text={formatDateToCustomFormat(selectedDate ?? currentDate)}
+                    size={'1.5'}
+                    onPress={() => {
+                      setDatePickerState(true);
+                    }}
+                  />
+                  <Image
+                    source={calendar}
+                    resizeMode="contain"
+                    style={styles.dateIcon}
+                    tintColor={Colors.dkBorderColor}
+                  />
+                </View>
+              </View>
               {modalState == 'withdrawFunds' && (
                 <>
-                  <View>
-                    <TextComponent
-                      text={'Select date'}
-                      family={'400'}
-                      isThemeColor
-                      size={'1.5'}
-                    />
-                    <View style={styles.categoryContainer}>
-                      <TextComponent
-                        text={formatDateToCustomFormat(
-                          selectedDate ?? currentDate,
-                        )}
-                        size={'1.5'}
-                        onPress={() => {
-                          setDatePickerState(true);
-                        }}
-                      />
-                      <Image
-                        source={calendar}
-                        resizeMode="contain"
-                        style={styles.dateIcon}
-                        tintColor={Colors.dkBorderColor}
-                      />
-                    </View>
-                  </View>
-
                   {selectedImg?.uri ? (
                     <View style={styles.uploadedImageWrapper}>
                       <Image
@@ -315,8 +316,25 @@ const GoalDetailScreen = ({ navigation, route }) => {
                   onChangeText={e => onChangeVal('comment', e)}
                 />
               </View>
+              <TextComponent
+                text={'Add amount'}
+                family={'400'}
+                isThemeColor
+                size={'1.5'}
+              />
+              <View style={styles.categoryContainer}>
+                <TextInput
+                  style={styles.commentInput}
+                  placeholder="Type amount"
+                  placeholderTextColor={'gray'}
+                  keyboardType="numeric"
+                  value={inputPrice}
+                  onChangeText={e => onChangeVal('inputPrice', e)}
+                />
+                <TextComponent text={'$'} />
+              </View>
 
-              <View style={styles.priceMainView}>
+              {/* <View style={styles.priceMainView}>
                 <View style={styles.priceInnerView}>
                   <TextComponent text={'$'} size={'2.5'} />
                   <TextInput
@@ -341,7 +359,7 @@ const GoalDetailScreen = ({ navigation, route }) => {
                   size={'1.5'}
                   styles={styles.addIncomeText}
                 />
-              </View>
+              </View> */}
             </View>
           }
           onBackPress={() => {

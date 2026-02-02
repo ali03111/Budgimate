@@ -44,6 +44,7 @@ export const styles = StyleSheet.create({
     borderRadius: hp('1'),
     marginTop: hp('1'),
     overflow: 'hidden',
+    width: '100%',
   },
   progressFill: {
     height: '100%',

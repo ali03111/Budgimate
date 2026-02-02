@@ -12,6 +12,7 @@ import AuthReducer from './AuthReducer';
 import loadingReducer from './loadingReducer';
 import BiomatricReducer from './BiomatricReducer';
 import isShowBioScReducer from './isShowBioScReducer';
+import DashboardReducer from './DashboardReducer';
 
 const onBoardPersistConfig = {
   key: 'onboarding',
@@ -29,11 +30,22 @@ const BiomatricConfig = {
   storage: AsyncStorage,
   whitelist: ['isBioMatric'],
 };
+const DashboardData = {
+  key: 'DashboardData',
+  storage: AsyncStorage,
+  whitelist: [
+    'totalIncome',
+    'totalExpense',
+    'incomeAvaBudget',
+    'remaningCycleIcome',
+  ],
+};
 
 const rootReducer = combineReducers({
   onboarding: persistReducer(onBoardPersistConfig, onboardingReducer),
   Auth: persistReducer(AuthPersistConfig, AuthReducer),
   isBioMatric: persistReducer(BiomatricConfig, BiomatricReducer),
+  DashboardData: persistReducer(DashboardData, DashboardReducer),
   isBioMatricScreen: isShowBioScReducer,
   isloading: loadingReducer,
 });

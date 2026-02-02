@@ -54,6 +54,7 @@ const AllGoalScreen = ({ navigation, route }) => {
     },
     [8],
   );
+  console.log('goalListgoalListgoalListgoalList', goalList);
 
   const renderHiddenItem = ({ item }) => (
     <View style={styles.rowBack}>

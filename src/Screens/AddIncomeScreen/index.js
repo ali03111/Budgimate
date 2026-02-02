@@ -45,6 +45,7 @@ const AddIncomeScreen = ({ navigation, route }) => {
     { title: 'One-time', id: 'One_time' },
     { title: 'Daily', id: 'daily' },
     { title: 'Weekly', id: 'weekly' },
+    { title: 'Bi-Weekly', id: 'bi-weekly' },
     { title: 'Monthly', id: 'monthly' },
   ];
 
@@ -110,61 +111,11 @@ const AddIncomeScreen = ({ navigation, route }) => {
 
   return (
     <ImageBackground source={LoginBg} style={styles.ImgBg}>
-      <HeaderComponent isBack headerTitle={'Add Income'} />
+      <HeaderComponent
+        isBack
+        headerTitle={route?.params?.isUpdate ? 'Update Income' : 'Add Income'}
+      />
       <KeyBoardWrapper styles={{ paddingBottom: hp('10') }}>
-        <View style={styles.priceMainView}>
-          <View style={styles.priceInnerView}>
-            {/* <TextComponent text={'$'} size={'2.5'} /> */}
-            <Controller
-              control={control}
-              name="incomePrice"
-              render={({ field: { onChange, value } }) => (
-                <TextInput
-                  placeholder="0"
-                  onChangeText={text => {
-                    onChange(text); // increase width based on content
-                  }}
-                  style={{
-                    fontSize: hp('3.5'),
-                    color: 'black',
-                    width: wp('85'),
-                    alignSelf: 'center',
-                    textAlign: 'center',
-                    // backgroundColor: 'red',
-                  }}
-                  value={value}
-                  placeholderTextColor={'gray'}
-                  keyboardType="numeric"
-                />
-              )}
-            />
-          </View>
-          <TextComponent
-            text={'Add income amount'}
-            fade
-            size={'2'}
-            styles={styles.addIncomeText}
-          />
-          <Controller
-            control={control}
-            name="incomeType"
-            render={({ field: { onChange, value } }) => (
-              <View style={styles.priceTimeView}>
-                <MultiSelectButton
-                  items={arryView}
-                  selectedAlter={{ id: value }} // currently selected
-                  onSelectVal={(i, val) => onChange(val?.id)} // update form field
-                  // btnStyle={styles.priceMultiView}
-                  isPrimaryColorStyle
-                  // textStyle={{
-                  //   fontSize: hp('1.2'),
-                  //   color: Colors.primaryColor,
-                  // }}
-                />
-              </View>
-            )}
-          />
-        </View>
         <TitleInputView
           title={'Income source*'}
           errorName={errors['incomeSource']}
@@ -185,76 +136,240 @@ const AddIncomeScreen = ({ navigation, route }) => {
             />
           }
         />
+
         <TitleInputView
-          title={'Starting period*'}
-          errorName={errors['startingPeriod']}
-          centerInnerView={
+          title={'Add income*'}
+          errorName={errors['incomePrice']}
+          innerLeftView={
+            <Controller
+              control={control}
+              name="incomePrice"
+              render={({ field: { onChange, value } }) => (
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <TextInput
+                    style={styles.inputStyle}
+                    placeholder="Enter income"
+                    maxLength={50}
+                    placeholderTextColor={'gray'}
+                    value={value}
+                    keyboardType="numeric"
+                    onChangeText={onChange}
+                  />
+                  <TextComponent text={'$'} />
+                </View>
+              )}
+            />
+          }
+        />
+        <Controller
+          control={control}
+          name="incomeType"
+          render={({ field: { onChange, value } }) => (
             <>
-              <Controller
-                control={control}
-                name="startingPeriod"
-                render={({ field: { onChange, value } }) => (
-                  <Touchable
-                    style={styles.textTouchBtn}
-                    onPress={() => toggleDate('startingPeriod')}
-                  >
-                    <TextComponent
-                      // text={'DD / MM / YYYY'}
-                      text={formatDateToLong(value) ?? 'DD / MM / YYYY'}
-                      styles={styles.textStyle}
-                      size={'1.5'}
-                    />
-                    <Image
-                      source={calendar}
-                      resizeMode="contain"
-                      style={styles.calenderIcon}
-                    />
-                  </Touchable>
-                )}
-              />
-              {errors['startingPeriod']?.message && (
-                <TextComponent
-                  text={errors['startingPeriod']?.message}
-                  styles={styles.errorText}
+              <View style={styles.priceTimeView}>
+                <MultiSelectButton
+                  items={arryView}
+                  selectedAlter={{ id: value }} // currently selected
+                  onSelectVal={(i, val) => onChange(val?.id)} // update form field
+                  // btnStyle={styles.priceMultiView}
+                  isPrimaryColorStyle
+
+                  // textStyle={{
+                  //   fontSize: hp('1.2'),
+                  //   color: Colors.primaryColor,
+                  // }}
                 />
+              </View>
+              {(value == 'weekly' || value == 'bi-weekly') && (
+                <>
+                  <TextComponent
+                    text={'Select Starting Day*'}
+                    styles={{ ...styles.compTitle, marginLeft: wp('6') }}
+                  />
+                  <Controller
+                    control={control}
+                    name="weekType"
+                    render={({
+                      field: { onChange: onChangeDay, value: selectedDay },
+                    }) => (
+                      <View
+                        style={{ ...styles.priceTimeView, flexWrap: 'wrap' }}
+                      >
+                        <MultiSelectButton
+                          items={[
+                            {
+                              title: 'Monday',
+                              id: 1,
+                            },
+                            {
+                              title: 'Tuesday',
+                              id: 2,
+                            },
+                            {
+                              title: 'Wednesday',
+                              id: 3,
+                            },
+                            {
+                              title: 'Thursday',
+                              id: 4,
+                            },
+                            {
+                              title: 'Friday',
+                              id: 5,
+                            },
+                            {
+                              title: 'Saturday',
+                              id: 6,
+                            },
+                            {
+                              title: 'Sunday',
+                              id: 7,
+                            },
+                          ]}
+                          selectedAlter={{ id: selectedDay }} // currently selected
+                          onSelectVal={(i, val) => onChangeDay(val?.id)} // update form field
+                          // btnStyle={styles.priceMultiView}
+                          isPrimaryColorStyle
+
+                          // textStyle={{
+                          //   fontSize: hp('1.2'),
+                          //   color: Colors.primaryColor,
+                          // }}
+                        />
+                      </View>
+                    )}
+                  />
+                </>
+              )}
+              {value == 'monthly' && (
+                <>
+                  <TextComponent
+                    text={'Select Starting Date*'}
+                    styles={{ ...styles.compTitle, marginLeft: wp('6') }}
+                  />
+                  <Controller
+                    control={control}
+                    name="dayType"
+                    render={({
+                      field: { onChange: onChangeDay, value: selectedDay },
+                    }) => (
+                      <View
+                        style={{
+                          ...styles.priceTimeView,
+                          flexWrap: 'wrap',
+                          width: wp('91'),
+                        }}
+                      >
+                        <MultiSelectButton
+                          items={Array.from({ length: 31 }, (_, i) => ({
+                            title: String(i + 1),
+                            id: i + 1,
+                          }))}
+                          selectedAlter={{ id: selectedDay }} // currently selected
+                          onSelectVal={(i, val) => onChangeDay(val?.id)} // update form field
+                          // btnStyle={styles.priceMultiView}
+                          isPrimaryColorStyle
+
+                          // textStyle={{
+                          //   fontSize: hp('1.2'),
+                          //   color: Colors.primaryColor,
+                          // }}
+                        />
+                      </View>
+                    )}
+                  />
+                </>
+              )}
+              {(value != 'weekly' || value != 'monthly') && (
+                <>
+                  <TitleInputView
+                    title={'Starting period*'}
+                    errorName={errors['startingPeriod']}
+                    centerInnerView={
+                      <>
+                        <Controller
+                          control={control}
+                          name="startingPeriod"
+                          render={({ field: { onChange, value } }) => (
+                            <Touchable
+                              style={styles.textTouchBtn}
+                              onPress={() => toggleDate('startingPeriod')}
+                            >
+                              <TextComponent
+                                // text={'DD / MM / YYYY'}
+                                text={
+                                  formatDateToLong(value) ?? 'DD / MM / YYYY'
+                                }
+                                styles={styles.textStyle}
+                                size={'1.5'}
+                              />
+                              <Image
+                                source={calendar}
+                                resizeMode="contain"
+                                style={styles.calenderIcon}
+                                tintColor={'black'}
+                              />
+                            </Touchable>
+                          )}
+                        />
+                        {errors['startingPeriod']?.message && (
+                          <TextComponent
+                            text={errors['startingPeriod']?.message}
+                            styles={styles.errorText}
+                          />
+                        )}
+                      </>
+                    }
+                  />
+                  <TitleInputView
+                    title={'Ending period'}
+                    errorName={errors['endingPeriod']}
+                    centerInnerView={
+                      <>
+                        <Controller
+                          control={control}
+                          name="endingPeriod"
+                          render={({ field: { onChange, value } }) => (
+                            <Touchable
+                              style={styles.textTouchBtn}
+                              onPress={() => toggleDate('endingPeriod')}
+                            >
+                              <TextComponent
+                                text={
+                                  formatDateToLong(value) ?? 'DD / MM / YYYY'
+                                }
+                                // text={formatDateToLong(value ?? currentDate)}
+                                styles={styles.textStyle}
+                                size={'1.5'}
+                              />
+                              <Image
+                                source={calendar}
+                                resizeMode="contain"
+                                style={styles.calenderIcon}
+                                tintColor={'black'}
+                              />
+                            </Touchable>
+                          )}
+                        />
+                        <TextComponent
+                          text={errors['endingPeriod']?.message}
+                          styles={styles.errorText}
+                        />
+                      </>
+                    }
+                  />
+                </>
               )}
             </>
-          }
+          )}
         />
-        <TitleInputView
-          title={'Ending period*'}
-          errorName={errors['endingPeriod']}
-          centerInnerView={
-            <>
-              <Controller
-                control={control}
-                name="endingPeriod"
-                render={({ field: { onChange, value } }) => (
-                  <Touchable
-                    style={styles.textTouchBtn}
-                    onPress={() => toggleDate('endingPeriod')}
-                  >
-                    <TextComponent
-                      text={formatDateToLong(value) ?? 'DD / MM / YYYY'}
-                      // text={formatDateToLong(value ?? currentDate)}
-                      styles={styles.textStyle}
-                      size={'1.5'}
-                    />
-                    <Image
-                      source={calendar}
-                      resizeMode="contain"
-                      style={styles.calenderIcon}
-                    />
-                  </Touchable>
-                )}
-              />
-              <TextComponent
-                text={errors['endingPeriod']?.message}
-                styles={styles.errorText}
-              />
-            </>
-          }
-        />
+
         <ThemeButton
           title={'Save income'}
           isTheme

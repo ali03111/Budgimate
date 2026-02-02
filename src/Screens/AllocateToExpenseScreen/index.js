@@ -44,7 +44,7 @@ const AllocateToExpenseScreen = ({ navigation, route }) => {
     filterData,
     afterAdd,
     setAfterAdd,
-  } = useAllocateToExpenseScreen(navigation);
+  } = useAllocateToExpenseScreen(navigation, route);
   const renderItem = useCallback(
     ({ item, index }) => {
       return (
@@ -66,16 +66,19 @@ const AllocateToExpenseScreen = ({ navigation, route }) => {
   );
   return (
     <ImageBackground source={LoginBg} style={{ flex: 1 }}>
-      <HeaderComponent headerTitle={'Allocate Leftover to Expense'} isBack />
+      <HeaderComponent
+        headerTitle={'Allocate Leftover to Expense Category'}
+        isBack
+      />
       <ThemeButton
-        title={`Leftover: ${formatPrice(route?.params)}`}
+        title={`Leftover: ${formatPrice(route?.params?.leftOver)}`}
         isTransparent
         style={styles.themeButton}
         textStyle={styles.themeButtonText}
       />
       <TextComponent
         text={`Add leftover amount of ${formatPrice(
-          route?.params,
+          route?.params?.leftOver,
         )} or less, from “Last cycle” to your “Expense categories”.`}
         fade
         styles={styles.textComponent}
@@ -126,10 +129,14 @@ const AllocateToExpenseScreen = ({ navigation, route }) => {
       {Boolean(modalVisible != null) && (
         <ModalViewComp
           isModal={Boolean(modalVisible != null)}
-          heading={'Allocate Funds to Expense'}
+          heading={'Allocate Funds to Expense Categories'}
           childrenComp={
             <View>
-              <TextComponent text={'Expense name'} isDarkTheme size={'2'} />
+              <TextComponent
+                text={'Expense category name'}
+                isDarkTheme
+                size={'2'}
+              />
               <View
                 style={{
                   width: wp('90'),
@@ -154,7 +161,39 @@ const AllocateToExpenseScreen = ({ navigation, route }) => {
                   }
                 />
               </View>
-              <View style={styles.priceMainView}>
+              <TextComponent
+                text={'Enter amount'}
+                isDarkTheme
+                size={'2'}
+                styles={{ marginTop: hp('2') }}
+              />
+              <View
+                style={{
+                  width: wp('90'),
+                  paddingVertical: hp('1'),
+                  paddingHorizontal: wp('2'),
+                  borderRadius: 10,
+                  borderWidth: 0.5,
+                  borderColor: Colors.dkBorderColor,
+                  marginVertical: hp('1'),
+                  height: hp('5'),
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <TextInput
+                  placeholder="Enter amount"
+                  placeholderTextColor={Colors.textGray}
+                  style={{ flex: 1, fontSize: hp('1.8') }}
+                  // editable={false}
+                  value={inputPrice}
+                  onChangeText={e => onChangeVal('inputPrice', e)}
+                  keyboardType="numeric"
+                />
+                <TextComponent text={'$'} />
+              </View>
+              {/* <View style={styles.priceMainView}>
                 <View style={styles.priceInnerView}>
                   <TextComponent text={'$'} size={'4.5'} />
 
@@ -180,7 +219,7 @@ const AllocateToExpenseScreen = ({ navigation, route }) => {
                   size={'1.5'}
                   styles={styles.addIncomeText}
                 />
-              </View>
+              </View> */}
             </View>
           }
           btnTitle={'Save'}

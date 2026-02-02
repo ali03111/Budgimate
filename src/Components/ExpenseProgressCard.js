@@ -19,6 +19,11 @@ const ExpenseProgressCard = ({
 }) => {
   const progressWidth = `${percentageSpent}%`;
 
+  // console.log(
+  //   'qwertyuioiuytreqwertyuioiuytrertyui',
+  //   formatPrice(item?.limit - item?.spent),
+  // );
+
   return (
     <Pressable style={styles.container} onPress={onPres} disabled={isDisable}>
       {item?.icon && (
@@ -40,7 +45,13 @@ const ExpenseProgressCard = ({
           />
           <View style={styles.amountRow}>
             <TextComponent
-              text={`${formatPrice(item?.spent ?? item?.budget) ?? remaining}`}
+              text={`${
+                Boolean(item?.limit != null || item?.spent != null)
+                  ? formatPrice(item?.limit - item?.spent)
+                  : formatPrice(item?.budget - item?.expenses_sum_amount) ??
+                    remaining
+              }`}
+              // text={formatPrice(item?.limit - item?.spent)}
               isThemeColor
               styles={styles.amountText}
               size={'1.8'}
@@ -50,6 +61,12 @@ const ExpenseProgressCard = ({
               styles={styles.remainingLabel}
               size={'1.5'}
             />
+            {/* <TextComponent
+              text={`${formatPrice(item?.limit)}`}
+              isThemeColor
+              styles={styles.amountText}
+              size={'1.8'}
+            /> */}
           </View>
         </View>
 
@@ -58,7 +75,7 @@ const ExpenseProgressCard = ({
             item?.type ??
             `${
               calculatePercentage(item?.spent, item?.limit) ?? percentageSpent
-            }% of total expense spent`
+            }% spent of ${formatPrice(item?.limit ?? 0)} limit`
           }
           styles={[styles.spentText, { color: spentColor }]}
           size={'1.5'}

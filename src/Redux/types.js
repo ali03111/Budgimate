@@ -33,4 +33,6 @@ export const types = {
   isBioMatricFalse: 'isBioMatricFalse',
   isBioMatricScreenFalse: 'isBioMatricScreenFalse',
   isBioMatricScreenTrue: 'isBioMatricScreenTrue',
+  addDashboardData: 'addDashboardData',
+  removeDashboardData: 'removeDashboardData',
 };

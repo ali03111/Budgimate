@@ -5,9 +5,14 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import API from '../../Utils/helperFunc';
 import { createExpenseCategoryUrl, getCategoryUrl } from '../../Utils/Urls';
 import { errorMessage, successMessage } from '../../Config/NotificationMessage';
+import useReduxStore from '../../Hooks/UseReduxStore';
+import { Alert } from 'react-native';
 
 const useAddCategoryScreen = ({ navigate, replace }, { params }) => {
+  const { queryClient, getState } = useReduxStore();
   const [inputWidth, setInputWidth] = useState(20); // starting small
+
+  const DashboardData = getState('DashboardData');
 
   const {
     control,
@@ -52,6 +57,7 @@ const useAddCategoryScreen = ({ navigate, replace }, { params }) => {
       return API.post(createExpenseCategoryUrl, data);
     },
     onSuccess: ({ ok, data }) => {
+      queryClient.invalidateQueries(['getExpenseCategoryUrl']);
       if (ok) {
         replace('AddExpenseToCategoryScreen', {
           catVal: selectedCat,
@@ -75,7 +81,7 @@ const useAddCategoryScreen = ({ navigate, replace }, { params }) => {
     } else if (!priceInput || priceInput == '' || priceInput == null) {
       errorMessage('Please enter limit price.');
       return;
-    } else {
+    } else if (DashboardData?.incomeAvaBudget > priceInput) {
       const body = {
         module_type: params?.module_type,
         expense_category_id: selectedCat?.id,
@@ -83,10 +89,30 @@ const useAddCategoryScreen = ({ navigate, replace }, { params }) => {
         // module_id:2
       };
       mutate(body);
+    } else {
+      Alert.alert(
+        'Warning',
+        'The spend limit you’ve entered is greater than your remaining income for the cycle',
+        [
+          { text: 'Edit Category', onPress: () => {} },
+          {
+            text: 'Save Anyway',
+            onPress: () => {
+              const body = {
+                module_type: params?.module_type,
+                expense_category_id: selectedCat?.id,
+                limit_amount: priceInput,
+                // module_id:2
+              };
+              mutate(body);
+            },
+          },
+        ],
+      );
     }
     // Handle form submission logic here
   };
-  console.log('slkdnvklsdnvklsndlkvnklsdnvknsdkv', data?.data);
+  console.log('slkdnvklsdnvklsndlsdfsdfsdfdkvnklsdnvknsdkv', DashboardData);
   return {
     control,
     handleSubmit,
@@ -102,6 +128,7 @@ const useAddCategoryScreen = ({ navigate, replace }, { params }) => {
     isOverSpend,
     selectedCat,
     priceInput,
+    DashboardData,
   };
 };
 

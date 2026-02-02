@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { hp, wp } from '../../Hooks/useResponsive';
+import { Colors } from '../../Theme/Variables';
 
 export const styles = StyleSheet.create({
   container: {
@@ -40,4 +41,21 @@ export const styles = StyleSheet.create({
   },
 
   addIncomeText: { textAlign: 'center', marginTop: hp('1') },
+  traceNameBox: {
+    backgroundColor: 'white',
+    borderRadius: 8,
+    borderColor: Colors.dkBorderColor,
+    width: wp('95'),
+    height: hp('5'),
+    paddingHorizontal: wp('2'),
+    alignSelf: 'center',
+    borderWidth: 0.5,
+    marginTop: hp('2'),
+  },
+
+  traceNameInput: {
+    fontSize: hp('1.8'),
+    color: 'black',
+    flex: 1,
+  },
 });

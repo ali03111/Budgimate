@@ -12,23 +12,22 @@ const HomeHeaderComp = () => {
   const { getState } = useReduxStore();
 
   const { userData } = getState('Auth');
-  console.log(
-    'userDatauserDatauserDatauserDatauserDatauserDatauserData',
-    userData,
-  );
+
   return (
     <View style={styles.container}>
-      {userData?.profile_image && (
+      {/* {userData?.profile_image && (
         <CircleImage
           image={imageUrl(userData?.profile_image)}
           uri={true}
           size={0.12}
         />
-      )}
+      )} */}
       <View style={styles.textContainer}>
         <TextComponent text={'Hello,'} isWhite styles={styles.greeting} />
         <TextComponent
-          text={`${userData?.first_name} ${userData?.last_name}`}
+          text={`${userData?.first_name} ${
+            userData?.last_name ? userData?.last_name : ''
+          }`}
           isWhite
           styles={styles.name}
         />
@@ -54,7 +53,7 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     marginLeft: wp('2'),
-    width: wp('75'),
+    width: wp('89'),
   },
   greeting: {
     fontSize: hp('2'),

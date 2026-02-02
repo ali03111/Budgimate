@@ -46,6 +46,7 @@ const AllocateTraceScreen = ({ navigation, route }) => {
               traceType: item?.type,
               allocate: true,
               leftOver: route?.params?.leftOver ?? route?.params,
+              expCatId: route?.params?.expCatId,
             });
           } else setModalVisible(item?.id);
         }}
@@ -111,7 +112,25 @@ const AllocateTraceScreen = ({ navigation, route }) => {
                   family={'500'}
                 />
               </View> */}
-              <View style={styles.priceMainView}>
+              <View
+                style={{
+                  ...styles.traceNameBox,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <TextInput
+                  placeholder="Enter amount"
+                  placeholderTextColor={'gray'}
+                  style={styles.traceNameInput}
+                  keyboardType="numeric"
+                  value={inputPrice}
+                  onChangeText={e => onChangeVal('inputPrice', e)}
+                />
+                <TextComponent text={'$'} />
+              </View>
+              {/* <View style={styles.priceMainView}>
                 <View style={styles.priceInnerView}>
                   <TextComponent text={'$'} size={'4.5'} />
 
@@ -137,7 +156,7 @@ const AllocateTraceScreen = ({ navigation, route }) => {
                   size={'1.5'}
                   styles={styles.addIncomeText}
                 />
-              </View>
+              </View> */}
             </View>
           }
           btnTitle={'Add funds'}

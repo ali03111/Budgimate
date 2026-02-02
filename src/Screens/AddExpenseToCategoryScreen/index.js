@@ -37,8 +37,10 @@ import DatePicker from 'react-native-date-picker';
 import {
   calculatePercentage,
   convertToLocalTime,
+  formatDateInDayMonYear,
   formatDateToCustomFormat,
   formatDateToLong,
+  formatPrice,
   uploadFromCamera,
   uploadFromGalary,
 } from '../../Services/GlobalFunctions';
@@ -79,6 +81,9 @@ const AddExpenseToCategoryScreen = ({ navigation, route }) => {
     onUpdateCatLimit,
     catUpateLimit,
     setCatUpdareLimit,
+    expName,
+    DashboardData,
+    effective_available,
   } = useAddExpenseToCategoryScreen(navigation, route);
 
   // const ModalViewData = () => {
@@ -145,22 +150,31 @@ const AddExpenseToCategoryScreen = ({ navigation, route }) => {
   const handleCommentChange = useCallback(text => {
     onChangeVal('comment', text);
   }, []);
+  const handleNameChange = useCallback(text => {
+    onChangeVal('expName', text);
+  }, []);
 
   const renderData = useCallback(
     ({ item, index }) => {
       return (
         <PlusCardComp
-          remaining={`Spend : $${parseInt(item?.amount)}`}
+          // remaining={`Spend : $${parseInt(item?.amount)}`}
+          remaining={`${formatPrice(
+            item?.amount,
+          )} added on ${formatDateInDayMonYear(item?.date)}`}
+          //
           category={item?.name}
+          // frequency={item?.frequency}
           onPlusPress={() => {
             console.log('get item', item);
             setFormState({
               selectedDate: item?.date ? new Date(item?.date) : null,
               selectedImg: { uri: item?.receipt },
-              comment: item?.name,
+              comment: item?.comment ?? '',
               inputPrice: parseInt(item?.amount).toString(),
               isEdit: true,
               expenseID: item?.id,
+              expName: item?.name,
             });
             setModalState(true);
           }}
@@ -170,9 +184,21 @@ const AddExpenseToCategoryScreen = ({ navigation, route }) => {
     [expensesArryFromApi],
   );
 
+  console.log(
+    'expensesArryFromApiexpensesArryFromApiexpensesArryFromApiexpensesArryFromApi',
+    expensesArryFromApi,
+  );
+
   return (
     <ImageBackground style={{ flex: 1 }} source={LoginBg}>
       <HeaderComponent headerTitle={'Add Expense'} isBack />
+      <TextComponent
+        text={`Available Income to Budget: ${formatPrice(effective_available)}`}
+        // text={`Available Income to Budget: ${formatPrice(
+        //   DashboardData?.incomeAvaBudget + catDataFromAPi?.limit ?? price ?? 0,
+        // )}`}
+        styles={{ marginLeft: wp('2') }}
+      />
       <View style={{ flexGrow: 1, paddingHorizontal: wp('2') }}>
         <View style={styles.header}>
           <TextComponent text={catName} family={'600'} size={'2.5'} />
@@ -276,30 +302,65 @@ const AddExpenseToCategoryScreen = ({ navigation, route }) => {
           subtitle={`You’ve left $${catDataFromAPi?.spent} from the total budget of $${price} from the ${catName}.`}
           childrenComp={
             <View style={styles.modalContainer}>
-              <View>
-                <TextComponent
-                  text={'Select date'}
-                  family={'400'}
-                  isThemeColor
-                  size={'1.8'}
-                />
-                <View style={styles.categoryContainer}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <View>
                   <TextComponent
-                    text={formatDateToLong(selectedDate ?? currentDate)}
+                    text={'Expense name'}
+                    family={'400'}
+                    isThemeColor
                     size={'1.8'}
-                    onPress={() => {
-                      setDatePickerState(selectedDate ?? currentDate);
-                    }}
                   />
-                  <Image
-                    source={calendar}
-                    resizeMode="contain"
-                    style={styles.dateIcon}
-                    tintColor={Colors.dkBorderColor}
+                  <View
+                    style={{ ...styles.categoryContainer, width: wp('42') }}
+                  >
+                    <TextInput
+                      style={styles.commentInput}
+                      placeholder="Type name"
+                      placeholderTextColor={'gray'}
+                      value={expName}
+                      onChangeText={handleNameChange}
+                    />
+                  </View>
+                </View>
+                <View>
+                  <TextComponent
+                    text={'Select date'}
+                    family={'400'}
+                    isThemeColor
+                    size={'1.8'}
                   />
+                  <View
+                    style={{ ...styles.categoryContainer, width: wp('43') }}
+                  >
+                    <TextComponent
+                      text={formatDateToLong(selectedDate ?? currentDate)}
+                      size={'1.8'}
+                      onPress={() => {
+                        setDatePickerState(selectedDate ?? currentDate);
+                      }}
+                    />
+                    <Image
+                      source={calendar}
+                      resizeMode="contain"
+                      style={styles.dateIcon}
+                      tintColor={Colors.dkBorderColor}
+                    />
+                  </View>
                 </View>
               </View>
-
+              <TextComponent
+                text={'Upload Receipt'}
+                family={'400'}
+                isThemeColor
+                size={'1.8'}
+                styles={{ marginBottom: hp('2') }}
+              />
               {selectedImg?.uri ? (
                 <Touchable
                   style={styles.uploadedImageWrapper}

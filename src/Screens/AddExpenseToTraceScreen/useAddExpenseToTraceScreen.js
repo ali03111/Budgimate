@@ -35,8 +35,10 @@ const useAddExpenseToTraceScreen = ({ navigate }, { params }) => {
     selectedImg: null,
     comment: null,
     inputExpensePrice: null,
+    traceName: null,
   });
-  const { comment, inputExpensePrice, selectedDate, selectedImg } = formState;
+  const { comment, inputExpensePrice, selectedDate, selectedImg, traceName } =
+    formState;
 
   const updateState = data => setFormState(prev => ({ ...prev, ...data }));
 
@@ -165,6 +167,7 @@ const useAddExpenseToTraceScreen = ({ navigate }, { params }) => {
     setInputWidth,
     traceName: data?.data?.trace?.name,
     inputWidth,
+    inputTraceName: traceName,
     inputPrice,
     setInputPrice,
     onChangeVal,
@@ -225,7 +228,7 @@ const useAddExpenseToTraceScreen = ({ navigate }, { params }) => {
     updateLimit: () => {
       if (inputPrice != '' && inputPrice != null) {
         mutateAsync({
-          name: data?.data?.trace?.name,
+          name: traceName ?? data?.data?.trace?.name,
           type: params?.traceType,
           budget: inputPrice,
         });
@@ -236,12 +239,14 @@ const useAddExpenseToTraceScreen = ({ navigate }, { params }) => {
     allocateToTrace: () => {
       allocateToTrace.mutate({
         module_id: data?.data?.trace?.id,
+        leftover_expense_category_id: params?.expCatId,
       });
     },
     allocateToTraceExpense: () => {
       allocateToTrace.mutate({
         module_id: data?.data?.trace?.id,
         module_category_id: catName?.id,
+        leftover_expense_category_id: params?.expCatId,
       });
     },
   };

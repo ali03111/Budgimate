@@ -20,14 +20,14 @@ const AllocateSelectorScreen = ({ navigation, route }) => {
     <ImageBackground style={styles.container} source={LoginBg}>
       <HeaderComponent headerTitle={'Allocate Leftover'} isBack />
       <ThemeButton
-        title={`Leftover: ${formatPrice(route?.params)}`}
+        title={`Leftover: ${formatPrice(route?.params?.leftOver)}`}
         isTransparent
         style={styles.themeButton}
         textStyle={styles.themeButtonText}
       />
       <TextComponent
         text={`Your leftover amount is ${formatPrice(
-          route?.params,
+          route?.params?.leftOver,
         )}, from “Last cycle”. You can allocate this or less amount to:`}
         fade
         styles={styles.textComponent}
@@ -38,14 +38,22 @@ const AllocateSelectorScreen = ({ navigation, route }) => {
         showsVerticalScrollIndicator={false}
       >
         <ActiveAndInactiveCardComp
-          onPress={() => navigation.navigate('AllocateToIncome', route?.params)}
+          onPress={() =>
+            navigation.navigate('AllocateToIncome', {
+              leftOver: route?.params?.leftOver,
+              expCatId: route?.params?.expCatId,
+            })
+          }
           title="Allocate to current cycle income"
           subtitle="Allocate funds to income and expense more"
           image={incomeCircle}
         />
         <ActiveAndInactiveCardComp
           onPress={() =>
-            navigation.navigate('AllocateToGoalsScreen', route?.params)
+            navigation.navigate('AllocateToGoalsScreen', {
+              leftOver: route?.params?.leftOver,
+              expCatId: route?.params?.expCatId,
+            })
           }
           title="Allocate to goals"
           subtitle="Add your expenses to manage"
@@ -53,7 +61,10 @@ const AllocateSelectorScreen = ({ navigation, route }) => {
         />
         <ActiveAndInactiveCardComp
           onPress={() =>
-            navigation.navigate('AllocateTraceScreen', route?.params)
+            navigation.navigate('AllocateTraceScreen', {
+              leftOver: route?.params?.leftOver,
+              expCatId: route?.params?.expCatId,
+            })
           }
           title="Allocate to trace"
           subtitle="Trace your budget by adding income"
@@ -63,7 +74,8 @@ const AllocateSelectorScreen = ({ navigation, route }) => {
           onPress={() =>
             navigation.navigate('AllocateTraceScreen', {
               isPro: true,
-              leftOver: route?.params,
+              leftOver: route?.params?.leftOver,
+              expCatId: route?.params?.expCatId,
             })
           }
           title="Allocate to pro trace"
@@ -72,7 +84,10 @@ const AllocateSelectorScreen = ({ navigation, route }) => {
         />
         <ActiveAndInactiveCardComp
           onPress={() =>
-            navigation.navigate('AllocateToExpenseScreen', route?.params)
+            navigation.navigate('AllocateToExpenseScreen', {
+              leftOver: route?.params?.leftOver,
+              expCatId: route?.params?.expCatId,
+            })
           }
           title="Rollover to current cycle categories"
           subtitle="Add your expenses to manage"

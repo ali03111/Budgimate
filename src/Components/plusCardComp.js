@@ -40,6 +40,7 @@ const PlusCardComp = ({
               ...styles.addText,
               fontSize: rightText ? hp('1.2') : hp('3'),
             }}
+            onPress={onPress}
           />
         ) : (
           <Image
@@ -81,6 +82,7 @@ const styles = StyleSheet.create({
   },
   remainingText: {
     color: Colors.textGray,
+    marginTop: hp('0.5'),
   },
   addButton: {
     padding: wp('1'),

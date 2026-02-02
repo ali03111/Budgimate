@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Image,
   ScrollView,
+  ImageBackground,
 } from 'react-native';
 import { hp, wp } from '../../Hooks/useResponsive';
 import { TextComponent } from '../../Components/TextComponent';
@@ -22,6 +23,7 @@ import {
   remainingLimit,
   debitIcon,
   creditIcon,
+  LoginBg,
 } from '../../Assets';
 import { styles } from './styles';
 import { HeaderComponent } from '../../Components/HeaderComp';
@@ -56,9 +58,12 @@ const ReportScreen = ({ navigation, route }) => {
   } = useReportScreen(navigation, route);
 
   return (
-    <View style={styles.container}>
+    <ImageBackground style={styles.container} source={LoginBg}>
       <HeaderComponent headerTitle={'Report'} isBack />
-      <ScrollView contentContainerStyle={{ paddingBottom: hp('10') }}>
+      <ScrollView
+        contentContainerStyle={{ paddingBottom: hp('10') }}
+        showsVerticalScrollIndicator={false}
+      >
         {/* Date Range */}
         <TextComponent
           text="Date Range"
@@ -142,7 +147,7 @@ const ReportScreen = ({ navigation, route }) => {
             </View>
             <View style={styles.expenseInfo}>
               <TextComponent
-                text={formatPrice(item.limit)}
+                text={formatPrice(item.spent)}
                 size={2}
                 family="600"
               />
@@ -193,7 +198,7 @@ const ReportScreen = ({ navigation, route }) => {
       {/* <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Download report</Text>
       </TouchableOpacity> */}
-    </View>
+    </ImageBackground>
   );
 };
 

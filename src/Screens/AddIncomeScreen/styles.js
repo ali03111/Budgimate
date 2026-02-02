@@ -23,10 +23,10 @@ export const styles = StyleSheet.create({
 
   priceTimeView: {
     // width: wp('80'),
-    alignSelf: 'center',
+    // alignSelf: 'center',
     flexDirection: 'row',
-    marginTop: hp('2'),
-    marginLeft: wp('2'),
+    // marginTop: hp('2'),
+    marginLeft: wp('6'),
   },
   priceMultiView: {
     paddingHorizontal: wp('3'),
@@ -53,7 +53,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  calenderIcon: { width: wp('5'), height: hp('3') },
+  calenderIcon: { width: wp('5'), height: hp('2') },
   uploadImg: { width: wp('30'), height: hp('15') },
   inAppNotiText: { marginVertical: hp('2'), marginLeft: wp('6') },
   notiMultiView: { width: wp('95'), marginBottom: hp('2') },
@@ -61,7 +61,7 @@ export const styles = StyleSheet.create({
     width: wp('90'),
     height: hp('5'),
     alignSelf: 'center',
-    marginTop: hp('15'),
+    // marginTop: hp('15'),
   },
   inputStyle: { flex: 1, color: 'black', fontSize: hp('1.8') },
 

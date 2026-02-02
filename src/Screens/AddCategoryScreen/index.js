@@ -21,6 +21,7 @@ import ListViewScreen from '../../Components/ListViewComp';
 import BtnModalComponent from '../../Components/BtnModalComp';
 import { Touchable } from '../../Components/Touchable';
 import { getCategoryUrl } from '../../Utils/Urls';
+import { formatPrice } from '../../Services/GlobalFunctions';
 
 const AddCategoryScreen = ({ navigation, route }) => {
   const {
@@ -38,6 +39,7 @@ const AddCategoryScreen = ({ navigation, route }) => {
     isOverSpend,
     selectedCat,
     priceInput,
+    DashboardData,
   } = useAddCategoryScreen(navigation, route);
 
   const bottomView = [
@@ -78,6 +80,13 @@ const AddCategoryScreen = ({ navigation, route }) => {
   return (
     <ImageBackground source={LoginBg} style={{ flex: 1 }}>
       <HeaderComponent headerTitle={'Add Categories'} isBack />
+      <TextComponent
+        text={`Available Income to Budget: ${formatPrice(
+          DashboardData?.incomeAvaBudget,
+        )}`}
+        styles={{ marginLeft: wp('2') }}
+      />
+
       <ScrollView
         contentContainerStyle={{
           paddingHorizontal: wp('2'),
@@ -113,25 +122,44 @@ const AddCategoryScreen = ({ navigation, route }) => {
             tintColor={Colors.dkBorderColor}
           />
         </Touchable>
+        <TextComponent
+          text={'Enter Cateogry Amount*'}
+          family={'400'}
+          isThemeColor
+          size={'2'}
+          styles={{ marginTop: hp('2') }}
+        />
+        <View style={styles.categoryContainer}>
+          <TextInput
+            style={styles.commentInput}
+            placeholder="Type amount"
+            placeholderTextColor={'gray'}
+            keyboardType="numeric"
+            value={priceInput}
+            onChangeText={e => onChangeVal('priceInput', e)}
+          />
+          <TextComponent text={'$'} />
+        </View>
         {/* <Controller
                 control={control}
                 name={`privateEvent`}
                 render={({field: {onChange, value}}) => {
                   return ()}} /> */}
-        <View style={styles.priceMainView}>
+        {/* <View style={styles.priceMainView}>
           <View style={styles.priceInnerView}>
             <TextComponent text={'$'} size={'2.5'} />
 
             <TextInput
               placeholder="0"
               onChangeText={text => {
-                setInputWidth(Math.max(20, text.length * 14)); // increase width based on content
+                setInputWidth(Math.max(20, text.length * 18)); // increase width based on content
                 onChangeVal('priceInput', text);
               }}
               style={{
                 fontSize: hp('3'),
                 color: 'black',
                 width: inputWidth,
+                // backgroundColor:
               }}
               placeholderTextColor={'gray'}
               keyboardType="numeric"
@@ -144,7 +172,7 @@ const AddCategoryScreen = ({ navigation, route }) => {
             size={'1.8'}
             styles={styles.addIncomeText}
           />
-        </View>
+        </View> */}
         <TextComponent
           text={'In - app notification'}
           isThemeColor

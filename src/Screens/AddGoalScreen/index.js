@@ -155,7 +155,7 @@ const AddGoalScreen = ({ navigation, route }) => {
     <ImageBackground source={LoginBg} style={styles.ImgBg}>
       <HeaderComponent isBack headerTitle={'Set a goal'} />
       <KeyBoardWrapper styles={{ paddingBottom: hp('10') }}>
-        <View style={styles.priceMainView}>
+        {/* <View style={styles.priceMainView}>
           <View style={styles.priceInnerView}>
             <TextComponent text={'$'} size={'3.5'} />
             <Controller
@@ -186,7 +186,28 @@ const AddGoalScreen = ({ navigation, route }) => {
             size={'1.8'}
             styles={styles.addIncomeText}
           />
-        </View>
+        </View> */}
+        <TitleInputView
+          title={'Goal Amount*'}
+          errorName={errors['goalPrice']}
+          innerLeftView={
+            <Controller
+              control={control}
+              name="goalPrice"
+              render={({ field: { onChange, value } }) => (
+                <TextInput
+                  style={styles.inputStyle}
+                  placeholder="Enter goal Amount"
+                  placeholderTextColor={'gray'}
+                  value={value}
+                  onChangeText={onChange}
+                  keyboardType="numeric"
+                  maxLength={10}
+                />
+              )}
+            />
+          }
+        />
         <TitleInputView
           title={'Goal name*'}
           errorName={errors['goalName']}

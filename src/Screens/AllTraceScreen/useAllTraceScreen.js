@@ -130,9 +130,14 @@ const useAllTraceScreen = ({ params }, { addListener }) => {
     return unsubscribe;
   }, []);
 
-  console.log('datadatadatadatadatadatadatadatadatadatadata', data?.pages);
+  console.log(
+    'datadatadatadatadatadatadatadatadatadatadatadfsdfsdfsdfsdfsdfsf',
+    data?.pages,
+  );
 
-  const list = data?.pages?.flatMap(page => page.data?.traces) || [];
+  const list = data?.pages
+    ? data?.pages?.flatMap(page => page?.data?.traces)
+    : [];
 
   return {
     traceList: list.filter(res => res != undefined) ?? [],

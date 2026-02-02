@@ -5,7 +5,7 @@ import { getAllTraceUrl, postLeftOverUrl } from '../../Utils/Urls';
 import { errorMessage, successMessage } from '../../Config/NotificationMessage';
 import useReduxStore from '../../Hooks/UseReduxStore';
 
-const useAllocateTraceScreen = ({ navigate }, { params }) => {
+const useAllocateTraceScreen = ({ navigate, goBack }, { params }) => {
   const isProTrace = params?.isPro || false;
 
   const { data } = useQuery({
@@ -35,9 +35,11 @@ const useAllocateTraceScreen = ({ navigate }, { params }) => {
         amount: inputPrice,
         module_type: 'trace',
         module_id: data?.traceId,
+        leftover_expense_category_id: params?.expCatId,
       });
     },
     onSuccess: ({ ok, data }) => {
+      console.log('hjhjvhjvhjvhjvvhjvhjvhvjvhvjhsdfsdfsdfsdfsdf', data);
       setFormState({
         inputPrice: null,
       });

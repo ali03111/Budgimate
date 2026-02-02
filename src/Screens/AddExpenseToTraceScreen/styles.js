@@ -190,6 +190,25 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
   },
 
+  categoryContainer: {
+    width: wp('90'),
+    paddingVertical: hp('1.2'),
+    paddingHorizontal: wp('1.5'),
+    flexDirection: 'row',
+    alignSelf: 'center',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderRadius: 10,
+    borderWidth: 0.5,
+    borderColor: Colors.dkBorderColor,
+    backgroundColor: Colors.white,
+    marginVertical: hp('2'),
+  },
+
+  commentInput: {
+    flex: 1,
+    fontSize: hp('1.8'),
+  },
   priceMainView: {
     width: wp('90'),
     alignSelf: 'center',

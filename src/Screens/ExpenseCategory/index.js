@@ -55,6 +55,11 @@ const ExpenseCategory = ({ navigation }) => {
     },
   ];
 
+  console.log(
+    'arryListarryListarryListarryListarryListarryListarryList',
+    arryList,
+  );
+
   const renderItem = useCallback(
     ({ item, index }) => {
       return (

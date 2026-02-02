@@ -5,7 +5,7 @@ import API from '../../Utils/helperFunc';
 import useReduxStore from '../../Hooks/UseReduxStore';
 import { errorMessage, successMessage } from '../../Config/NotificationMessage';
 
-const useAllocateToExpenseScreen = ({ goBack }) => {
+const useAllocateToExpenseScreen = ({ goBack }, { params }) => {
   const { data, refetch } = useQuery({
     queryKey: ['expenseByCategoryData'],
     queryFn: () => API.get(getModuleCatBasicUrl),
@@ -19,10 +19,9 @@ const useAllocateToExpenseScreen = ({ goBack }) => {
   const [formState, setFormState] = useState({
     inputPrice: null,
   });
+  const { inputPrice } = formState;
 
   const [inputWidth, setInputWidth] = useState(20); // starting small
-
-  const { inputPrice } = formState;
 
   const updateState = data => setFormState(prev => ({ ...formState, ...data }));
 
@@ -30,20 +29,32 @@ const useAllocateToExpenseScreen = ({ goBack }) => {
 
   const { mutateAsync } = useMutation({
     mutationFn: data => {
-      console.log('sl;dnvl;sdnlvnsdl;vnl;sd', data);
+      console.log(
+        'sl;dnvl;sdnlvsdfsdfsdfsdfsdnsdl;vnl;sd',
+        {
+          amount: inputPrice,
+          module_type: 'expense_category',
+          module_id: data?.expenseCatId,
+          leftover_expense_category_id: params?.expCatId,
+        },
+        params,
+      );
       return API.post(postLeftOverUrl, {
         amount: inputPrice,
         module_type: 'expense_category',
         module_id: data?.expenseCatId,
+        leftover_expense_category_id: params?.expCatId,
+        module_category_id: params?.expCatId,
       });
     },
     onSuccess: ({ ok, data }) => {
+      console.log('hjhjvhjvhjvhjvvhjvhjvhvjvhvsdfsdfsdfsdfsfdjh', data);
       setFormState({
         inputPrice: null,
       });
       setInputWidth(20);
       if (ok) {
-        console.log('hjhjvhjvhjvhjvvhjvhjvhvjvhvjh', data);
+        successMessage(data?.message);
         setAfterAdd(true);
         queryClient.invalidateQueries([`getLeftOverUrl`]);
         goBack();

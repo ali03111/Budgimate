@@ -56,6 +56,14 @@ const SettingScreen = ({ navigation }) => {
           navigation.navigate('AllocateFundScreen');
         },
       },
+      {
+        title: 'Income Source',
+        leftIcon: subscriptionSetting,
+        subView: 'Manage your funds allocation',
+        onPress: () => {
+          navigation.navigate('AllIncomesScreen');
+        },
+      },
       // {
       //   title: 'Linked accounts',
       //   leftIcon: linkAccount,

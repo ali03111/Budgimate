@@ -85,6 +85,10 @@ const AllTraceScreen = ({ navigation, route }) => {
     },
     [filterData, traceList],
   );
+  console.log(
+    'datadatadatadatadatadatadatadatadatadatadatasdfsdfsd',
+    traceList,
+  );
 
   const renderHiddenItem = ({ item }) => (
     <View style={styles.rowBack}>
@@ -139,7 +143,7 @@ const AllTraceScreen = ({ navigation, route }) => {
         // }
       />
 
-      {traceList && traceList.length > 0 ? (
+      {Array.isArray(traceList) && traceList?.length > 0 ? (
         <>
           <View
             style={{

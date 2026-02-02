@@ -232,43 +232,46 @@ function removeTimeFromDate(datetimeStr) {
 }
 
 function getDateMonthYear(dateString) {
-  if (dateString) {
-    // Create a Date object from the provided global date string
-    const globalDate = new Date(dateString);
+  if (!dateString) return null;
 
-    // Check if the date is valid
-    if (isNaN(globalDate)) {
-      throw new Error(
-        'Invalid date format. Please provide a valid date string.',
-      );
-    }
+  // Normalize to ISO format by adding "T" and "Z"
+  // "2025-09-04 21:08:52" -> "2025-09-04T21:08:52Z"
+  // const isoDateString = dateString.replace(' ', 'T') + 'Z';
 
-    // Format the local date parts
-    const options = {
-      weekday: 'short', // Day name (e.g., "Mon")
-      year: 'numeric', // Year (e.g., "2024")
-      month: 'short', // Month name (e.g., "Nov")
-      day: '2-digit', // Day of the month (e.g., "25")
-      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, // Local time zone
-    };
+  const utcDate = new Date(dateString);
 
-    // Use Intl.DateTimeFormat to extract formatted date parts
-    const formatter = new Intl.DateTimeFormat(undefined, options);
-    const parts = formatter.formatToParts(globalDate);
-
-    // Extract the needed parts
-    const dayName = parts.find(part => part.type === 'weekday')?.value;
-    const day = parts.find(part => part.type === 'day')?.value;
-    const monthName = parts.find(part => part.type === 'month')?.value;
-    const year = parts.find(part => part.type === 'year')?.value;
-
-    return {
-      dayName, // Day of the week (e.g., "Mon")
-      day: Number(day) + 1, // Day of the month (e.g., "25")
-      monthName, // Month name (e.g., "Nov")
-      year, // Year (e.g., "2024")
-    };
+  if (isNaN(utcDate)) {
+    throw new Error(
+      'Invalid date format. Please provide a valid UTC date string.',
+    );
   }
+
+  const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  const options = {
+    weekday: 'short',
+    year: 'numeric',
+    month: 'short',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZone: currentTimeZone,
+    hour12: false,
+  };
+
+  const formatter = new Intl.DateTimeFormat(undefined, options);
+  const parts = formatter.formatToParts(utcDate);
+
+  return {
+    dayName: parts.find(p => p.type === 'weekday')?.value,
+    day: Number(parts.find(p => p.type === 'day')?.value),
+    monthName: parts.find(p => p.type === 'month')?.value,
+    year: parts.find(p => p.type === 'year')?.value,
+    time: `${parts.find(p => p.type === 'hour')?.value}:${
+      parts.find(p => p.type === 'minute')?.value
+    }`,
+    timeZone: currentTimeZone,
+  };
 }
 
 function convertToLocalTime(globalTimeString) {
@@ -1010,7 +1013,7 @@ const formatPrice = (amount, locale = 'en-US', currency = 'USD') => {
     currency,
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(amount);
+  }).format(amount ?? 0);
 };
 
 const checkImageOrientation = imageUrl => {
@@ -1126,6 +1129,35 @@ function formatDateToLong(dateStr) {
   // output: "July 14, 2025"
 }
 
+function formatDateInDayMonYear(dateString) {
+  // Create a Date object from the YYYY-MM-DD string
+  const date = new Date(dateString);
+
+  // Array of full month names
+  const months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
+
+  // Get day, month (0-indexed, so +1 not needed here), and year
+  const day = date.getDate();
+  const monthName = months[date.getMonth()];
+  const year = date.getFullYear();
+
+  // Return formatted string: "29 July 2025"
+  return `${day} ${monthName} ${year}`;
+}
+
 export {
   getSingleCharacter,
   getProperLocation,
@@ -1181,4 +1213,5 @@ export {
   getCustom12HourTime,
   currentDate,
   calculatePercentage,
+  formatDateInDayMonYear,
 };

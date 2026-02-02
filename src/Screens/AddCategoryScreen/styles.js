@@ -24,6 +24,10 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     marginVertical: hp('1'),
   },
+  commentInput: {
+    flex: 1,
+    fontSize: hp('1.8'),
+  },
   arrowIcon: {
     width: wp('3'),
     height: hp('2'),

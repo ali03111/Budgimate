@@ -72,6 +72,7 @@ const AddExpenseToTraceScreen = ({ navigation, route }) => {
     deleteTraceCat,
     allocateToTrace,
     allocateToTraceExpense,
+    inputTraceName,
   } = useAddExpenseToTraceScreen(navigation, route);
 
   const renderItem = useCallback(
@@ -215,6 +216,7 @@ const AddExpenseToTraceScreen = ({ navigation, route }) => {
               if (!route?.params?.allocate) {
                 setInputPrice(limit.toString());
                 setInputWidth(Math.max(20, limit.length * 14));
+                onChangeVal('traceName', traceName);
               }
               setModalState('editLimit');
             }}
@@ -352,7 +354,30 @@ const AddExpenseToTraceScreen = ({ navigation, route }) => {
         childrenComp={
           (modalState == 'editLimit' && (
             <View>
-              <View style={styles.priceMainView}>
+              {!route?.params?.allocate && (
+                <View style={styles.categoryContainer}>
+                  <TextInput
+                    style={styles.commentInput}
+                    placeholder="Enter name here"
+                    placeholderTextColor={'gray'}
+                    value={inputTraceName}
+                    onChangeText={e => onChangeVal('traceName', e)}
+                    maxLength={31}
+                  />
+                </View>
+              )}
+              <View style={styles.categoryContainer}>
+                <TextInput
+                  style={styles.commentInput}
+                  placeholder="Enter name here"
+                  placeholderTextColor={'gray'}
+                  value={inputPrice}
+                  onChangeText={e => setInputPrice(e)}
+                  maxLength={31}
+                />
+                <TextComponent text={'$'} />
+              </View>
+              {/* <View style={styles.priceMainView}>
                 <View style={styles.priceInnerView}>
                   <TextComponent text={'$'} size={'2.5'} />
                   <TextInput
@@ -367,7 +392,7 @@ const AddExpenseToTraceScreen = ({ navigation, route }) => {
                     keyboardType="numeric"
                   />
                 </View>
-              </View>
+              </View> */}
               {/* <View
                 style={{
                   flexDirection: 'row',

@@ -16,6 +16,8 @@ import {
   bottomTopBar,
 } from '../Assets';
 import ListViewScreen from '../Components/ListViewComp';
+import { fetchGetWithToken } from '../Utils/helperFunc';
+import { VerifyUserUrl } from '../Utils/Urls';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -131,6 +133,10 @@ function TraceStack() {
         name="AddExpenseToTraceScreen"
         component={Screens.AddExpenseToTraceScreen}
       />
+      <Stack.Screen
+        name="AllIncomesScreen"
+        component={Screens.AllIncomesScreen}
+      />
     </Stack.Navigator>
   );
 }
@@ -180,6 +186,10 @@ function AddStack() {
         name="AddExpenseToTraceScreen"
         component={Screens.AddExpenseToTraceScreen}
       />
+      <Stack.Screen
+        name="AllIncomesScreen"
+        component={Screens.AllIncomesScreen}
+      />
     </Stack.Navigator>
   );
 }
@@ -208,6 +218,10 @@ function GoalsStack() {
       />
       <Stack.Screen name="SetAGoalScreen" component={Screens.SetAGoalScreen} />
       <Stack.Screen name="AddGoalScreen" component={Screens.AddGoalScreen} />
+      <Stack.Screen
+        name="AllIncomesScreen"
+        component={Screens.AllIncomesScreen}
+      />
     </Stack.Navigator>
   );
 }
@@ -219,6 +233,10 @@ function SettingStack() {
       <Stack.Screen
         name="TwoFactorAuthScreen"
         component={Screens.TwoFactorAuthScreen}
+      />
+      <Stack.Screen
+        name="AddIncomeScreen"
+        component={Screens.AddIncomeScreen}
       />
       <Stack.Screen
         name="EditPersonalInformationScreen"
@@ -283,11 +301,16 @@ function SettingStack() {
         name="AllocateToGoalsScreen"
         component={Screens.AllocateToGoalsScreen}
       />
+      <Stack.Screen
+        name="AllIncomesScreen"
+        component={Screens.AllIncomesScreen}
+      />
     </Stack.Navigator>
   );
 }
 
 function MybottomTabs() {
+  fetchGetWithToken(VerifyUserUrl);
   return (
     <Tab.Navigator
       initialRouteName="HomeTab"

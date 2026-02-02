@@ -22,28 +22,49 @@ const AllocateToIncome = ({ navigation, route }) => {
   } = useAllocateToIncomeScreen(navigation, route);
 
   const input = Number((inputPrice || '').replace(/[^0-9.-]/g, ''));
-  const target = Number((route?.params || '').replace(/[^0-9.-]/g, ''));
+  const target = route?.params?.leftOver;
+  // const target = Number((route?.params || '').replace(/[^0-9.-]/g, ''));
 
-  console.log('sdnskndvsdnvsnovndosvnsdnvd', input, target);
+  console.log('sdnskndvsdnvsnovndosvnsdnvd', input, target, route?.params);
 
   return (
     <ImageBackground source={LoginBg} style={{ flex: 1 }}>
       <HeaderComponent headerTitle={'Allocate Leftover to Income'} isBack />
       <ThemeButton
-        title={`Leftover: ${formatPrice(route?.params)}`}
+        title={`Leftover: ${formatPrice(route?.params?.leftOver)}`}
         isTransparent
         style={styles.themeButton}
         textStyle={styles.themeButtonText}
       />
       <TextComponent
         text={`Add leftover amount of ${formatPrice(
-          route?.params,
+          route?.params?.leftOver,
         )} or less, from “Last cycle” to your “Current Cycle” income`}
         fade
         styles={styles.textComponent}
         size={'1.3'}
       />
-      <View style={styles.priceMainView}>
+
+      <View
+        style={{
+          ...styles.traceNameBox,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
+      >
+        <TextInput
+          placeholder="Enter amount"
+          placeholderTextColor={'gray'}
+          style={styles.traceNameInput}
+          keyboardType="numeric"
+          value={inputPrice}
+          onChangeText={e => onChangeVal('inputPrice', e)}
+        />
+        <TextComponent text={'$'} />
+      </View>
+
+      {/* <View style={styles.priceMainView}>
         <View style={styles.priceInnerView}>
           <TextComponent
             text={'$'}
@@ -75,11 +96,11 @@ const AllocateToIncome = ({ navigation, route }) => {
           size={'1.5'}
           styles={styles.addIncomeText}
         />
-      </View>
+      </View> */}
       {target < input && (
         <TextComponent
           text={`Leftover amount is ${formatPrice(
-            route?.params,
+            route?.params?.leftOver,
           )}, please do not exceed!`}
           styles={{ color: 'red', marginLeft: wp('3'), marginTop: hp('1') }}
         />

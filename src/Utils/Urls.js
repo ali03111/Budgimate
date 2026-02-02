@@ -37,9 +37,13 @@ export const loginUrl = '/login';
 export const getModuleCatBasicUrl = 'module-categories/basic';
 
 export const homeDataUrl = '/dashboard';
+
+export const newHomeWithTimeUrl = '/new-dashboard?last_opened_at=';
+
 export const incomeVsExpenseUrl = '/dashboard/income-vs-expense?filter=';
 
 export const createIncomeUrl = '/income/store';
+export const updateIncomeUrl = '/income-sources/update/';
 export const createExpenseinCategoryUrl = '/expense/store';
 export const updateExpenseinCategoryUrl = '/expense/update/';
 export const deleteExpenseinCategoryUrl = '/expense/delete/';
@@ -74,6 +78,12 @@ export const getCategoryUrl = 'module-categories/categories';
 
 export const getLeftOverUrl = 'leftover/';
 export const postLeftOverUrl = 'leftover/allocate';
+
+export const homeSpendingOverUrl = '/new-dashboard?new=1';
+
+export const getAllIncomesUrl = '/income-sources/get?page=';
+export const setAsPrimaryIncomeUrl = '/income-sources/update-primary/';
+export const deleteIncomeUrl = '/income-sources/delete/';
 
 export const VerifyUserUrl = '/verify';
 export const allAssociatesUrl = '/setup/associations';

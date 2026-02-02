@@ -39,8 +39,9 @@ const styles = StyleSheet.create({
   biometricLabel: {
     fontSize: hp('2.5%'),
     fontWeight: '600',
-    color: '#fff',
+    // color: '#fff',
     textAlign: 'center',
+    color: 'black',
   },
   statusSection: {
     alignItems: 'center',

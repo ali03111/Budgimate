@@ -125,7 +125,24 @@ const ModalReciptComp = ({ btnTitle, onPress }) => {
         isThemeColor
         size={'2'}
       />
-      <View style={styles.priceMainView}>
+      <View style={styles.categoryContainer}>
+        <TextInput
+          style={styles.commentInput}
+          placeholder="Type price"
+          keyboardType="numeric"
+          placeholderTextColor={'gray'}
+          value={inputPrice}
+          onChangeText={e => onChangeVal('inputPrice', e)}
+        />
+        <TextComponent text={'$'} />
+      </View>
+      {/* <TextComponent
+        text={'Add amount*'}
+        family={'400'}
+        isThemeColor
+        size={'2'}
+      /> */}
+      {/* <View style={styles.priceMainView}>
         <View style={styles.priceInnerView}>
           <TextComponent text={'$'} size={'2.5'} />
           <TextInput
@@ -148,7 +165,7 @@ const ModalReciptComp = ({ btnTitle, onPress }) => {
             styles={styles.addIncomeText}
           />
         )}
-      </View>
+      </View> */}
       {onPress && (
         <ThemeButton
           title={'Save'}

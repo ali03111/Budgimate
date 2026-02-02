@@ -200,6 +200,12 @@ export { default as bell } from './Icons/bell.png';
 export { default as thumbUp } from './Icons/thumbUp.png';
 export { default as arrowLeft } from './Icons/arrow-left.png';
 
+export { default as emptyWallet } from './Icons/empty-wallet-change.png';
+export { default as moneyWallet } from './Icons/moneyWallet.png';
+
+export { default as blueCircle } from './Icons/blueCircle.png';
+export { default as yellowCircle } from './Icons/yellowCircle.png';
+
 export { default as apple } from './Icons/apple.png';
 export { default as google } from './Icons/google.png';
 export { default as facebook } from './Icons/facebookImage.png';

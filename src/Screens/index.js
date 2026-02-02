@@ -36,3 +36,4 @@ export { default as TranscritionHistoryScreen } from './TranscritionHistoryScree
 export { default as ReportScreen } from './ReportScreen';
 export { default as CatViewScreen } from './CatViewScreen';
 export { default as BioVerficationScreen } from './BioVerficationScreen';
+export { default as AllIncomesScreen } from './AllIncomesScreen';

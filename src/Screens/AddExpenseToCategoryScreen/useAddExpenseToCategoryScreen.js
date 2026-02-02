@@ -14,9 +14,12 @@ import { errorMessage, successMessage } from '../../Config/NotificationMessage';
 import API, { formDataFunc } from '../../Utils/helperFunc';
 import useReduxStore from '../../Hooks/UseReduxStore';
 import { currentDate, formatDateToYMD } from '../../Services/GlobalFunctions';
+import { Alert } from 'react-native';
 
 const useAddExpenseToCategoryScreen = ({ navigate }, { params }) => {
-  const { queryClient } = useReduxStore();
+  const { queryClient, getState } = useReduxStore();
+
+  const DashboardData = getState('DashboardData');
 
   const [inputWidth, setInputWidth] = useState(20); // starting small
 
@@ -58,10 +61,18 @@ const useAddExpenseToCategoryScreen = ({ navigate }, { params }) => {
     inputPrice: null,
     isEdit: false,
     catLimit: '',
+    expName: '',
   });
 
-  const { comment, inputPrice, selectedDate, selectedImg, isEdit, catLimit } =
-    formState;
+  const {
+    comment,
+    inputPrice,
+    selectedDate,
+    selectedImg,
+    isEdit,
+    catLimit,
+    expName,
+  } = formState;
 
   const updateState = data => setFormState(prev => ({ ...prev, ...data }));
 
@@ -106,7 +117,10 @@ const useAddExpenseToCategoryScreen = ({ navigate }, { params }) => {
           isEdit: false,
         });
       } else {
-        errorMessage('Oops! Something went wrong. Please try again later.');
+        errorMessage(
+          data?.message ??
+            'Oops! Something went wrong. Please try again later.',
+        );
       }
     },
     onError: () => {
@@ -171,6 +185,9 @@ const useAddExpenseToCategoryScreen = ({ navigate }, { params }) => {
   const onSubmit = () => {
     if (!inputPrice || inputPrice == 0) {
       errorMessage('Please enter amount');
+    }
+    if (expName == null || expName == '') {
+      errorMessage('Please enter name');
     } else {
       setModalState(false);
 
@@ -179,8 +196,9 @@ const useAddExpenseToCategoryScreen = ({ navigate }, { params }) => {
         expense_category_id: data?.data?.category?.expense_category_id,
         amount: inputPrice,
         date: formatDateToYMD(selectedDate ?? currentDate),
-        name: comment ?? 'Name not availabe',
+        name: expName,
         receipt: selectedImg,
+        comment: comment ?? '',
         // image: selectedImg,
       });
     }
@@ -217,13 +235,37 @@ const useAddExpenseToCategoryScreen = ({ navigate }, { params }) => {
       mutateAsync();
     },
     catLimit,
+    effective_available:
+      DashboardData?.incomeAvaBudget +
+      (data?.data?.category?.limit ?? params?.price),
+    DashboardData,
     onUpdateCatLimit: () => {
       setCatUpdareLimit(false);
-      updateCatLimit.mutate();
+      const effective_available =
+        DashboardData?.incomeAvaBudget + data?.data?.category?.limit ??
+        params?.price;
+      if (catLimit > effective_available) {
+        Alert.alert(
+          'Warning',
+          'The spend limit you’ve entered is greater than your remaining income for the cycle',
+          [
+            { text: 'Edit Category', onPress: () => {} },
+            {
+              text: 'Save Anyway',
+              onPress: () => {
+                updateCatLimit.mutate();
+              },
+            },
+          ],
+        );
+      } else {
+        updateCatLimit.mutate();
+      }
     },
     catUpateLimit,
     setCatUpdareLimit,
     formState,
+    expName,
   };
 };
 

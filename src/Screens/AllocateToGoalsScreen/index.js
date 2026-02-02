@@ -33,7 +33,7 @@ const AllocateToGoalsScreen = ({ navigation, route }) => {
     goalList,
     afterAdd,
     setAfterAdd,
-  } = useAllocateToGoalsScreen();
+  } = useAllocateToGoalsScreen(navigation, route);
 
   const renderItem = useCallback(({ item, index }) => {
     return (
@@ -54,14 +54,14 @@ const AllocateToGoalsScreen = ({ navigation, route }) => {
     <ImageBackground source={LoginBg} style={{ flex: 1 }}>
       <HeaderComponent headerTitle={'Allocate Leftover to Goal'} isBack />
       <ThemeButton
-        title={`Total Leftover: ${formatPrice(route?.params)}`}
+        title={`Total Leftover: ${formatPrice(route?.params?.leftOver)}`}
         isTransparent
         style={styles.themeButton}
         textStyle={styles.themeButtonText}
       />
       <TextComponent
         text={`Add leftover amount of ${formatPrice(
-          route?.params,
+          route?.params?.leftOver,
         )} or less, from “Last cycle” to your “Goals”.`}
         fade
         styles={styles.textComponent}
@@ -100,7 +100,25 @@ const AllocateToGoalsScreen = ({ navigation, route }) => {
                   family={'500'}
                 />
               </View> */}
-              <View style={styles.priceMainView}>
+              <View
+                style={{
+                  ...styles.traceNameBox,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <TextInput
+                  placeholder="Enter amount"
+                  placeholderTextColor={'gray'}
+                  style={styles.traceNameInput}
+                  keyboardType="numeric"
+                  value={inputPrice}
+                  onChangeText={e => onChangeVal('inputPrice', e)}
+                />
+                <TextComponent text={'$'} />
+              </View>
+              {/* <View style={styles.priceMainView}>
                 <View style={styles.priceInnerView}>
                   <TextComponent text={'$'} size={'4.5'} />
 
@@ -126,7 +144,7 @@ const AllocateToGoalsScreen = ({ navigation, route }) => {
                   size={'1.5'}
                   styles={styles.addIncomeText}
                 />
-              </View>
+              </View> */}
             </View>
           }
           btnTitle={'Add funds'}

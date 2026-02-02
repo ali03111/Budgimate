@@ -62,13 +62,13 @@ const CreateNewTraceScreen = ({ navigation }) => {
         </Touchable>
       </View>
 
-      <View style={styles.priceMainView}>
+      {/* <View style={styles.priceMainView}>
         <View style={styles.priceInnerView}>
           <TextComponent text={'$'} size={'3.5'} />
           <TextInput
             placeholder="0"
             onChangeText={text => {
-              setInputWidth(Math.max(20, text.length * 18)); // increase width based on content
+              setInputWidth(Math.max(20, text.length * 20)); // increase width based on content
               onChangeVal('inputPrice', text);
             }}
             style={[
@@ -87,22 +87,47 @@ const CreateNewTraceScreen = ({ navigation }) => {
           size={'1.8'}
           styles={styles.addIncomeText}
         />
-      </View>
+      </View> */}
 
+      <TextComponent
+        text={'Trace price*'}
+        isLightThemeColor
+        size={'1.8'}
+        styles={{ ...styles.traceLabel, marginTop: hp('2') }}
+      />
+
+      <View
+        style={{
+          ...styles.traceNameBox,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
+      >
+        <TextInput
+          placeholder="Trace price"
+          placeholderTextColor={'gray'}
+          style={styles.traceNameInput}
+          keyboardType="numeric"
+          value={inputPrice}
+          onChangeText={e => onChangeVal('inputPrice', e)}
+        />
+        <TextComponent text={'$'} />
+      </View>
       <TextComponent
         text={'Name the trace'}
         isLightThemeColor
         size={'1.8'}
-        styles={styles.traceLabel}
+        styles={{ ...styles.traceLabel, marginTop: hp('2') }}
       />
-
       <View style={styles.traceNameBox}>
         <TextInput
-          placeholder="Trace Name"
+          placeholder="Trace name"
           placeholderTextColor={'gray'}
           style={styles.traceNameInput}
           value={inputName}
           onChangeText={e => onChangeVal('inputName', e)}
+          maxLength={31}
         />
       </View>
 

@@ -205,10 +205,10 @@ const fetchGetWithToken = async (url, isUpdate) => {
     } else if (response.ok) {
       const data = await response.json();
       if (data?.user) {
-        // store.dispatch({
-        //   type: types.UpdateProfile,
-        //   payload: data?.user,
-        // });
+        store.dispatch({
+          type: types.UpdateProfile,
+          payload: data?.user,
+        });
       }
 
       // console.log(data, 'alskdjfklajsdfkljadlsfjaklsdjfl2kds444ajf2lkdjs');

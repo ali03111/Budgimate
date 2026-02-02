@@ -34,4 +34,22 @@ export const styles = StyleSheet.create({
   },
 
   addIncomeText: { textAlign: 'center', marginTop: hp('1') },
+  inputStyle: { flex: 1, color: 'black', fontSize: hp('1.8') },
+  traceNameBox: {
+    backgroundColor: 'white',
+    borderRadius: 8,
+    borderColor: Colors.dkBorderColor,
+    width: wp('90'),
+    height: hp('5'),
+    paddingHorizontal: wp('2'),
+    alignSelf: 'center',
+    borderWidth: 0.5,
+    marginTop: hp('2'),
+  },
+
+  traceNameInput: {
+    fontSize: hp('1.8'),
+    color: 'black',
+    flex: 1,
+  },
 });
