@@ -176,7 +176,7 @@ export const forgotPasswordThunk = email => async dispatch => {
     dispatch(loadingTrue());
     await forgotPasswordServices(email);
     successMessage('Password Reset Request has been sent to your mail');
-    NavigationService.navigate('LoginScreen');
+    NavigationService.goBack();
   } catch (error) {
     errorMessage(error.message.split(' ').slice(1).join(' '));
   } finally {
