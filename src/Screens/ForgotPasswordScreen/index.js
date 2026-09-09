@@ -70,7 +70,7 @@ const ForgotPasswordScreen = ({ navigation }) => {
             getValues,
             placeholder: 'Email',
             isImage: sms,
-            defaultValue: __DEV__ ? 'iphone15@gmail.com' : '',
+            defaultValue: __DEV__ ? 'vrc_developement@icloud.com' : '',
             viewStyle: {
               height: hp('5'),
               width: wp('90'),

@@ -33,7 +33,9 @@ const EditPersonalInformationScreen = ({ navigation }) => {
             reset,
             control,
             getValues,
-            defaultValue: `${userData?.first_name} ${userData?.last_name}`,
+            defaultValue: `${userData?.first_name} ${
+              userData?.last_name ? userData?.last_name : ''
+            }`,
             placeholder: 'Please enter your name',
             viewStyle: { height: hp('5') },
             inputIconStyle: { flex: 0.4 },

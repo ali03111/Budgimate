@@ -114,11 +114,13 @@ const HomeScreen = ({ navigation }) => {
         }}
       >
         <TextComponent text={'Cycle Frequency:'} isWhite size={'1.5'} />
-        <TextComponent
-          text={`${spendungOverData?.budget_cycle?.frequency}`}
-          isThemeColor
-          size={'1.5'}
-        />
+        {spendungOverData?.budget_cycle?.frequency && (
+          <TextComponent
+            text={`${spendungOverData?.budget_cycle?.frequency}`}
+            isThemeColor
+            size={'1.5'}
+          />
+        )}
       </View>
 
       <View style={styles.cardContainer}>
@@ -295,6 +297,7 @@ const HomeScreen = ({ navigation }) => {
                 text="See more"
                 size="1.6"
                 isLightThemeColor
+                disabled={!chartData && chartData.length === 0}
                 onPress={() => navigation.navigate('IncomeVsExpenseScreen')}
               />
               <Image
@@ -305,12 +308,19 @@ const HomeScreen = ({ navigation }) => {
               />
             </View>
           </View>
-
-          <FlatList
-            data={spendungOverData?.categories_list}
-            renderItem={renderItem}
-            keyExtractor={keyExtractor}
-          />
+          {spendungOverData?.categories_list &&
+          spendungOverData?.categories_list.length > 0 ? (
+            <FlatList
+              data={spendungOverData?.categories_list}
+              renderItem={renderItem}
+              keyExtractor={keyExtractor}
+            />
+          ) : (
+            <TextComponent
+              text="No categories available"
+              styles={{ textAlign: 'center', marginTop: hp('2') }}
+            />
+          )}
 
           {/* <MultiView
             data={categoryItem}
@@ -327,6 +337,7 @@ const HomeScreen = ({ navigation }) => {
                 text="See details"
                 size="1.6"
                 isLightThemeColor
+                disabled={!expenseData || expenseData.length === 0}
                 onPress={() => navigation.navigate('IncomeVsExpenseScreen')}
               />
               <Image
@@ -337,8 +348,14 @@ const HomeScreen = ({ navigation }) => {
               />
             </View>
           </View>
-
-          <DonutChartComp expenseData={expenseData} />
+          {expenseData && expenseData.length > 0 ? (
+            <DonutChartComp expenseData={expenseData} />
+          ) : (
+            <TextComponent
+              text="No expense data available"
+              styles={{ textAlign: 'center', marginTop: hp('2') }}
+            />
+          )}
 
           <View style={styles.sectionHeader}>
             <TextComponent
@@ -350,6 +367,7 @@ const HomeScreen = ({ navigation }) => {
                 text="View details"
                 size="1.6"
                 isLightThemeColor
+                disabled={!chartData || chartData.length === 0}
                 onPress={() => navigation.navigate('IncomeVsExpenseScreen')}
               />
               <Image
@@ -360,8 +378,13 @@ const HomeScreen = ({ navigation }) => {
               />
             </View>
           </View>
-          {chartData && chartData.length > 0 && (
+          {chartData && chartData.length > 0 ? (
             <WeeklyFinanceChartComp chartDataArry={chartData} />
+          ) : (
+            <TextComponent
+              text="No chart data available"
+              styles={{ textAlign: 'center', marginTop: hp('2') }}
+            />
           )}
         </ScrollView>
       </View>

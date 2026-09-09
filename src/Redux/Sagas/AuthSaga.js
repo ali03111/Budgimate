@@ -54,7 +54,7 @@ export const loginThunk =
             phone: datas?.number,
             company_name: datas?.company_name,
           });
-
+          console.log('lskdbvlksdbklvsfgdfgdfgdfgdfgbsdklbvklsdbvksd', data);
           if (ok) {
             dispatch(updateAuth(data));
           } else {
@@ -120,7 +120,7 @@ export const registerThunk =
 
         if (jwtToken) {
           const { data, ok } = await loginService({ token: jwtToken });
-          console.log('Login Data:', data?.token?.plainTextToken);
+          console.log('Login Data:', data);
           if (ok) {
             dispatch(updateAuth(data));
           } else {

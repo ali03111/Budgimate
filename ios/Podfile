@@ -1,94 +1,73 @@
-# # Resolve react_native_pods.rb with node to allow for hoisting
-# require Pod::Executable.execute_command('node', ['-p',
-#   'require.resolve(
-#     "react-native/scripts/react_native_pods.rb",
-#     {paths: [process.argv[1]]},
-#   )', __dir__]).strip
- 
- 
 def node_require(script)
-   # Resolve script with node to allow for hoisting
-   require Pod::Executable.execute_command('node', ['-p',
-     "require.resolve(
-       '#{script}',
-       {paths: [process.argv[1]]},
-     )", __dir__]).strip
+  require Pod::Executable.execute_command('node', ['-p',
+    "require.resolve(
+      '#{script}',
+      {paths: [process.argv[1]]},
+    )", __dir__]).strip
 end
-#  Use it to require both react-native's and this package's scripts:
+
 node_require('react-native/scripts/react_native_pods.rb')
 node_require('react-native-permissions/scripts/setup.rb')
- 
+
 platform :ios, min_ios_version_supported
 prepare_react_native_project!
- 
- 
-# pod 'RNCPushNotificationIOS', :path => '../node_modules/@react-native-community/push-notification-ios'
- 
+
 setup_permissions([
-  # 'LocationAccuracy',
-  # 'LocationAlways',
-  # 'LocationWhenInUse',
-  #   'Calendars',
-  #   "CalendarsWriteOnly",
-    'Notifications',
-    # "Contacts"
+  'Notifications',
 ])
- 
- 
-# use_modular_headers! # Enable modular headers globally
+
 linkage = ENV['USE_FRAMEWORKS']
 if linkage != nil
   Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
   use_frameworks! :linkage => linkage.to_sym
 end
- 
+
 target 'budgimate' do
   config = use_native_modules!
- 
- 
-   # ADD FIREBASE
+
   use_frameworks! :linkage => :static
-  $RNFirebaseAsStaticFramework = true  
-  
-use_react_native!(
+  $RNFirebaseAsStaticFramework = true
+
+  use_react_native!(
     :path => config[:reactNativePath],
-    # An absolute path to your application root.
- 
     :hermes_enabled => true,
-    # :flipper_configuration => flipper_config,
- 
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
- 
- 
-  # pod 'Firebase', :modular_headers => true
-  # pod 'FirebaseCoreInternal', :modular_headers => true
-  # pod 'GTMSessionFetcher', :modular_headers => true
-  # pod 'GoogleUtilities', :modular_headers => true
-  # pod 'FirebaseCore', :modular_headers => true
- 
-#   pod 'FirebaseAuth', :modular_headers => true
-# pod 'FirebaseCore', :modular_headers => true
-# pod 'FirebaseAppCheck', :modular_headers => true
- 
+
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
   pod 'RNFS', :path => '../node_modules/react-native-fs'
   permissions_path = '../node_modules/react-native-permissions/ios'
- 
- 
-  # use_react_native!(
-  #   :path => config[:reactNativePath],
-  #   # An absolute path to your application root.
-  #   :app_path => "#{Pod::Config.instance.installation_root}/.."
-  # )
- 
+
   post_install do |installer|
-    # https://github.com/facebook/react-native/blob/main/packages/react-native/scripts/react_native_pods.rb#L197-L202
     react_native_post_install(
       installer,
       config[:reactNativePath],
       :mac_catalyst_enabled => false,
-      # :ccache_enabled => true
     )
+
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |build_config|
+        build_config.build_settings['CLANG_CXX_LANGUAGE_STANDARD'] = 'c++20'
+        build_config.build_settings['CLANG_CXX_LIBRARY'] = 'libc++'
+      end
+    end
+
+    # Patch fmt/base.h to disable consteval
+    base_h = File.join(File.dirname(installer.pods_project.path), 'fmt/include/fmt/base.h')
+    if File.exist?(base_h)
+      # Fix permissions first so we can write to it
+      File.chmod(0644, base_h)
+      content = File.read(base_h)
+      original = content.dup
+      content.gsub!(/^(#\s*define\s+FMT_USE_CONSTEVAL)\s+1\s*$/, '\1 0')
+      if content != original
+        File.write(base_h, content)
+        Pod::UI.puts "✅ Patched FMT_USE_CONSTEVAL 1 → 0 in fmt/base.h".green
+      else
+        Pod::UI.puts "⚠️  fmt/base.h: nothing to patch".yellow
+      end
+    else
+      Pod::UI.puts "⚠️  fmt/base.h not found at #{base_h}".yellow
+    end
   end
 end

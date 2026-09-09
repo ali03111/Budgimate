@@ -74,9 +74,9 @@ const useHomeScreen = ({ navigate, addListener }) => {
     totalExpense: data?.data?.total_expense,
     totalIncome: data?.data?.total_income,
     recentExpenses: data?.data?.recent_expenses ?? [],
-    expenseData: data?.data?.expense_chart ?? [],
+    expenseData: data?.data?.expense_chart,
     chartData: data?.data?.income_vs_expense_chart ?? [],
-    spendungOverData: homeSpendingOverFun.data?.data ?? [],
+    spendungOverData: homeSpendingOverFun.data?.data,
     leftOver: data?.data?.total_leftover,
   };
 };
